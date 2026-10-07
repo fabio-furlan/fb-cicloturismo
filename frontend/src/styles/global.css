@@ -1,0 +1,18 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Tons terrosos e neutros: as fotos de natureza dão a cor, o âmbar destaca */
+  --color-night-950: #111512;
+  --color-night-900: #171c18;
+  --color-night-800: #222923;
+  --color-night-700: #313a33;
+
+  --color-stone-50: #f8f6f1;
+
+  --color-amber-400: #f3bd4f;
+  --color-amber-500: #eaa62a;
+  --color-amber-600: #d18f14;
+
+  --font-display: 'Montserrat', system-ui, sans-serif;
+  --font-sans: 'Montserrat', system-ui, sans-serif;
+}
