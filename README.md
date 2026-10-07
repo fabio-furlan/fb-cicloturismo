@@ -1,2 +1,3 @@
-# F-BIKE STORE
-Plataforma de e-commerce desenvolvida para entusiastas do ciclismo, a F-Bike_store une bicicletas de diversas modalidades e um catálogo completo de peças e acessórios. O projeto foca em uma interface responsiva, busca refinada por categorias técnicas e uma experiência de compra ágil e segura.
+#FB-CICLOTURISMO
+
+Plataforma digital especializada em cicloturismo e viagens imersivas sobre duas rodas, a FB-Cicloturismo conecta entusiastas a roteiros exclusivos, paisagens cênicas e experiências de aventura pelo Brasil e pelo mundo. O projeto combina planejamento de roteiros por níveis de desafio (como Discovery, DuVine e Epic Rides), catálogos detalhados de destinos e uma interface intuitiva, responsiva e segura para inspirar e viabilizar a jornada de cada ciclista.
