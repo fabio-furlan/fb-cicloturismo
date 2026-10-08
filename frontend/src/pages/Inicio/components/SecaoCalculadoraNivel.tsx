@@ -2,7 +2,7 @@ import { useId, useState } from 'react'
 import { Container } from '@/components/ui/Container'
 import { IndicadorNivel } from '@/components/ui/IndicadorNivel'
 import { nivelPara, niveis } from '@/config/niveis'
-import { roteirosExemplo } from '@/data/roteirosExemplo'
+import type { Roteiro } from '@/types/roteiro'
 import { formatarNumero } from '@/utils/formatacao'
 
 // Margem de 10% acima do ritmo informado: um dia um pouco mais puxado ainda é confortável.
@@ -45,15 +45,16 @@ function Controle({ rotulo, unidade, valor, min, max, passo, aoMudar }: Controle
 }
 
 interface SecaoCalculadoraNivelProps {
+  roteiros: Roteiro[]
   aoExplorar: (id: string) => void
 }
 
-export function SecaoCalculadoraNivel({ aoExplorar }: SecaoCalculadoraNivelProps) {
+export function SecaoCalculadoraNivel({ roteiros, aoExplorar }: SecaoCalculadoraNivelProps) {
   const [kmPorDia, setKmPorDia] = useState(50)
   const [subidaPorDia, setSubidaPorDia] = useState(700)
 
   const nivel = nivelPara(kmPorDia, subidaPorDia)
-  const avaliados = roteirosExemplo
+  const avaliados = roteiros
     .map((roteiro) => {
       const diasDePedal = roteiro.etapas.length
       const km = Math.round(roteiro.distanciaKm / diasDePedal)

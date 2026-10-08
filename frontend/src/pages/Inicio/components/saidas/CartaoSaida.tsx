@@ -74,7 +74,7 @@ export function CartaoSaida({ roteiro, saida, outrasSaidas, aoVerRoteiro }: Cart
         <div className="mt-auto flex items-end justify-between gap-4 border-t border-areia-200 pt-5">
           <p>
             <span className="block text-xs text-pedra-600">Por pessoa, tudo incluso</span>
-            <span className="font-display text-3xl font-bold tabular-nums leading-none">{formatarPreco(roteiro.precoReais)}</span>
+            <span className="font-display text-3xl font-bold tabular-nums leading-none">{formatarPreco(saida.precoReais)}</span>
           </p>
           <button
             type="button"
