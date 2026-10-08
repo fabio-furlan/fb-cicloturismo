@@ -3,6 +3,7 @@ import { NaoEncontrada } from '@/pages/NaoEncontrada/NaoEncontrada'
 import { DetalheSaida } from './DetalheSaida'
 import { Entrar } from './Entrar'
 import { LayoutAdm } from './LayoutAdm'
+import { EditarRoteiro, NovoRoteiro } from './PaginasRoteiro'
 import { Painel } from './Painel'
 import { Roteiros } from './Roteiros'
 import { ProvedorSessaoAdm } from './sessao/ProvedorSessaoAdm'
@@ -20,6 +21,8 @@ export function AreaAdm() {
           <Route index element={<Painel />} />
           <Route path="saidas/:id" element={<DetalheSaida />} />
           <Route path="roteiros" element={<Roteiros />} />
+          <Route path="roteiros/novo" element={<NovoRoteiro />} />
+          <Route path="roteiros/:id" element={<EditarRoteiro />} />
           <Route path="*" element={<NaoEncontrada />} />
         </Route>
       </Routes>

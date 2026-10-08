@@ -116,8 +116,8 @@ public class Roteiro {
 		var diasComEtapa = new HashSet<Integer>();
 		for (Etapa etapa : dados.etapas()) {
 			if (etapa.dia() > dados.dias()) {
-				throw new RegraDeNegocioException(
-						"A etapa do dia %d passa da duração do roteiro (%d dias).".formatted(etapa.dia(), dados.dias()));
+				throw new RegraDeNegocioException("A etapa do dia %d passa da duração do roteiro (%d %s).".formatted(
+						etapa.dia(), dados.dias(), dados.dias() == 1 ? "dia" : "dias"));
 			}
 			if (!diasComEtapa.add(etapa.dia())) {
 				throw new RegraDeNegocioException("Há mais de uma etapa no dia %d.".formatted(etapa.dia()));

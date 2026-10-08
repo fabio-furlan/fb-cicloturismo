@@ -27,14 +27,14 @@ record RoteiroRequest(
 		@NotNull Destino destino,
 		@NotNull Nivel nivel,
 		@NotNull Paisagem paisagem,
-		@Positive int dias,
-		@PositiveOrZero int subidaTotalM,
+		@NotNull @Positive Integer dias,
+		@NotNull @PositiveOrZero Integer subidaTotalM,
 		@NotNull int[] altitudes,
 		@NotNull List<@Valid @NotNull EtapaRequest> etapas,
 		@NotNull List<@Valid @NotNull ImagemRequest> imagens) {
 
 	record EtapaRequest(
-			@Positive int dia,
+			@NotNull @Positive Integer dia,
 			@NotBlank @Size(max = 160) String titulo,
 			@NotNull @PositiveOrZero @Digits(integer = 5, fraction = 1) BigDecimal distanciaKm,
 			@PositiveOrZero Integer subidaM) {

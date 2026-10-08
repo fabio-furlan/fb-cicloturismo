@@ -1,12 +1,11 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { niveis } from '@/config/niveis'
-import { rotaSaidaAdm } from '@/constants/rotas'
-import type { Nivel } from '@/types/roteiro'
+import { Link, useNavigate } from 'react-router-dom'
+import { ROTAS, rotaRoteiroAdm, rotaSaidaAdm } from '@/constants/rotas'
 import type { RoteiroAdm } from '@/types/adm'
 import { formatarNumero } from '@/utils/formatacao'
 import { Botao, CarregandoAdm, Cartao, ErroAoCarregar } from './componentes'
 import { FormularioSaida } from './FormularioSaida'
+import { niveisRoteiro } from './formato'
 import { useApiAdm } from './sessao/contexto'
 import { TabelaSaidas } from './TabelaSaidas'
 import { useRecurso } from './useRecurso'
@@ -37,10 +36,16 @@ function LinhaRoteiro({ roteiro }: { roteiro: RoteiroAdm }) {
           <p className="text-sm text-areia-400">{roteiro.regiao}</p>
           <p className="mt-1 text-sm tabular-nums">
             {diasDePedal} · {formatarNumero(roteiro.distanciaKm)} km · {formatarNumero(roteiro.subidaTotalM)} m de subida ·{' '}
-            {niveis[roteiro.nivel.toLowerCase() as Nivel].nome}
+            {niveisRoteiro[roteiro.nivel]}
           </p>
         </div>
         <div className="flex flex-wrap gap-3">
+          <Link
+            to={rotaRoteiroAdm(roteiro.id)}
+            className="inline-flex min-h-11 items-center rounded-full border border-areia-100/30 px-5 text-sm font-semibold hover:border-trilha-500 hover:text-trilha-400"
+          >
+            Editar<span className="sr-only"> {roteiro.titulo}</span>
+          </Link>
           <Botao variante="secundario" aria-expanded={aberto === 'saidas'} onClick={() => alternar('saidas')}>
             {aberto === 'saidas' ? 'Esconder saídas' : 'Ver saídas'}
           </Botao>
@@ -82,9 +87,17 @@ export function Roteiros() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="font-display text-4xl font-bold sm:text-5xl">Roteiros</h1>
-        <p className="mt-1 text-areia-400">Escolha um roteiro para ver as saídas dele ou abrir uma data nova.</p>
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h1 className="font-display text-4xl font-bold sm:text-5xl">Roteiros</h1>
+          <p className="mt-1 text-areia-400">Escolha um roteiro para editar, ver as saídas dele ou abrir uma data nova.</p>
+        </div>
+        <Link
+          to={ROTAS.admNovoRoteiro}
+          className="inline-flex min-h-11 items-center rounded-full bg-trilha-500 px-5 text-sm font-semibold text-mata-950 hover:bg-trilha-400"
+        >
+          Novo roteiro
+        </Link>
       </div>
       {estado.situacao === 'carregando' && <CarregandoAdm />}
       {estado.situacao === 'erro' && <ErroAoCarregar mensagem={estado.mensagem} aoTentarDeNovo={recarregar} />}
