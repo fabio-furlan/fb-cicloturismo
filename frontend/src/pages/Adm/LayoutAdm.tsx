@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Link, Navigate, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { Container } from '@/components/ui/Container'
-import { MarcaFabinho } from '@/components/ui/MarcaFabinho'
+import { MarcaFabio } from '@/components/ui/MarcaFabio'
 import { ROTAS } from '@/constants/rotas'
 import { useSessaoAdm } from './sessao/contexto'
 
@@ -17,7 +17,7 @@ export function LayoutAdm() {
 
   useEffect(() => {
     const anterior = document.title
-    document.title = 'Painel do ADM · Fabinho Cicloturismo'
+    document.title = 'Painel do ADM · Fabio Cicloturismo'
     return () => {
       document.title = anterior
     }
@@ -31,7 +31,7 @@ export function LayoutAdm() {
         <Container className="flex min-h-16 flex-wrap items-center justify-between gap-x-6 gap-y-2 py-2">
           <div className="flex items-center gap-6">
             <Link to={ROTAS.admPainel} className="flex items-center gap-2.5" aria-label="Painel do ADM, início">
-              <MarcaFabinho className="h-7 w-11 shrink-0" />
+              <MarcaFabio className="h-6 w-8 shrink-0" />
               <span className="font-display text-xl font-bold leading-none">
                 Painel <span className="text-trilha-500">ADM</span>
               </span>
@@ -44,7 +44,7 @@ export function LayoutAdm() {
                       to={rota}
                       end={fim}
                       className={({ isActive }) =>
-                        `inline-flex min-h-11 items-center rounded-full px-4 text-sm font-semibold transition-colors ${
+                        `inline-flex min-h-11 items-center rounded-lg px-4 text-sm font-semibold transition-colors ${
                           isActive ? 'bg-white/10 text-trilha-400' : 'text-areia-100/85 hover:text-trilha-400'
                         }`
                       }
@@ -66,7 +66,7 @@ export function LayoutAdm() {
             <button
               type="button"
               onClick={() => sair()}
-              className="inline-flex min-h-11 items-center rounded-full border border-areia-100/30 px-4 font-semibold hover:border-trilha-500 hover:text-trilha-400"
+              className="inline-flex min-h-11 items-center rounded-lg border border-areia-100/30 px-4 font-semibold hover:border-trilha-500 hover:text-trilha-400"
             >
               Sair
             </button>

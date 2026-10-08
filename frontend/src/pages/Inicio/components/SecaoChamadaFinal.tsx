@@ -5,10 +5,10 @@ import { ROTAS } from '@/constants/rotas'
 
 export function SecaoChamadaFinal() {
   return (
-    <section className="bg-trilha-500 py-16 text-mata-950 sm:py-20" aria-labelledby="titulo-chamada-final">
+    <section className="bg-trilha-500 py-12 text-mata-950 sm:py-14" aria-labelledby="titulo-chamada-final">
       <Container className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
         <div>
-          <h2 id="titulo-chamada-final" className="font-display text-4xl font-bold uppercase leading-none sm:text-6xl">
+          <h2 id="titulo-chamada-final" className="font-display text-4xl font-semibold uppercase italic leading-none sm:text-6xl">
             Não sabe qual roteiro escolher?
           </h2>
           <p className="mt-4 max-w-xl text-lg leading-relaxed text-mata-950/80">
@@ -18,7 +18,7 @@ export function SecaoChamadaFinal() {
         <div className="flex flex-wrap items-center gap-x-7 gap-y-4">
           <Link
             to={ROTAS.contato}
-            className="rounded-full bg-mata-950 px-7 py-3.5 font-semibold text-areia-100 transition-colors hover:bg-mata-700"
+            className="rounded-lg bg-mata-950 px-7 py-3.5 font-semibold text-areia-100 transition-colors hover:bg-mata-700"
           >
             Falar com a gente
           </Link>

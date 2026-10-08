@@ -21,9 +21,9 @@ const etapas = [
 
 export function SecaoComoFunciona() {
   return (
-    <section className="bg-areia-100 py-16 text-mata-900 sm:py-24" aria-labelledby="titulo-como-funciona">
+    <section className="bg-areia-100 py-12 text-mata-900 sm:py-16" aria-labelledby="titulo-como-funciona">
       <Container>
-        <h2 id="titulo-como-funciona" className="font-display text-4xl font-bold uppercase leading-none sm:text-6xl">
+        <h2 id="titulo-como-funciona" className="font-display text-4xl font-semibold uppercase italic leading-none sm:text-6xl">
           Como funciona uma viagem
         </h2>
 

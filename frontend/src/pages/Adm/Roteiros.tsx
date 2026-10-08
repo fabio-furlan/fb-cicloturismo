@@ -32,7 +32,7 @@ function LinhaRoteiro({ roteiro }: { roteiro: RoteiroAdm }) {
     <li className="py-5">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h2 className="font-display text-2xl font-bold leading-tight">{roteiro.titulo}</h2>
+          <h2 className="font-display text-2xl font-semibold leading-tight">{roteiro.titulo}</h2>
           <p className="text-sm text-areia-400">{roteiro.regiao}</p>
           <p className="mt-1 text-sm tabular-nums">
             {diasDePedal} · {formatarNumero(roteiro.distanciaKm)} km · {formatarNumero(roteiro.subidaTotalM)} m de subida ·{' '}
@@ -42,7 +42,7 @@ function LinhaRoteiro({ roteiro }: { roteiro: RoteiroAdm }) {
         <div className="flex flex-wrap gap-3">
           <Link
             to={rotaRoteiroAdm(roteiro.id)}
-            className="inline-flex min-h-11 items-center rounded-full border border-areia-100/30 px-5 text-sm font-semibold hover:border-trilha-500 hover:text-trilha-400"
+            className="inline-flex min-h-11 items-center rounded-lg border border-areia-100/30 px-5 text-sm font-semibold hover:border-trilha-500 hover:text-trilha-400"
           >
             Editar<span className="sr-only"> {roteiro.titulo}</span>
           </Link>
@@ -89,12 +89,12 @@ export function Roteiros() {
     <div className="space-y-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="font-display text-4xl font-bold sm:text-5xl">Roteiros</h1>
+          <h1 className="font-display text-4xl font-semibold sm:text-5xl">Roteiros</h1>
           <p className="mt-1 text-areia-400">Escolha um roteiro para editar, ver as saídas dele ou abrir uma data nova.</p>
         </div>
         <Link
           to={ROTAS.admNovoRoteiro}
-          className="inline-flex min-h-11 items-center rounded-full bg-trilha-500 px-5 text-sm font-semibold text-mata-950 hover:bg-trilha-400"
+          className="inline-flex min-h-11 items-center rounded-lg bg-trilha-500 px-5 text-sm font-semibold text-mata-950 hover:bg-trilha-400"
         >
           Novo roteiro
         </Link>

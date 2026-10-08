@@ -6,7 +6,7 @@ import { Logo } from '@/components/ui/Logo'
 import { ROTAS } from '@/constants/rotas'
 import { useRolagemPassou } from '@/hooks/useRolagemPassou'
 import { useTravarRolagem } from '@/hooks/useTravarRolagem'
-import { BotaoMinhaConta } from './BotaoMinhaConta'
+import { AcessoConta } from './AcessoConta'
 import { MenuDesktop } from './MenuDesktop'
 import { MenuMobile } from './MenuMobile'
 
@@ -41,7 +41,7 @@ export function Cabecalho() {
         <Logo />
         <MenuDesktop />
         <div className="hidden md:block">
-          <BotaoMinhaConta />
+          <AcessoConta />
         </div>
 
         <button

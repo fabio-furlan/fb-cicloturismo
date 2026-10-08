@@ -39,7 +39,7 @@ export function CartaoSaida({ roteiro, saida, outrasSaidas, aoVerRoteiro }: Cart
           </span>
         </p>
         <span
-          className={`absolute right-3 top-3 rounded-full px-2.5 py-1 text-xs font-semibold shadow-sm ${
+          className={`absolute right-3 top-3 rounded-md px-2.5 py-1 text-xs font-semibold shadow-sm ${
             ultimasVagas ? 'bg-alerta-600 text-white' : 'bg-areia-50/95 text-mata-900'
           }`}
         >
@@ -58,7 +58,7 @@ export function CartaoSaida({ roteiro, saida, outrasSaidas, aoVerRoteiro }: Cart
 
         <ul className="mt-4 flex flex-wrap gap-2 text-sm font-semibold tabular-nums">
           {dados.map(({ icone: Icone, texto, extra }) => (
-            <li key={texto} className="flex items-center gap-1.5 rounded-full bg-mata-900/[0.06] px-3 py-1.5">
+            <li key={texto} className="flex items-center gap-1.5 rounded-lg bg-mata-900/[0.06] px-3 py-1.5">
               <Icone className="h-4 w-4 text-trilha-700" />
               {texto}
               {extra && <span className="sr-only">{extra}</span>}
@@ -79,7 +79,7 @@ export function CartaoSaida({ roteiro, saida, outrasSaidas, aoVerRoteiro }: Cart
           <button
             type="button"
             onClick={aoVerRoteiro}
-            className="inline-flex min-h-11 items-center gap-1.5 rounded-full bg-trilha-500 pl-5 pr-4 text-sm font-semibold text-mata-950 transition-colors hover:bg-trilha-400"
+            className="inline-flex min-h-11 items-center gap-1.5 rounded-lg bg-trilha-500 pl-5 pr-4 text-sm font-semibold text-mata-950 transition-colors hover:bg-trilha-400"
           >
             Ver roteiro
             <IconeSeta className="h-4 w-4 transition-transform group-hover:translate-x-0.5 motion-reduce:transition-none" />

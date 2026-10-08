@@ -55,7 +55,7 @@ export function SecaoExplorador({ roteiros, roteiroId, aoSelecionarRoteiro }: Se
   }, [simulacao, pontos])
 
   return (
-    <section id="explorar" className="relative isolate scroll-mt-16 overflow-hidden bg-mata-950 py-16 sm:py-24" aria-labelledby="titulo-explorar">
+    <section id="explorar" className="relative isolate scroll-mt-16 overflow-hidden bg-mata-950 py-12 sm:py-16" aria-labelledby="titulo-explorar">
       {/* Fundo: a foto da trilha desfocada e escurecida, como se o painel flutuasse sobre a paisagem */}
       <img
         src="/images/hero-bikepacking.jpg"
@@ -66,7 +66,7 @@ export function SecaoExplorador({ roteiros, roteiroId, aoSelecionarRoteiro }: Se
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-mata-950/85 via-mata-950/55 to-mata-950/90" />
 
       <Container>
-        <h2 id="titulo-explorar" className="font-display text-4xl font-bold uppercase leading-none sm:text-6xl">
+        <h2 id="titulo-explorar" className="font-display text-4xl font-semibold uppercase italic leading-none sm:text-6xl">
           Pedale a rota antes de ir
         </h2>
         <p className="mt-4 max-w-2xl text-lg text-areia-400">
@@ -92,7 +92,7 @@ export function SecaoExplorador({ roteiros, roteiroId, aoSelecionarRoteiro }: Se
               <button
                 type="button"
                 onClick={alternarSimulacao}
-                className="inline-flex items-center gap-2 rounded-full border border-trilha-500 px-4 py-2.5 text-sm font-semibold text-trilha-500 transition-colors hover:bg-trilha-500 hover:text-mata-950"
+                className="inline-flex items-center gap-2 rounded-lg border border-trilha-500 px-4 py-2.5 text-sm font-semibold text-trilha-500 transition-colors hover:bg-trilha-500 hover:text-mata-950"
               >
                 <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 fill-current" aria-hidden="true">
                   {simulando ? <path d="M3 2h3.5v12H3zM9.5 2H13v12H9.5z" /> : <path d="M4 2l10 6-10 6z" />}
@@ -129,7 +129,7 @@ export function SecaoExplorador({ roteiros, roteiroId, aoSelecionarRoteiro }: Se
               </p>
               <Link
                 to={ROTAS.roteiros}
-                className="rounded-full bg-trilha-500 px-5 py-3 text-sm font-semibold text-mata-950 transition-colors hover:bg-trilha-400"
+                className="rounded-lg bg-trilha-500 px-5 py-3 text-sm font-semibold text-mata-950 transition-colors hover:bg-trilha-400"
               >
                 Ver roteiro
               </Link>
