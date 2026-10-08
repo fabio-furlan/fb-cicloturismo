@@ -11,11 +11,14 @@ const Sobre = lazy(() => import('@/pages/Sobre'))
 const Contato = lazy(() => import('@/pages/Contato'))
 const MinhaConta = lazy(() => import('@/pages/MinhaConta'))
 const NaoEncontrada = lazy(() => import('@/pages/NaoEncontrada'))
+const AreaAdm = lazy(() => import('@/pages/Adm'))
 
 export function Rotas() {
   return (
     <Suspense fallback={<Carregando />}>
       <Routes>
+        {/* O painel do ADM tem layout próprio, sem o cabeçalho e o rodapé do site. */}
+        <Route path="/adm/*" element={<AreaAdm />} />
         <Route element={<LayoutPrincipal />}>
           <Route path={ROTAS.inicio} element={<Inicio />} />
           <Route path={ROTAS.roteiros} element={<Roteiros />} />
