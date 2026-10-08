@@ -97,6 +97,28 @@ class AutenticacaoApiTest {
 	}
 
 	@Test
+	void tokenDeContaRemovidaDeixaDeValerNaHora() throws Exception {
+		String token = tokenDe(entrar("fabio@fbcicloturismo.com.br", SENHA));
+
+		administradores.delete(fabio);
+		administradores.flush();
+
+		assertThat(mvc.get().uri("/api/adm/saidas").header(HttpHeaders.AUTHORIZATION, "Bearer " + token).exchange())
+				.hasStatus(HttpStatus.UNAUTHORIZED);
+	}
+
+	@Test
+	void tokenDeContaDesativadaDeixaDeValerNaHora() throws Exception {
+		String token = tokenDe(entrar("fabio@fbcicloturismo.com.br", SENHA));
+
+		fabio.desativar();
+		administradores.flush();
+
+		assertThat(mvc.get().uri("/api/adm/saidas").header(HttpHeaders.AUTHORIZATION, "Bearer " + token).exchange())
+				.hasStatus(HttpStatus.UNAUTHORIZED);
+	}
+
+	@Test
 	void rotasDoAdmExigemTokenValido() {
 		assertThat(mvc.get().uri("/api/adm/saidas").exchange()).hasStatus(HttpStatus.UNAUTHORIZED);
 		assertThat(mvc.get().uri("/api/adm/saidas").header(HttpHeaders.AUTHORIZATION, "Bearer nao-e-um-jwt").exchange())

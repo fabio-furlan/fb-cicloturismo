@@ -25,7 +25,10 @@ A ordem importa: banco, depois API (que precisa do banco), depois site (que prec
 
 1. Em [supabase.com](https://supabase.com), crie um projeto. Região: **East US (North Virginia)**.
 2. Guarde a senha do banco num gerenciador de senhas. Ela não aparece de novo.
-3. No projeto, clique em **Connect** e escolha **Session pooler**. Copie os dados da conexão:
+3. Em **Security**, desmarque **Enable Data API** e **Automatically expose new tables**: só a API Java acessa o banco,
+   e a Data API abriria um segundo caminho até as tabelas. **Enable automatic RLS** pode ficar marcado.
+4. No projeto, clique em **Connect**, aba **Direct**, com **Type: JDBC** e **Method: Session pooler**. Copie os dados
+   da conexão:
    - host (algo como `aws-0-us-east-1.pooler.supabase.com`), porta `5432`, banco `postgres`;
    - usuário no formato `postgres.<id-do-projeto>`.
 
@@ -53,6 +56,17 @@ Não crie tabelas pelo painel. Na primeira subida, a API aplica as migrations e 
 | `APP_ADMIN_SENHA` | uma senha com pelo menos 12 caracteres |
 | `APP_CORS_ORIGENS` | o endereço do site, por exemplo `https://fb-cicloturismo.vercel.app` (sem barra no fim) |
 
+Acrescente também, em **Environment**, estas duas variáveis:
+
+| Variável | Valor |
+| --- | --- |
+| `SPRING_FLYWAY_BASELINE_ON_MIGRATE` | `true` |
+| `SPRING_FLYWAY_BASELINE_VERSION` | `0` |
+
+O Supabase já cria objetos no esquema `public` (a opção de RLS automático cria uma função lá). Sem essas variáveis, o
+Flyway encontra o esquema "não vazio" e para com *Found non-empty schema(s) "public" but no schema history table*. O
+`0` é obrigatório: com o padrão (1), a migration V1 seria pulada e as tabelas principais não seriam criadas.
+
 O `APP_JWT_SEGREDO` não aparece na lista: o Render o gera sozinho. Se ainda não souber o endereço da Vercel, coloque
 um valor provisório e corrija no passo 4.
 
@@ -77,6 +91,17 @@ senha da conta. Se quiser, apague essa variável no painel: ela não é mais usa
 Se o `APP_CORS_ORIGENS` do Render ficou com um valor provisório, troque pelo endereço definitivo do site. O Render
 reinicia o serviço sozinho. Os previews da Vercel têm outro endereço (`...-git-<branch>-...vercel.app`); para testá-los
 contra a API, acrescente o endereço separado por vírgula.
+
+## Trocar a senha do administrador
+
+Ainda não há tela para isso. O administrador inicial só é criado quando não existe nenhum, então:
+
+1. No Supabase, **Table Editor > administrador**: apague a linha do administrador.
+2. No Render, **Environment**: troque `APP_ADMIN_SENHA` e clique em **Save, rebuild, and deploy**.
+3. No primeiro boot, a API cria o administrador de novo com a senha nova (`Administrador inicial ... criado` no log).
+
+Os tokens emitidos para a conta apagada deixam de valer na hora: a cada requisição, a API confere se a conta dona do
+token ainda existe e está ativa. Para invalidar **todos** os tokens de uma vez, troque também o `APP_JWT_SEGREDO`.
 
 ## Depois do deploy
 
