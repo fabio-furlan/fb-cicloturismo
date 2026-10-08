@@ -22,7 +22,7 @@ export function Botao({ variante = 'principal', carregando = false, className = 
       {...resto}
       disabled={disabled || carregando}
       aria-busy={carregando || undefined}
-      className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${variantes[variante]} ${className}`}
+      className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-5 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${variantes[variante]} ${className}`}
     >
       {carregando && <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden="true" />}
       {children}
@@ -67,7 +67,7 @@ export function Cartao({ titulo, acoes, children }: { titulo?: string; acoes?: R
     <section className="rounded-2xl border border-white/10 bg-mata-800/60 p-5 sm:p-6">
       {(titulo || acoes) && (
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-          {titulo && <h2 className="font-display text-2xl font-bold">{titulo}</h2>}
+          {titulo && <h2 className="font-display text-2xl font-semibold">{titulo}</h2>}
           {acoes}
         </div>
       )}

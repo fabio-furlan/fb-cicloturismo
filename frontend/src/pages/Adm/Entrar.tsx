@@ -44,7 +44,7 @@ export function Entrar() {
         </div>
         <form onSubmit={enviar} className="mt-10 space-y-5 rounded-2xl border border-white/10 bg-mata-800/60 p-6" aria-labelledby="titulo-entrar">
           <div>
-            <h1 id="titulo-entrar" className="font-display text-3xl font-bold">
+            <h1 id="titulo-entrar" className="font-display text-3xl font-semibold">
               Painel do ADM
             </h1>
             <p className="mt-1 text-sm text-areia-400">Entre para gerenciar roteiros, saídas e vagas.</p>

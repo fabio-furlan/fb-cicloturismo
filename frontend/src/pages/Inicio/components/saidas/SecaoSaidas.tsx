@@ -15,7 +15,7 @@ interface FiltroRapidoProps {
   children: ReactNode
 }
 
-/** Botão de filtro com a quantidade de saídas que ele mostraria. */
+/** Botão de filtro com a quantidade de saídas que ele mostraria. Selecionado, fica como os cartões do explorador: borda laranja e fundo escuro. */
 function FiltroRapido({ ativo, quantidade, aoEscolher, children }: FiltroRapidoProps) {
   return (
     <button
@@ -23,15 +23,15 @@ function FiltroRapido({ ativo, quantidade, aoEscolher, children }: FiltroRapidoP
       aria-pressed={ativo}
       onClick={aoEscolher}
       disabled={quantidade === 0 && !ativo}
-      className={`inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-4 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${
+      className={`inline-flex min-h-11 shrink-0 items-center gap-2 rounded-lg border px-4 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${
         ativo
-          ? 'border-trilha-500 bg-trilha-500 text-mata-950'
-          : 'border-white/15 bg-white/[0.04] text-areia-100 hover:border-trilha-500 hover:text-trilha-400'
+          ? 'border-trilha-500 bg-mata-800 text-trilha-400'
+          : 'border-white/15 bg-white/[0.04] text-areia-100 hover:border-trilha-500 hover:bg-mata-800 hover:text-trilha-400'
       }`}
     >
       {children}
       <span
-        className={`rounded-full px-1.5 py-0.5 text-xs tabular-nums ${ativo ? 'bg-mata-950/15' : 'bg-white/10 text-areia-400'}`}
+        className={`rounded px-1.5 py-0.5 text-xs tabular-nums ${ativo ? 'bg-trilha-500/15 text-trilha-400' : 'bg-white/10 text-areia-400'}`}
       >
         {quantidade}
       </span>
@@ -58,7 +58,7 @@ export function SecaoSaidas({ roteiros, filtros, aoMudarFiltros, aoExplorar }: S
   return (
     <section
       id="saidas"
-      className="relative isolate scroll-mt-16 overflow-hidden bg-mata-950 py-16 sm:py-24"
+      className="relative isolate scroll-mt-16 overflow-hidden bg-mata-950 pb-12 pt-6 sm:pb-16 sm:pt-8"
       aria-labelledby="titulo-saidas"
     >
       {/* Brilho laranja vindo do topo, como o fim de tarde da foto */}
@@ -69,7 +69,7 @@ export function SecaoSaidas({ roteiros, filtros, aoMudarFiltros, aoExplorar }: S
 
       <Container>
         <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-3">
-          <h2 id="titulo-saidas" className="font-display text-4xl font-bold uppercase leading-none sm:text-6xl">
+          <h2 id="titulo-saidas" className="font-display text-4xl font-semibold uppercase italic leading-none sm:text-6xl">
             Próximas saídas
           </h2>
           <p className="text-areia-400" aria-live="polite">
@@ -117,7 +117,7 @@ export function SecaoSaidas({ roteiros, filtros, aoMudarFiltros, aoExplorar }: S
               <button
                 type="button"
                 onClick={() => mudar({ nivel: '' })}
-                className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border border-trilha-500 px-4 text-sm font-semibold text-trilha-400"
+                className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-lg border border-trilha-500 px-4 text-sm font-semibold text-trilha-400"
                 aria-label={`Remover filtro de nível ${niveis[filtros.nivel].nome}`}
               >
                 Nível {niveis[filtros.nivel].nome.toLowerCase()}
@@ -134,7 +134,7 @@ export function SecaoSaidas({ roteiros, filtros, aoMudarFiltros, aoExplorar }: S
             <button
               type="button"
               onClick={() => aoMudarFiltros({ paisagem: '', mes: '', nivel: '' })}
-              className="mt-6 min-h-11 rounded-full bg-trilha-500 px-6 text-sm font-semibold text-mata-950 hover:bg-trilha-400"
+              className="mt-6 min-h-11 rounded-lg bg-trilha-500 px-6 text-sm font-semibold text-mata-950 hover:bg-trilha-400"
             >
               Ver todas as saídas
             </button>

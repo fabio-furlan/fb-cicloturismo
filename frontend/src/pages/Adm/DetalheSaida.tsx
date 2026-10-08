@@ -165,7 +165,7 @@ function PaginaSaida({ id }: { id: number }) {
           ← Saídas
         </Link>
         <div className="mt-2 flex flex-wrap items-center gap-3">
-          <h1 className="font-display text-4xl font-bold sm:text-5xl">{saida.roteiroTitulo}</h1>
+          <h1 className="font-display text-4xl font-semibold sm:text-5xl">{saida.roteiroTitulo}</h1>
           <SeloStatus status={saida.status} />
         </div>
         <p className="mt-1 text-areia-400 tabular-nums">

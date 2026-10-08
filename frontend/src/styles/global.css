@@ -24,8 +24,8 @@
 
   --color-pedra-600: #5a645f;
 
-  --color-trilha-400: #ff8a52;
-  --color-trilha-500: #ff6b2c;
+  --color-trilha-400: #f08c5c;
+  --color-trilha-500: #e8743f;
   --color-trilha-700: #b8420f;
 
   --color-salvia-400: #9cc29a;
@@ -39,7 +39,7 @@
   --color-rampa-forte: #ff8a3c;
   --color-rampa-muito-forte: #ef4a3a;
 
-  --font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-display: 'Saira', 'Arial Narrow', sans-serif;
   --font-sans: 'Barlow', system-ui, sans-serif;
 }
 
@@ -93,4 +93,106 @@
   box-shadow:
     inset 0 1px 0 color-mix(in oklab, white 7%, transparent),
     0 24px 60px -32px rgb(0 0 0 / 0.85);
+}
+
+/* Seta do convite para rolar a página no topo: um balanço curto e contínuo, só para chamar o olhar. */
+@keyframes balancar-seta {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+.balancar-seta {
+  animation: balancar-seta 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .balancar-seta {
+    animation: none;
+  }
+}
+
+/* A Saira é variável na largura: um pouco condensada nos títulos e números, para caber bem e lembrar placar esportivo. */
+.font-display {
+  font-stretch: semi-condensed;
+}
+
+/* Logo animado: as montanhas sobem a partir da base ao carregar a página (a de trás logo depois da da frente).
+   Ao passar o mouse, o símbolo sobe um pouco e gira em perspectiva, realçando o volume das faces, e volta ao sair. */
+@keyframes erguer-montanha {
+  from {
+    opacity: 0;
+    transform: scaleY(0.15);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+.marca-erguer {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: erguer-montanha 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.marca-erguer-tras {
+  animation-delay: 0.18s;
+}
+
+.marca-girar {
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.group:hover .marca-girar {
+  transform: translateY(-4px) perspective(160px) rotateY(-22deg) rotateX(6deg);
+}
+
+/* Trilha até o cume: a máscara revela a trilha tracejada da base ao pico ao passar o mouse e a recolhe ao sair. */
+.marca-trilha-mascara {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.group:hover .marca-trilha-mascara,
+.group:focus-visible .marca-trilha-mascara {
+  stroke-dashoffset: 0;
+}
+
+/* Continuação da trilha no chão, por baixo do nome: revelada da esquerda para a direita junto com a subida. */
+.logo-trilha-chao {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.group:hover .logo-trilha-chao,
+.group:focus-visible .logo-trilha-chao {
+  clip-path: inset(-4px -4px -4px -4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marca-erguer {
+    animation: none;
+  }
+
+  .marca-girar {
+    transition: none;
+  }
+
+  .group:hover .marca-girar {
+    transform: none;
+  }
+
+  .marca-trilha-mascara {
+    transition: none;
+  }
+
+  .logo-trilha-chao {
+    transition: none;
+  }
 }

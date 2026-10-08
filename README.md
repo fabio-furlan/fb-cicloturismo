@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="docs/logo.svg" alt="Logo Fabinho Cicloturismo" width="128" />
+<img src="docs/logo.svg" alt="Logo Fabio Cicloturismo" width="230" />
 
-# Fabinho Cicloturismo
+# Fabio Cicloturismo
 
 **Viagens de bike pela natureza: trilhas, serras e litoral, no Brasil e no mundo.**
 
@@ -22,7 +22,7 @@
 
 <br />
 
-<img src="docs/screenshots/desktop.png" alt="Página inicial do Fabinho Cicloturismo no desktop" width="100%" />
+<img src="docs/screenshots/desktop.png" alt="Página inicial do Fabio Cicloturismo no desktop" width="100%" />
 
 </div>
 
@@ -30,7 +30,7 @@
 
 ## 🚴 Sobre o projeto
 
-O **Fabinho Cicloturismo** é uma plataforma de cicloturismo e viagens de bicicleta que conecta ciclistas e entusiastas de aventura a roteiros inesquecíveis. A ideia é unir o planejamento da viagem, a escolha do nível de pedal (do recreativo ao avançado) e a descoberta de destinos cênicos, com foco em conforto, superação e segurança.
+O **Fabio Cicloturismo** é uma plataforma de cicloturismo e viagens de bicicleta que conecta ciclistas e entusiastas de aventura a roteiros inesquecíveis. A ideia é unir o planejamento da viagem, a escolha do nível de pedal (do recreativo ao avançado) e a descoberta de destinos cênicos, com foco em conforto, superação e segurança.
 
 É um projeto de portfólio **full stack**, construído como um produto real:
 
