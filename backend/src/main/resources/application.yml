@@ -8,6 +8,11 @@ spring:
     properties:
       # Carrega etapas, imagens e opcionais de vários roteiros e saídas numa consulta só, em vez de uma por item.
       hibernate.default_batch_fetch_size: 50
+  datasource:
+    hikari:
+      # O pooler do Supabase gratuito aceita poucas conexões por projeto; 5 sobram para uma instância no Render.
+      maximum-pool-size: ${APP_DB_POOL_MAXIMO:5}
+  # Só para desenvolvimento: sobe o Postgres do compose.yaml. O plugin do Maven não inclui esse módulo no .jar.
   docker:
     compose:
       lifecycle-management: start-only

@@ -19,6 +19,14 @@ npm run dev      # http://localhost:5173
 | `npm run preview` | Serve o build localmente |
 | `npm run lint` | Lint com oxlint |
 
+### Conectando à API
+
+Sem configuração, o site mostra os dados de exemplo de `src/data/roteirosExemplo.ts`. Para usar a API (pasta
+`backend/`), copie `.env.example` para `.env.local` e defina `VITE_API_URL` com o endereço dela. Na Vercel, a mesma
+variável vai em *Settings → Environment Variables*. A API precisa liberar a origem do site em `APP_CORS_ORIGENS`.
+
+A conversão do formato da API para o das telas fica em `src/services/adaptadorRoteiro.ts`.
+
 ## Estrutura
 
 ```

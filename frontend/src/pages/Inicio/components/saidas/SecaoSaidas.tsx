@@ -3,7 +3,7 @@ import { IconeFechar } from '@/components/icones'
 import { Container } from '@/components/ui/Container'
 import { niveis } from '@/config/niveis'
 import { paisagens } from '@/config/paisagens'
-import type { Paisagem } from '@/types/roteiro'
+import type { Paisagem, Roteiro } from '@/types/roteiro'
 import { partesData } from '@/utils/formatacao'
 import { contarRoteiros, type FiltrosViagem, filtrarSaidas, mesesComSaida } from '@/utils/saidas'
 import { CartaoSaida } from './CartaoSaida'
@@ -40,19 +40,20 @@ function FiltroRapido({ ativo, quantidade, aoEscolher, children }: FiltroRapidoP
 }
 
 interface SecaoSaidasProps {
+  roteiros: Roteiro[]
   filtros: FiltrosViagem
   aoMudarFiltros: (filtros: FiltrosViagem) => void
   aoExplorar: (roteiroId: string) => void
 }
 
 /** Resultado da busca do topo: as próximas saídas, com filtros rápidos por paisagem e mês. */
-export function SecaoSaidas({ filtros, aoMudarFiltros, aoExplorar }: SecaoSaidasProps) {
-  const resultados = filtrarSaidas(filtros)
+export function SecaoSaidas({ roteiros, filtros, aoMudarFiltros, aoExplorar }: SecaoSaidasProps) {
+  const resultados = filtrarSaidas(roteiros, filtros)
   // Um cartão por roteiro: a primeira saída que combina com os filtros vira o destaque, as outras ficam como "outras datas".
   const porRoteiro = resultados.filter((r, i) => resultados.findIndex((o) => o.roteiro.id === r.roteiro.id) === i)
   const mudar = (parcial: Partial<FiltrosViagem>) => aoMudarFiltros({ ...filtros, ...parcial })
   // Quantas viagens cada opção mostraria, mantendo os outros filtros.
-  const contar = (parcial: Partial<FiltrosViagem>) => contarRoteiros({ ...filtros, ...parcial })
+  const contar = (parcial: Partial<FiltrosViagem>) => contarRoteiros(roteiros, { ...filtros, ...parcial })
 
   return (
     <section
@@ -99,7 +100,7 @@ export function SecaoSaidas({ filtros, aoMudarFiltros, aoExplorar }: SecaoSaidas
             <FiltroRapido ativo={!filtros.mes} quantidade={contar({ mes: '' })} aoEscolher={() => mudar({ mes: '' })}>
               Qualquer mês
             </FiltroRapido>
-            {mesesComSaida.map((m) => {
+            {mesesComSaida(roteiros).map((m) => {
               const { mes } = partesData(`${m}-01`)
               return (
                 <FiltroRapido

@@ -1,6 +1,6 @@
 import type { Roteiro } from '@/types/roteiro'
 
-// Dados de exemplo até a API de roteiros (Spring Boot) ficar pronta. Datas, preços e vagas são ilustrativos.
+// Dados de exemplo, usados quando VITE_API_URL não está definida (o site no ar antes da API). Datas, preços e vagas são ilustrativos.
 // Distâncias e subidas seguem a descrição de cada passeio. As altitudes são reais: trajeto pelas cidades do percurso
 // (OpenStreetMap, roteador de bicicleta) com a altitude do terreno (Open-Meteo, modelo Copernicus DEM), redistribuídas
 // pela quilometragem de cada etapa. Para precisão total, troque pelo GPX gravado de cada passeio.
@@ -53,10 +53,9 @@ export const roteirosExemplo: Roteiro[] = [
       560, 557,
     ],
     saidas: [
-      { data: '2026-12-12', vagasRestantes: 6 },
-      { data: '2027-10-09', vagasRestantes: 12 },
+      { data: '2026-12-12', vagasRestantes: 6, precoReais: 1490 },
+      { data: '2027-10-09', vagasRestantes: 12, precoReais: 1490 },
     ],
-    vagasPorGrupo: 12,
     precoReais: 1490,
   },
   {
@@ -107,10 +106,9 @@ export const roteirosExemplo: Roteiro[] = [
       109,
     ],
     saidas: [
-      { data: '2026-11-14', vagasRestantes: 4 },
-      { data: '2027-03-20', vagasRestantes: 12 },
+      { data: '2026-11-14', vagasRestantes: 4, precoReais: 2890 },
+      { data: '2027-03-20', vagasRestantes: 12, precoReais: 2890 },
     ],
-    vagasPorGrupo: 12,
     precoReais: 2890,
   },
   {
@@ -155,10 +153,9 @@ export const roteirosExemplo: Roteiro[] = [
       12, 11, 11, 12, 12, 12, 13, 13,
     ],
     saidas: [
-      { data: '2026-11-21', vagasRestantes: 10 },
-      { data: '2027-02-06', vagasRestantes: 12 },
+      { data: '2026-11-21', vagasRestantes: 10, precoReais: 390 },
+      { data: '2027-02-06', vagasRestantes: 12, precoReais: 390 },
     ],
-    vagasPorGrupo: 12,
     precoReais: 390,
   },
   {
@@ -208,10 +205,9 @@ export const roteirosExemplo: Roteiro[] = [
       77, 80, 80, 78, 75, 75, 72, 71, 70, 69, 68, 68, 68, 69, 70, 70, 70,
     ],
     saidas: [
-      { data: '2027-03-06', vagasRestantes: 8 },
-      { data: '2027-09-11', vagasRestantes: 12 },
+      { data: '2027-03-06', vagasRestantes: 8, precoReais: 5490 },
+      { data: '2027-09-11', vagasRestantes: 12, precoReais: 5490 },
     ],
-    vagasPorGrupo: 12,
     precoReais: 5490,
   },
   {
@@ -262,10 +258,9 @@ export const roteirosExemplo: Roteiro[] = [
       544,
     ],
     saidas: [
-      { data: '2027-02-27', vagasRestantes: 8 },
-      { data: '2027-06-12', vagasRestantes: 12 },
+      { data: '2027-02-27', vagasRestantes: 8, precoReais: 2690 },
+      { data: '2027-06-12', vagasRestantes: 12, precoReais: 2690 },
     ],
-    vagasPorGrupo: 12,
     precoReais: 2690,
   },
 ]

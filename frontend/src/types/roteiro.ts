@@ -5,6 +5,8 @@ export type Paisagem = 'serra' | 'vale' | 'fe'
 export interface Saida {
   data: string // data ISO (AAAA-MM-DD)
   vagasRestantes: number
+  /** Preço por pessoa desta data. Cada saída tem o seu: alta temporada, feriados. */
+  precoReais: number
 }
 
 /** Um dia de pedal. Dias sem pedal (traslado, chegada) não têm etapa. */
@@ -19,9 +21,9 @@ export interface Foto {
   src: string
   /** Descrição para leitores de tela. */
   descricao: string
-  /** Crédito e origem, para controle interno das licenças. */
-  autor: string
-  origem: string
+  /** Crédito e origem, para controle interno das licenças. A API pública não os envia. */
+  autor?: string
+  origem?: string
 }
 
 export interface Roteiro {
@@ -41,8 +43,8 @@ export interface Roteiro {
   subidaTotalM: number
   /** Altitudes em metros, amostradas em intervalos iguais do início ao fim do percurso. */
   altitudes: number[]
-  /** Próximas saídas, em ordem de data. */
+  /** Próximas saídas com vagas, em ordem de data. Sempre há pelo menos uma. */
   saidas: Saida[]
-  vagasPorGrupo: number
+  /** Menor preço entre as saídas: o "a partir de". */
   precoReais: number
 }

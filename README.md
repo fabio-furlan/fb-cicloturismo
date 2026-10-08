@@ -102,7 +102,7 @@ flowchart LR
 | **Backend** | Java, Spring Boot, Spring Web, Spring Data JPA, Bean Validation | 🔜 Próxima etapa |
 | **Banco de dados** | PostgreSQL | 🔜 Próxima etapa |
 | **Qualidade** | oxlint (regras de React e TypeScript) e checagem de tipos no build | ✅ |
-| **Deploy** | Vercel (frontend), Render (API), Supabase (banco) | 🔜 Planejado |
+| **Deploy** | Vercel (frontend), Render (API), Supabase (banco) | ⚙️ Configurado, falta publicar ([guia](docs/deploy.md)) |
 
 <details>
 <summary><b>🧠 Decisões técnicas do frontend</b> (clique para expandir)</summary>

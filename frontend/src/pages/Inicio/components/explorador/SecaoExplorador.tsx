@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Container } from '@/components/ui/Container'
 import { ROTAS } from '@/constants/rotas'
-import { roteirosExemplo } from '@/data/roteirosExemplo'
+import type { Roteiro } from '@/types/roteiro'
 import { formatarNumero, formatarPreco } from '@/utils/formatacao'
 import { corDaFaixa, descreverDuracao, detalharRota, faixasInclinacao } from '@/utils/rota'
 import { Ciclocomputador } from './Ciclocomputador'
@@ -12,12 +12,14 @@ import { SeletorRoteiro } from './SeletorRoteiro'
 const DURACAO_SIMULACAO_MS = 12000
 
 interface SecaoExploradorProps {
-  roteiroId: string
+  /** Pelo menos um roteiro: sem catálogo, a página não mostra o explorador. */
+  roteiros: Roteiro[]
+  roteiroId: string | null
   aoSelecionarRoteiro: (id: string) => void
 }
 
-export function SecaoExplorador({ roteiroId, aoSelecionarRoteiro }: SecaoExploradorProps) {
-  const roteiro = roteirosExemplo.find((r) => r.id === roteiroId) ?? roteirosExemplo[0]
+export function SecaoExplorador({ roteiros, roteiroId, aoSelecionarRoteiro }: SecaoExploradorProps) {
+  const roteiro = roteiros.find((r) => r.id === roteiroId) ?? roteiros[0]
   const pontos = useMemo(() => detalharRota(roteiro), [roteiro])
   // Cursor e simulação ficam presos ao roteiro: ao trocar de roteiro, voltam para a largada.
   const [cursor, setCursor] = useState({ roteiroId: roteiro.id, indice: 0 })
@@ -73,7 +75,7 @@ export function SecaoExplorador({ roteiroId, aoSelecionarRoteiro }: SecaoExplora
         </p>
 
         <div className="mt-10">
-          <SeletorRoteiro roteiros={roteirosExemplo} selecionadoId={roteiro.id} aoSelecionar={aoSelecionarRoteiro} />
+          <SeletorRoteiro roteiros={roteiros} selecionadoId={roteiro.id} aoSelecionar={aoSelecionarRoteiro} />
         </div>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_21rem] lg:grid-rows-[auto_1fr]">
@@ -122,7 +124,7 @@ export function SecaoExplorador({ roteiroId, aoSelecionarRoteiro }: SecaoExplora
             </p>
             <div className="mt-4 flex items-end justify-between gap-4">
               <p>
-                <span className="block text-sm text-areia-400">Por pessoa</span>
+                <span className="block text-sm text-areia-400">A partir de, por pessoa</span>
                 <span className="font-display text-3xl font-bold tabular-nums">{formatarPreco(roteiro.precoReais)}</span>
               </p>
               <Link
