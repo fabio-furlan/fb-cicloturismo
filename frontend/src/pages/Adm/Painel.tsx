@@ -42,12 +42,12 @@ export function Painel() {
     <div className="space-y-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="font-display text-4xl font-bold sm:text-5xl">Próximas saídas</h1>
+          <h1 className="font-display text-4xl font-semibold sm:text-5xl">Próximas saídas</h1>
           <p className="mt-1 text-areia-400">Todas as saídas que ainda não terminaram, da mais próxima para a mais distante.</p>
         </div>
         <Link
           to={ROTAS.admRoteiros}
-          className="inline-flex min-h-11 items-center rounded-full bg-trilha-500 px-5 text-sm font-semibold text-mata-950 hover:bg-trilha-400"
+          className="inline-flex min-h-11 items-center rounded-lg bg-trilha-500 px-5 text-sm font-semibold text-mata-950 hover:bg-trilha-400"
         >
           Nova saída
         </Link>
@@ -70,7 +70,7 @@ export function Painel() {
                     type="button"
                     aria-pressed={ativo}
                     onClick={() => setFiltro(status)}
-                    className={`inline-flex min-h-11 items-center gap-2 rounded-full border px-4 text-sm font-semibold transition-colors ${
+                    className={`inline-flex min-h-11 items-center gap-2 rounded-lg border px-4 text-sm font-semibold transition-colors ${
                       ativo ? 'border-trilha-500 bg-trilha-500 text-mata-950' : 'border-white/15 hover:border-trilha-500 hover:text-trilha-400'
                     }`}
                   >

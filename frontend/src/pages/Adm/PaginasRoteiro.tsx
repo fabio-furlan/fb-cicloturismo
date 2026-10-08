@@ -23,7 +23,7 @@ export function NovoRoteiro() {
     <div className="space-y-6">
       <div>
         <Voltar />
-        <h1 className="mt-2 font-display text-4xl font-bold sm:text-5xl">Novo roteiro</h1>
+        <h1 className="mt-2 font-display text-4xl font-semibold sm:text-5xl">Novo roteiro</h1>
         <p className="mt-1 text-areia-400">Depois de salvar, crie as saídas (datas, vagas e preço) na lista de roteiros.</p>
       </div>
       <FormularioRoteiro
@@ -60,7 +60,7 @@ function PaginaEditarRoteiro({ id }: { id: number }) {
     <div className="space-y-6">
       <div>
         <Voltar />
-        <h1 className="mt-2 font-display text-4xl font-bold sm:text-5xl">{roteiro.titulo}</h1>
+        <h1 className="mt-2 font-display text-4xl font-semibold sm:text-5xl">{roteiro.titulo}</h1>
         <p className="mt-1 text-areia-400 tabular-nums">
           {formatarNumero(roteiro.distanciaKm)} km · endereço no site: <code className="text-areia-100">{roteiro.slug}</code> (não muda ao editar o título)
         </p>

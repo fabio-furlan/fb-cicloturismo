@@ -133,3 +133,45 @@ export function IconeMontanha(props: IconeProps) {
     </svg>
   )
 }
+
+export function IconeCasa(props: IconeProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M4 10.5L12 4l8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z" />
+    </svg>
+  )
+}
+
+export function IconeInfo(props: IconeProps) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 11v5M12 7.5v.5" />
+    </svg>
+  )
+}
+
+export function IconeConversa(props: IconeProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l.9-4.4A8 8 0 1 1 20 12z" />
+    </svg>
+  )
+}
+
+export function IconeLupa(props: IconeProps) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="11" cy="11" r="6.5" />
+      <path d="M16 16l4 4" />
+    </svg>
+  )
+}
+
+export function IconeNivel(props: IconeProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M5 19v-4M12 19V10M19 19V5" />
+    </svg>
+  )
+}

@@ -67,10 +67,10 @@ export function SecaoCalculadoraNivel({ roteiros, aoExplorar }: SecaoCalculadora
   const quantosCabem = avaliados.filter((a) => a.cabe).length
 
   return (
-    <section id="nivel" className="scroll-mt-16 bg-mata-800 py-16 sm:py-24" aria-labelledby="titulo-nivel">
+    <section id="nivel" className="scroll-mt-16 bg-mata-800 py-12 sm:py-16" aria-labelledby="titulo-nivel">
       <Container className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
         <div>
-          <h2 id="titulo-nivel" className="font-display text-4xl font-bold uppercase leading-none sm:text-6xl">
+          <h2 id="titulo-nivel" className="font-display text-4xl font-semibold uppercase italic leading-none sm:text-6xl">
             Qual viagem cabe nas suas pernas?
           </h2>
           <p className="mt-4 text-lg text-areia-400">Conte como é um bom dia de pedal para você hoje.</p>
@@ -125,7 +125,7 @@ export function SecaoCalculadoraNivel({ roteiros, aoExplorar }: SecaoCalculadora
                 <button
                   type="button"
                   onClick={() => aoExplorar(roteiro.id)}
-                  className="rounded-full border border-areia-400/50 px-4 py-2.5 text-sm font-semibold transition-colors hover:border-trilha-500 hover:text-trilha-500"
+                  className="rounded-lg border border-areia-400/50 px-4 py-2.5 text-sm font-semibold transition-colors hover:border-trilha-500 hover:text-trilha-500"
                 >
                   Ver no explorador
                 </button>

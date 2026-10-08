@@ -5,6 +5,7 @@ export const ROTAS = {
   sobre: '/sobre',
   contato: '/contato',
   minhaConta: '/minha-conta',
+  cadastro: '/cadastro',
   admEntrar: '/adm/entrar',
   admPainel: '/adm',
   admRoteiros: '/adm/roteiros',
