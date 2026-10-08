@@ -48,6 +48,7 @@ class SegurancaConfig {
 				.formLogin(form -> form.disable())
 				.authorizeHttpRequests(regras -> regras
 						.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+						.requestMatchers(HttpMethod.GET, "/api/roteiros", "/api/roteiros/**").permitAll()
 						.requestMatchers("/api/adm/**").hasRole(Papeis.ADM)
 						.requestMatchers("/docs", "/docs/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
 						.requestMatchers("/actuator/health", "/actuator/health/**", "/error").permitAll()
