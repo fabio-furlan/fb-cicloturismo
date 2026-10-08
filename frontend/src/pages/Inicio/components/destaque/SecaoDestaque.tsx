@@ -3,7 +3,7 @@ import { IconeCama, IconeGrupo, IconeGuia, IconeSeta, IconeVan } from '@/compone
 import { Container } from '@/components/ui/Container'
 import { niveis, ordemNiveis } from '@/config/niveis'
 import { paisagens } from '@/config/paisagens'
-import type { Nivel, Paisagem } from '@/types/roteiro'
+import type { Nivel, Paisagem, Roteiro } from '@/types/roteiro'
 import { formatarMesAno } from '@/utils/formatacao'
 import { type FiltrosViagem, mesesComSaida } from '@/utils/saidas'
 
@@ -40,12 +40,13 @@ const classeSelect =
   'min-h-8 w-full cursor-pointer appearance-none bg-transparent pr-6 text-base font-semibold text-areia-100 [&>option]:text-mata-950'
 
 interface SecaoDestaqueProps {
+  roteiros: Roteiro[]
   filtros: FiltrosViagem
   aoBuscar: (filtros: FiltrosViagem) => void
 }
 
 /** Topo da página inicial: foto em tela cheia, a proposta da empresa e a busca de viagens. */
-export function SecaoDestaque({ filtros, aoBuscar }: SecaoDestaqueProps) {
+export function SecaoDestaque({ roteiros, filtros, aoBuscar }: SecaoDestaqueProps) {
   const [rascunho, setRascunho] = useState(filtros)
 
   const buscar = (evento: FormEvent) => {
@@ -106,7 +107,7 @@ export function SecaoDestaque({ filtros, aoBuscar }: SecaoDestaqueProps) {
                 className={classeSelect}
               >
                 <option value="">Qualquer mês</option>
-                {mesesComSaida.map((m) => (
+                {mesesComSaida(roteiros).map((m) => (
                   <option key={m} value={m}>
                     {formatarMesAno(m)}
                   </option>
