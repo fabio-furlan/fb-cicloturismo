@@ -5,6 +5,9 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: validate
+    properties:
+      # Carrega etapas, imagens e opcionais de vários roteiros e saídas numa consulta só, em vez de uma por item.
+      hibernate.default_batch_fetch_size: 50
   docker:
     compose:
       lifecycle-management: start-only

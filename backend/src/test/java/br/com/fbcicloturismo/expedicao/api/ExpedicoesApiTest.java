@@ -1,6 +1,7 @@
 package br.com.fbcicloturismo.expedicao.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.anonymous;
 
 import br.com.fbcicloturismo.TestcontainersConfiguration;
 import com.jayway.jsonpath.JsonPath;
@@ -14,6 +15,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.convention.TestBean;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
@@ -21,15 +23,16 @@ import org.springframework.test.web.servlet.assertj.MvcTestResult;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * A API do ADM de ponta a ponta: JSON de entrada, validação, casos de uso, banco real e respostas de erro em Problem
- * Details. "Hoje" é 20/11/2026. As requisições são de um ADM já autenticado; o login é testado à parte.
+ * A API de expedições de ponta a ponta, do ADM e do site: JSON de entrada, validação, casos de uso, banco real e respostas de erro em Problem
+ * Details. "Hoje" é 20/11/2026. Por padrão as requisições são de um ADM já autenticado (o login é testado à parte); as do site são
+ * anônimas.
  */
 @SpringBootTest
 @AutoConfigureMockMvc
 @Import(TestcontainersConfiguration.class)
 @Transactional
 @WithMockUser(roles = "ADM")
-class AdmExpedicoesApiTest {
+class ExpedicoesApiTest {
 
 	private static final String ROTEIRO = """
 			{
@@ -163,6 +166,34 @@ class AdmExpedicoesApiTest {
 
 		assertThat(mvc.delete().uri("/api/adm/saidas/%d".formatted(saidaId)).exchange())
 				.hasStatus(HttpStatus.UNPROCESSABLE_CONTENT);
+	}
+
+	@Test
+	@WithAnonymousUser
+	void visitanteNaoAcessaOAdm() {
+		assertThat(mvc.get().uri("/api/adm/saidas").exchange()).hasStatus(HttpStatus.UNAUTHORIZED);
+	}
+
+	@Test
+	void visitanteVeSoRoteirosComSaidasPublicadas() throws Exception {
+		long saidaId = criarSaida(criarRoteiro());
+
+		assertThat(comoVisitante("/api/roteiros")).hasStatusOk().bodyJson().extractingPath("$").asArray().isEmpty();
+		assertThat(comoVisitante("/api/roteiros/aparecida-do-norte")).hasStatus(HttpStatus.NOT_FOUND);
+
+		post("/api/adm/saidas/%d/publicar".formatted(saidaId), "");
+
+		var catalogo = comoVisitante("/api/roteiros");
+		assertThat(catalogo).hasStatusOk().bodyJson().extractingPath("$[0].slug").isEqualTo("aparecida-do-norte");
+		assertThat(catalogo).bodyJson().extractingPath("$[0].saidas[0].vagasRestantes").isEqualTo(12);
+		assertThat(catalogo).bodyJson().extractingPath("$[0].saidas[0].status").isEqualTo("ABERTA");
+		assertThat(catalogo).bodyJson().doesNotHavePath("$[0].saidas[0].capacidade");
+		assertThat(comoVisitante("/api/roteiros/aparecida-do-norte")).hasStatusOk();
+	}
+
+	/** GET anônimo, como um visitante do site, sem afetar o ADM autenticado das outras requisições do teste. */
+	private MvcTestResult comoVisitante(String uri) {
+		return mvc.get().uri(uri).with(anonymous()).exchange();
 	}
 
 }
