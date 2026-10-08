@@ -12,7 +12,7 @@ export function Rodape() {
   const { contato } = empresa
 
   return (
-    <footer className="bg-night-900 text-sm text-white/70">
+    <footer className="bg-mata-950 text-sm text-white/70">
       <Container className="grid gap-10 py-12 sm:grid-cols-2 sm:py-14 lg:grid-cols-3">
         <div className="space-y-4 sm:col-span-2 lg:col-span-1">
           <Logo />
@@ -23,7 +23,7 @@ export function Rodape() {
           <ul className="space-y-2">
             {linksNavegacao.map(({ rota, rotulo }) => (
               <li key={rota}>
-                <Link to={rota} className="transition-colors hover:text-amber-400">
+                <Link to={rota} className="transition-colors hover:text-trilha-500">
                   {rotulo}
                 </Link>
               </li>
@@ -34,24 +34,24 @@ export function Rodape() {
         <ColunaRodape titulo="Contato">
           <ul className="space-y-3">
             <li className="flex items-center gap-2">
-              <IconeEmail className="h-4 w-4 shrink-0 text-amber-400" />
-              <a href={`mailto:${contato.email}`} className="break-all transition-colors hover:text-amber-400">
+              <IconeEmail className="h-4 w-4 shrink-0 text-trilha-500" />
+              <a href={`mailto:${contato.email}`} className="break-all transition-colors hover:text-trilha-500">
                 {contato.email}
               </a>
             </li>
             <li className="flex items-center gap-2">
-              <IconeTelefone className="h-4 w-4 shrink-0 text-amber-400" />
+              <IconeTelefone className="h-4 w-4 shrink-0 text-trilha-500" />
               {contato.telefone}
             </li>
             <li className="flex items-center gap-2">
-              <IconeLocal className="h-4 w-4 shrink-0 text-amber-400" />
+              <IconeLocal className="h-4 w-4 shrink-0 text-trilha-500" />
               {contato.cidade}
             </li>
           </ul>
         </ColunaRodape>
       </Container>
 
-      <div className="border-t border-white/10 bg-night-950">
+      <div className="border-t border-white/10 bg-black/25">
         <Container className="py-5 text-center text-xs text-white/50">
           © {anoAtual} {empresa.nome}. Todos os direitos reservados.
         </Container>

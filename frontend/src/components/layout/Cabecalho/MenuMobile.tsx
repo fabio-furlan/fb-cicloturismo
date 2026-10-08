@@ -16,7 +16,7 @@ export function MenuMobile({ aberto, aoFechar }: MenuMobileProps) {
     <nav
       id="menu-mobile"
       aria-label="Menu principal"
-      className="h-[calc(100dvh-4rem)] overflow-y-auto border-t border-white/10 bg-night-900 md:hidden"
+      className="h-[calc(100dvh-4rem)] overflow-y-auto border-t border-white/10 bg-mata-900 md:hidden"
     >
       <ul className="flex flex-col px-4 py-4">
         {linksNavegacao.map(({ rota, rotulo }) => (

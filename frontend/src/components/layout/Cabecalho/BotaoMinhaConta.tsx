@@ -13,7 +13,7 @@ export function BotaoMinhaConta({ onClick, className = '' }: BotaoMinhaContaProp
     <Link
       to={ROTAS.minhaConta}
       onClick={onClick}
-      className={`inline-flex items-center justify-center gap-2 rounded-full bg-amber-500 px-5 py-2.5 text-sm font-bold text-night-950 transition-colors hover:bg-amber-400 ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-full border border-areia-100/40 px-5 py-2.5 text-sm font-semibold text-areia-100 transition-colors hover:border-trilha-500 hover:text-trilha-500 ${className}`}
     >
       <IconeUsuario className="h-4 w-4" />
       Minha conta
