@@ -1,5 +1,6 @@
 package br.com.fbcicloturismo.compartilhado.api;
 
+import br.com.fbcicloturismo.compartilhado.dominio.NaoAutenticadoException;
 import br.com.fbcicloturismo.compartilhado.dominio.RecursoNaoEncontradoException;
 import br.com.fbcicloturismo.compartilhado.dominio.RegraDeNegocioException;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
  */
 @RestControllerAdvice
 public class TratadorDeErros extends ResponseEntityExceptionHandler {
+
+	@ExceptionHandler
+	ProblemDetail naoAutenticado(NaoAutenticadoException e) {
+		return ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, e.getMessage());
+	}
 
 	@ExceptionHandler
 	ProblemDetail recursoNaoEncontrado(RecursoNaoEncontradoException e) {

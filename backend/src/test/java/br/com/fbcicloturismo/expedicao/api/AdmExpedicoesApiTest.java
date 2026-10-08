@@ -14,6 +14,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.convention.TestBean;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
 import org.springframework.test.web.servlet.assertj.MvcTestResult;
@@ -21,12 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * A API do ADM de ponta a ponta: JSON de entrada, validação, casos de uso, banco real e respostas de erro em Problem
- * Details. "Hoje" é 20/11/2026.
+ * Details. "Hoje" é 20/11/2026. As requisições são de um ADM já autenticado; o login é testado à parte.
  */
 @SpringBootTest
 @AutoConfigureMockMvc
 @Import(TestcontainersConfiguration.class)
 @Transactional
+@WithMockUser(roles = "ADM")
 class AdmExpedicoesApiTest {
 
 	private static final String ROTEIRO = """
