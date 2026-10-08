@@ -8,7 +8,11 @@ export const ROTAS = {
   admEntrar: '/adm/entrar',
   admPainel: '/adm',
   admRoteiros: '/adm/roteiros',
+  admNovoRoteiro: '/adm/roteiros/novo',
 } as const
 
 /** Página de uma saída no painel do ADM. */
 export const rotaSaidaAdm = (id: number) => `/adm/saidas/${id}`
+
+/** Edição de um roteiro no painel do ADM. */
+export const rotaRoteiroAdm = (id: number) => `/adm/roteiros/${id}`

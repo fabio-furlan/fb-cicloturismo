@@ -1,4 +1,4 @@
-import type { GrupoOpcional, StatusSaida } from '@/types/adm'
+import type { Destino, GrupoOpcional, Modalidade, NivelRoteiro, PaisagemRoteiro, StatusSaida } from '@/types/adm'
 
 const data = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'UTC' })
 const diaMes = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', timeZone: 'UTC' })
@@ -47,3 +47,15 @@ export const gruposOpcional: Record<GrupoOpcional, { rotulo: string; ajuda: stri
   EQUIPAMENTO: { rotulo: 'Equipamento', ajuda: 'Pode somar várias (aluguel de bike, alforjes).' },
   SERVICO: { rotulo: 'Serviço', ajuda: 'Pode somar vários (transfer, seguro).' },
 }
+
+export const modalidades: Record<Modalidade, string> = { MTB: 'MTB', SPEED: 'Speed', GRAVEL: 'Gravel', MISTA: 'Mista' }
+
+export const destinos: Record<Destino, string> = { NACIONAL: 'Nacional', INTERNACIONAL: 'Internacional' }
+
+export const niveisRoteiro: Record<NivelRoteiro, string> = {
+  RECREATIVO: 'Recreativo',
+  INTERMEDIARIO: 'Intermediário',
+  AVANCADO: 'Avançado',
+}
+
+export const paisagensRoteiro: Record<PaisagemRoteiro, string> = { SERRA: 'Serra', VALE: 'Vales e colônias', FE: 'Caminhos de fé' }

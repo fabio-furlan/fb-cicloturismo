@@ -2,57 +2,13 @@ import { type FormEvent, useId, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { ROTAS, rotaSaidaAdm } from '@/constants/rotas'
 import type { GrupoOpcional, SaidaAdm } from '@/types/adm'
-import { Aviso, Botao, Campo, CarregandoAdm, Cartao, ErroAoCarregar, SeloStatus } from './componentes'
+import { AcaoConfirmada, Aviso, Botao, Campo, CarregandoAdm, Cartao, ErroAoCarregar, SeloStatus } from './componentes'
 import { FormularioSaida } from './FormularioSaida'
 import { formatarPeriodo, formatarReais, gruposOpcional } from './formato'
 import { useApiAdm } from './sessao/contexto'
 import { useRecurso } from './useRecurso'
 
 type Mensagem = { tipo: 'erro' | 'sucesso'; texto: string } | null
-
-/** Ação que não tem volta: o primeiro clique só pede confirmação, na própria página. */
-function AcaoConfirmada({ rotulo, pergunta, confirmar, aoConfirmar }: {
-  rotulo: string
-  pergunta: string
-  confirmar: string
-  aoConfirmar: () => Promise<void>
-}) {
-  const [aberta, setAberta] = useState(false)
-  const [executando, setExecutando] = useState(false)
-
-  if (!aberta) {
-    return (
-      <Botao variante="perigo" onClick={() => setAberta(true)}>
-        {rotulo}
-      </Botao>
-    )
-  }
-  return (
-    <div className="w-full rounded-xl border border-alerta-600/60 bg-alerta-600/10 p-4" role="group" aria-label={pergunta}>
-      <p className="text-sm font-semibold">{pergunta}</p>
-      <div className="mt-3 flex flex-wrap gap-3">
-        <Botao
-          variante="perigo"
-          carregando={executando}
-          onClick={async () => {
-            setExecutando(true)
-            try {
-              await aoConfirmar()
-            } finally {
-              setExecutando(false)
-              setAberta(false)
-            }
-          }}
-        >
-          {confirmar}
-        </Botao>
-        <Botao variante="secundario" onClick={() => setAberta(false)} disabled={executando}>
-          Voltar
-        </Botao>
-      </div>
-    </div>
-  )
-}
 
 function Opcionais({ saida, aoAtualizar }: { saida: SaidaAdm; aoAtualizar: (saida: SaidaAdm) => void }) {
   const api = useApiAdm()

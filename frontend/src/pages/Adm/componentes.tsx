@@ -1,4 +1,4 @@
-import { type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode, useId } from 'react'
+import { type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode, type TextareaHTMLAttributes, useId, useState } from 'react'
 import type { StatusSaida } from '@/types/adm'
 import { statusSaida } from './formato'
 
@@ -102,6 +102,101 @@ export function ErroAoCarregar({ mensagem, aoTentarDeNovo }: { mensagem: string;
       <Botao variante="secundario" onClick={aoTentarDeNovo}>
         Tentar de novo
       </Botao>
+    </div>
+  )
+}
+
+/** Ação que não tem volta: o primeiro clique só pede confirmação, na própria página. */
+export function AcaoConfirmada({ rotulo, pergunta, confirmar, aoConfirmar }: {
+  rotulo: string
+  pergunta: string
+  confirmar: string
+  aoConfirmar: () => Promise<void>
+}) {
+  const [aberta, setAberta] = useState(false)
+  const [executando, setExecutando] = useState(false)
+
+  if (!aberta) {
+    return (
+      <Botao variante="perigo" onClick={() => setAberta(true)}>
+        {rotulo}
+      </Botao>
+    )
+  }
+  return (
+    <div className="w-full rounded-xl border border-alerta-600/60 bg-alerta-600/10 p-4" role="group" aria-label={pergunta}>
+      <p className="text-sm font-semibold">{pergunta}</p>
+      <div className="mt-3 flex flex-wrap gap-3">
+        <Botao
+          variante="perigo"
+          carregando={executando}
+          onClick={async () => {
+            setExecutando(true)
+            try {
+              await aoConfirmar()
+            } finally {
+              setExecutando(false)
+              setAberta(false)
+            }
+          }}
+        >
+          {confirmar}
+        </Botao>
+        <Botao variante="secundario" onClick={() => setAberta(false)} disabled={executando}>
+          Voltar
+        </Botao>
+      </div>
+    </div>
+  )
+}
+
+const classeControle =
+  'mt-1.5 w-full rounded-xl border border-white/15 bg-mata-950/60 px-3.5 text-base text-areia-100 placeholder:text-areia-400/60 [color-scheme:dark] focus:border-trilha-500 focus:outline-none'
+
+interface SelecaoProps<T extends string> {
+  rotulo: string
+  valor: T
+  opcoes: Record<T, string>
+  aoMudar: (valor: T) => void
+  className?: string
+}
+
+export function Selecao<T extends string>({ rotulo, valor, opcoes, aoMudar, className = '' }: SelecaoProps<T>) {
+  const id = useId()
+  return (
+    <div className={className}>
+      <label htmlFor={id} className="block text-sm font-semibold text-areia-100">
+        {rotulo}
+      </label>
+      <select id={id} value={valor} onChange={(e) => aoMudar(e.target.value as T)} className={`${classeControle} min-h-11 px-3`}>
+        {(Object.keys(opcoes) as T[]).map((opcao) => (
+          <option key={opcao} value={opcao}>
+            {opcoes[opcao]}
+          </option>
+        ))}
+      </select>
+    </div>
+  )
+}
+
+interface AreaTextoProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  rotulo: string
+  ajuda?: ReactNode
+}
+
+export function AreaTexto({ rotulo, ajuda, className = '', ...resto }: AreaTextoProps) {
+  const id = useId()
+  return (
+    <div className={className}>
+      <label htmlFor={id} className="block text-sm font-semibold text-areia-100">
+        {rotulo}
+      </label>
+      <textarea id={id} {...resto} aria-describedby={ajuda ? `${id}-ajuda` : undefined} className={`${classeControle} py-2.5`} />
+      {ajuda && (
+        <div id={`${id}-ajuda`} className="mt-1 text-xs text-areia-400">
+          {ajuda}
+        </div>
+      )}
     </div>
   )
 }
