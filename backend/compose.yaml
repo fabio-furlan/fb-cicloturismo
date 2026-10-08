@@ -1,0 +1,16 @@
+# Banco local. Com o Docker Desktop aberto, o Spring Boot sobe este serviço sozinho ao iniciar a aplicação
+# (spring-boot-docker-compose) e configura a conexão a partir dele.
+services:
+  postgres:
+    image: 'postgres:17-alpine'
+    environment:
+      - 'POSTGRES_DB=cicloturismo'
+      - 'POSTGRES_USER=cicloturismo'
+      - 'POSTGRES_PASSWORD=cicloturismo'
+    ports:
+      - '5432:5432'
+    volumes:
+      - 'dados-postgres:/var/lib/postgresql/data'
+
+volumes:
+  dados-postgres:
