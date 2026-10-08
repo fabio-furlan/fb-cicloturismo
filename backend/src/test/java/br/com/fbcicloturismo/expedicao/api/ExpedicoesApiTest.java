@@ -137,6 +137,8 @@ class ExpedicoesApiTest {
 
 		assertThat(resposta).hasStatus(HttpStatus.BAD_REQUEST)
 				.hasContentTypeCompatibleWith(MediaType.APPLICATION_PROBLEM_JSON);
+		assertThat(resposta).bodyJson().extractingPath("$.campos[*].campo").asArray().contains("titulo", "dias");
+		assertThat(resposta).bodyJson().extractingPath("$.detail").asString().startsWith("Confira os campos.").contains("titulo");
 	}
 
 	@Test

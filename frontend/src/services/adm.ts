@@ -1,4 +1,4 @@
-import type { DadosSaida, NovoOpcional, PeriodoSaida, ResumoSaida, RoteiroAdm, SaidaAdm, TokenEmitido } from '@/types/adm'
+import type { DadosRoteiro, DadosSaida, NovoOpcional, PeriodoSaida, ResumoSaida, RoteiroAdm, SaidaAdm, TokenEmitido } from '@/types/adm'
 import { ErroApi, requisitar } from './api'
 
 export const entrar = (email: string, senha: string) =>
@@ -32,6 +32,11 @@ export function criarApiAdm(token: string, aoPerderAcesso: () => void) {
     removerOpcional: (id: number, opcionalId: number) =>
       chamar<SaidaAdm>(`/api/adm/saidas/${id}/opcionais/${opcionalId}`, { metodo: 'DELETE' }),
     roteiros: (sinal?: AbortSignal) => chamar<RoteiroAdm[]>('/api/adm/roteiros', { sinal }),
+    roteiro: (id: number, sinal?: AbortSignal) => chamar<RoteiroAdm>(`/api/adm/roteiros/${id}`, { sinal }),
+    criarRoteiro: (dados: DadosRoteiro) => chamar<RoteiroAdm>('/api/adm/roteiros', { metodo: 'POST', corpo: dados }),
+    atualizarRoteiro: (id: number, dados: DadosRoteiro) =>
+      chamar<RoteiroAdm>(`/api/adm/roteiros/${id}`, { metodo: 'PUT', corpo: dados }),
+    excluirRoteiro: (id: number) => chamar<void>(`/api/adm/roteiros/${id}`, { metodo: 'DELETE' }),
     saidasDoRoteiro: (roteiroId: number, sinal?: AbortSignal) =>
       chamar<ResumoSaida[]>(`/api/adm/roteiros/${roteiroId}/saidas`, { sinal }),
     criarSaida: (roteiroId: number, dados: DadosSaida) =>

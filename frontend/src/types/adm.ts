@@ -66,16 +66,51 @@ export interface SaidaAdm {
   opcionais: Opcional[]
 }
 
-/** O que a lista de roteiros do ADM usa de GET /api/adm/roteiros. */
-export interface RoteiroAdm {
-  id: number
-  slug: string
+export type Modalidade = 'MTB' | 'SPEED' | 'GRAVEL' | 'MISTA'
+export type Destino = 'NACIONAL' | 'INTERNACIONAL'
+export type NivelRoteiro = 'RECREATIVO' | 'INTERMEDIARIO' | 'AVANCADO'
+export type PaisagemRoteiro = 'SERRA' | 'VALE' | 'FE'
+export type TipoImagem = 'BANNER' | 'GALERIA'
+
+export interface EtapaRoteiro {
+  dia: number
+  titulo: string
+  distanciaKm: number
+  subidaM?: number | null
+}
+
+export interface ImagemRoteiro {
+  tipo: TipoImagem
+  url: string
+  /** Texto alternativo, para leitores de tela. */
+  descricao: string
+  autor?: string | null
+  origem?: string | null
+}
+
+/** O corpo de POST /api/adm/roteiros e PUT /api/adm/roteiros/{id}. A distância total é calculada pela API. */
+export interface DadosRoteiro {
   titulo: string
   regiao: string
+  descricao: string
+  modalidade: Modalidade
+  destino: Destino
+  nivel: NivelRoteiro
+  paisagem: PaisagemRoteiro
   dias: number
-  distanciaKm: number
   subidaTotalM: number
-  nivel: 'RECREATIVO' | 'INTERMEDIARIO' | 'AVANCADO'
+  altitudes: number[]
+  etapas: EtapaRoteiro[]
+  imagens: ImagemRoteiro[]
+}
+
+/** Um roteiro como o ADM o vê: GET /api/adm/roteiros e GET /api/adm/roteiros/{id}. */
+export interface RoteiroAdm extends DadosRoteiro {
+  id: number
+  slug: string
+  distanciaKm: number
+  criadoEm: string
+  atualizadoEm: string
 }
 
 export interface PeriodoSaida {
