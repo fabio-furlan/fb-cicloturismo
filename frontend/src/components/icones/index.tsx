@@ -62,3 +62,74 @@ export function IconeLocal(props: IconeProps) {
     </svg>
   )
 }
+
+export function IconeGuia(props: IconeProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M5 21V4M5 4h11l-2 4 2 4H5" />
+    </svg>
+  )
+}
+
+export function IconeVan(props: IconeProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M3 17V8a2 2 0 0 1 2-2h10l5 5v6h-2M3 17h2m4 0h6M15 6v5h5" />
+      <circle cx="7" cy="17" r="2" />
+      <circle cx="17" cy="17" r="2" />
+    </svg>
+  )
+}
+
+export function IconeCama(props: IconeProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M3 19V6M3 15h18v4M21 15v-3a3 3 0 0 0-3-3h-7v6" />
+      <circle cx="7" cy="11" r="2" />
+    </svg>
+  )
+}
+
+export function IconeGrupo(props: IconeProps) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="9" cy="8" r="3.5" />
+      <path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6M16 4.5a3.5 3.5 0 0 1 0 7M18 14c2.2.6 3.5 2.8 3.5 6" />
+    </svg>
+  )
+}
+
+export function IconeSeta(props: IconeProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M9 6l6 6-6 6" />
+    </svg>
+  )
+}
+
+export function IconeCalendario(props: IconeProps) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="3.5" y="5" width="17" height="15" rx="2" />
+      <path d="M3.5 10h17M8 3v4M16 3v4" />
+    </svg>
+  )
+}
+
+export function IconeRota(props: IconeProps) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="6" cy="18" r="2" />
+      <circle cx="18" cy="6" r="2" />
+      <path d="M8 18h7.5a3.5 3.5 0 0 0 0-7h-7a3.5 3.5 0 0 1 0-7H16" />
+    </svg>
+  )
+}
+
+export function IconeMontanha(props: IconeProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M2.5 20l7-12 4 6.5 2.5-3.5 5.5 9z" />
+    </svg>
+  )
+}

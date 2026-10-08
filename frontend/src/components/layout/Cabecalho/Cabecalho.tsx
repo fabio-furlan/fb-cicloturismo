@@ -34,7 +34,7 @@ export function Cabecalho() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-30 transition-colors duration-300 ${
-        transparente ? 'bg-gradient-to-b from-black/60 to-transparent' : 'bg-night-900 shadow-lg'
+        transparente ? 'bg-gradient-to-b from-black/60 to-transparent' : 'bg-mata-900 shadow-lg'
       }`}
     >
       <Container className="flex h-16 items-center justify-between md:h-20">

@@ -9,7 +9,7 @@ export function LayoutPrincipal() {
   const recuoDoCabecalho = pathname === ROTAS.inicio ? '' : 'pt-16 md:pt-20'
 
   return (
-    <div className="flex min-h-screen flex-col bg-stone-50 text-night-900">
+    <div className="flex min-h-screen flex-col">
       <Cabecalho />
       <main className={`flex-1 ${recuoDoCabecalho}`}>
         <Outlet />

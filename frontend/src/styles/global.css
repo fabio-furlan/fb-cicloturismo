@@ -1,18 +1,96 @@
 @import 'tailwindcss';
 
-@theme {
-  /* Tons terrosos e neutros: as fotos de natureza dão a cor, o âmbar destaca */
-  --color-night-950: #111512;
-  --color-night-900: #171c18;
-  --color-night-800: #222923;
-  --color-night-700: #313a33;
+@theme static {
+  /* Aventura em duas cores complementares:
+     trilha = laranja das marcações de trilha e da terra ao sol (a cor que chama atenção),
+     mata = verde profundo da mata fechada (fundos escuros), areia = poeira clara (seções claras e texto),
+     pedra = texto secundário sobre fundo claro */
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-transparent: transparent;
+  --color-current: currentColor;
 
-  --color-stone-50: #f8f6f1;
+  --color-mata-950: #0a1e1b;
+  --color-mata-900: #0f2a26;
+  --color-mata-800: #163631;
+  --color-mata-700: #24493f;
+  --color-mata-600: #356150;
 
-  --color-amber-400: #f3bd4f;
-  --color-amber-500: #eaa62a;
-  --color-amber-600: #d18f14;
+  --color-areia-50: #faf7f2;
+  --color-areia-100: #f3eee6;
+  --color-areia-200: #e4dccd;
+  --color-areia-400: #a9bbb1;
 
-  --font-display: 'Montserrat', system-ui, sans-serif;
-  --font-sans: 'Montserrat', system-ui, sans-serif;
+  --color-pedra-600: #5a645f;
+
+  --color-trilha-400: #ff8a52;
+  --color-trilha-500: #ff6b2c;
+  --color-trilha-700: #b8420f;
+
+  --color-salvia-400: #9cc29a;
+
+  --color-alerta-600: #c2361f;
+
+  /* Cores de inclinação, na convenção dos apps de ciclismo, afinadas com a paleta */
+  --color-rampa-descida: #7fb3c9;
+  --color-rampa-leve: #9cc29a;
+  --color-rampa-moderada: #f5c84c;
+  --color-rampa-forte: #ff8a3c;
+  --color-rampa-muito-forte: #ef4a3a;
+
+  --font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-sans: 'Barlow', system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    font-size: 106.25%; /* 17px: a Barlow fica pequena em 16px */
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-mata-900 font-sans text-areia-100 antialiased;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-trilha-500;
+  }
+
+  input[type='range'] {
+    accent-color: var(--color-trilha-500);
+  }
+}
+
+/* Ao trocar de roteiro no explorador, o perfil novo é desenhado da esquerda para a direita. */
+@keyframes revelar-perfil {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.revelar-perfil {
+  animation: revelar-perfil 0.9s cubic-bezier(0.45, 0, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .revelar-perfil {
+    animation: none;
+  }
+}
+
+/* Painel com acabamento de equipamento: borda fina, brilho de luz no topo e sombra profunda. */
+@utility painel {
+  border: 1px solid color-mix(in oklab, var(--color-areia-100) 10%, transparent);
+  background: linear-gradient(180deg, color-mix(in oklab, var(--color-mata-800) 94%, white), var(--color-mata-800));
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, white 7%, transparent),
+    0 24px 60px -32px rgb(0 0 0 / 0.85);
 }
