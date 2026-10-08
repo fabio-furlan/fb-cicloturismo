@@ -14,7 +14,7 @@ record SaidaRequest(
 		@NotNull LocalDate dataInicio,
 		@NotNull LocalDate dataFim,
 		@NotNull LocalDate inscricoesAte,
-		@Positive int capacidade,
+		@NotNull @Positive Integer capacidade,
 		@NotNull @PositiveOrZero @Digits(integer = 8, fraction = 2) BigDecimal precoBase) {
 
 	DadosSaida paraDados() {
