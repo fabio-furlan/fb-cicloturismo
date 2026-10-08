@@ -1,0 +1,10 @@
+# Só o pom.xml e o src entram na imagem; o resto atrasa o build ou vazaria arquivos locais.
+target/
+.idea/
+*.iml
+.mvn/
+mvnw
+mvnw.cmd
+compose.yaml
+HELP.md
+.env*
