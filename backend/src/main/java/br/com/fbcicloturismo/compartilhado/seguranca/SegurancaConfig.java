@@ -11,18 +11,22 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtTimestampValidator;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
@@ -39,7 +43,7 @@ class SegurancaConfig {
 	private static final Logger log = LoggerFactory.getLogger(SegurancaConfig.class);
 
 	@Bean
-	SecurityFilterChain filtrosDeSeguranca(HttpSecurity http) throws Exception {
+	SecurityFilterChain filtrosDeSeguranca(HttpSecurity http, ContasAtivas contas) throws Exception {
 		return http
 				.csrf(csrf -> csrf.disable())
 				.cors(Customizer.withDefaults())
@@ -53,8 +57,22 @@ class SegurancaConfig {
 						.requestMatchers("/docs", "/docs/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
 						.requestMatchers("/actuator/health", "/actuator/health/**", "/error").permitAll()
 						.anyRequest().authenticated())
-				.oauth2ResourceServer(servidor -> servidor.jwt(jwt -> jwt.jwtAuthenticationConverter(conversorDePapeis())))
+				.oauth2ResourceServer(servidor -> servidor.jwt(jwt -> jwt.jwtAuthenticationConverter(conversorDeToken(contas))))
 				.build();
+	}
+
+	/**
+	 * Transforma o token validado em autenticação, mas só se a conta dona dele ainda existir e estiver ativa. Sem isso,
+	 * um token vazado ou de uma conta apagada valeria até expirar. Responde 401 como qualquer token inválido.
+	 */
+	private static Converter<Jwt, AbstractAuthenticationToken> conversorDeToken(ContasAtivas contas) {
+		var papeis = conversorDePapeis();
+		return token -> {
+			if (!contas.estaAtiva(token.getSubject())) {
+				throw new InvalidBearerTokenException("A conta deste token foi removida ou desativada.");
+			}
+			return papeis.convert(token);
+		};
 	}
 
 	private static JwtAuthenticationConverter conversorDePapeis() {
