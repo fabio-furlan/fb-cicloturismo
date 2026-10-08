@@ -5,6 +5,9 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: validate
+    properties:
+      # Carrega etapas, imagens e opcionais de vários roteiros e saídas numa consulta só, em vez de uma por item.
+      hibernate.default_batch_fetch_size: 50
   docker:
     compose:
       lifecycle-management: start-only
@@ -30,3 +33,12 @@ springdoc:
 app:
   cors:
     origens-permitidas: ${APP_CORS_ORIGENS:http://localhost:5173}
+  jwt:
+    # Pelo menos 32 caracteres. Em branco, uma chave aleatória é gerada a cada início (só para desenvolvimento).
+    segredo: ${APP_JWT_SEGREDO:}
+    validade: ${APP_JWT_VALIDADE:8h}
+  # Primeiro administrador, criado só enquanto não houver nenhum.
+  admin-inicial:
+    email: ${APP_ADMIN_EMAIL:}
+    nome: ${APP_ADMIN_NOME:Administrador}
+    senha: ${APP_ADMIN_SENHA:}
