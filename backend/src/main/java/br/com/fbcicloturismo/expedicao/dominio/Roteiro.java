@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.OrderColumn;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -103,7 +104,10 @@ public class Roteiro {
 		this.altitudes = dados.altitudes().clone();
 		this.etapas.clear();
 		this.etapas.addAll(dados.etapas());
-		this.distanciaKm = dados.etapas().stream().map(Etapa::distanciaKm).reduce(BigDecimal.ZERO, BigDecimal::add);
+		this.distanciaKm = dados.etapas().stream()
+				.map(Etapa::distanciaKm)
+				.reduce(BigDecimal.ZERO, BigDecimal::add)
+				.setScale(1, RoundingMode.HALF_UP);
 		this.imagens.clear();
 		this.imagens.addAll(dados.imagens());
 	}

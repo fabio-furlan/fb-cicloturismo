@@ -13,6 +13,13 @@ class SlugsTest {
 	}
 
 	@Test
+	void cortaTitulosLongosSemTerminarEmHifen() {
+		String slug = Slugs.de("Travessia ".repeat(12));
+
+		assertThat(slug).hasSizeLessThanOrEqualTo(Slugs.TAMANHO_MAXIMO).doesNotEndWith("-");
+	}
+
+	@Test
 	void textoSemLetrasNemNumerosViraRoteiro() {
 		assertThat(Slugs.de("!!!")).isEqualTo("roteiro");
 	}
