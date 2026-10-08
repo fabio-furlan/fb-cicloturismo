@@ -50,6 +50,7 @@ src/
 │   │   ├── Inicio.tsx
 │   │   └── index.ts
 │   ├── Roteiros/  Sobre/  Contato/  MinhaConta/  NaoEncontrada/
+│   ├── Adm/                painel do ADM em /adm (login, saídas, roteiros), num pacote separado
 ├── services/               comunicação com a API (backend)
 ├── styles/global.css       Tailwind + tema (cores e fontes)
 └── types/                  tipos TypeScript compartilhados

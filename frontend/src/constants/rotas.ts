@@ -5,4 +5,10 @@ export const ROTAS = {
   sobre: '/sobre',
   contato: '/contato',
   minhaConta: '/minha-conta',
+  admEntrar: '/adm/entrar',
+  admPainel: '/adm',
+  admRoteiros: '/adm/roteiros',
 } as const
+
+/** Página de uma saída no painel do ADM. */
+export const rotaSaidaAdm = (id: number) => `/adm/saidas/${id}`
