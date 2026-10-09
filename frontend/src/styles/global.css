@@ -1,64 +1,115 @@
 @import 'tailwindcss';
 
+/* Variantes pela ALTURA da janela, para seções que precisam caber inteiras na tela (título e cartões juntos):
+   baixa = notebooks e celulares comuns; mini = notebooks pequenos com barra de favoritos e celulares baixos;
+   curta = só os celulares bem baixos (iPhone SE e parecidos), onde até o texto de apoio precisa sair. */
+@custom-variant baixa (@media (max-height: 860px));
+@custom-variant mini (@media (max-height: 700px));
+@custom-variant curta (@media (max-height: 600px));
+
 @theme static {
-  /* Aventura em duas cores complementares:
-     trilha = laranja das marcações de trilha e da terra ao sol (a cor que chama atenção),
-     mata = verde profundo da mata fechada (fundos escuros), areia = poeira clara (seções claras e texto),
-     pedra = texto secundário sobre fundo claro */
+  /* Cores do Brasil: vermelho (ação e destaque), sol (amarelo dos detalhes sobre fundo escuro) e verde (natureza),
+     sobre fundos que alternam entre o carvão (seções escuras) e o creme (seções claras); cinza = texto secundário */
   --color-*: initial;
   --color-white: #ffffff;
   --color-black: #000000;
   --color-transparent: transparent;
   --color-current: currentColor;
 
-  --color-mata-950: #0a1e1b;
-  --color-mata-900: #0f2a26;
-  --color-mata-800: #163631;
-  --color-mata-700: #24493f;
-  --color-mata-600: #356150;
+  --color-carvao-950: #111111;
+  --color-carvao-900: #1a1a1a;
+  --color-carvao-800: #242424;
+  --color-carvao-700: #2f2f2f;
+  --color-carvao-600: #3d3d3d;
 
-  --color-areia-50: #faf7f2;
-  --color-areia-100: #f3eee6;
-  --color-areia-200: #e4dccd;
-  --color-areia-400: #a9bbb1;
+  --color-creme-50: #fafaf8;
+  --color-creme-100: #f5f0eb;
+  --color-creme-200: #e6ddd2;
 
-  --color-pedra-600: #5a645f;
+  --color-cinza-400: #a8a29e;
+  --color-cinza-600: #6b6b6b;
 
-  --color-trilha-400: #f08c5c;
-  --color-trilha-500: #e8743f;
-  --color-trilha-700: #b8420f;
+  --color-vermelho-400: #e3324c;
+  --color-vermelho-500: #c8102e;
+  --color-vermelho-600: #a80d27;
+  --color-vermelho-700: #8a0a20;
 
-  --color-salvia-400: #9cc29a;
+  --color-sol-400: #f7b84a;
+  --color-sol-500: #f5a623;
+
+  --color-verde-50: #eef5ee;
+  --color-verde-400: #4caf72;
+  --color-verde-600: #1a6b3c;
 
   --color-alerta-600: #c2361f;
 
-  /* Cores de inclinação, na convenção dos apps de ciclismo, afinadas com a paleta */
+  /* Cores de inclinação, na convenção dos apps de ciclismo */
   --color-rampa-descida: #7fb3c9;
-  --color-rampa-leve: #9cc29a;
+  --color-rampa-leve: #4caf72;
   --color-rampa-moderada: #f5c84c;
   --color-rampa-forte: #ff8a3c;
   --color-rampa-muito-forte: #ef4a3a;
 
-  --font-display: 'Saira', 'Arial Narrow', sans-serif;
-  --font-sans: 'Barlow', system-ui, sans-serif;
+  --font-display: 'Montserrat', system-ui, sans-serif;
+  --font-sans: 'Lato', system-ui, sans-serif;
 }
 
 @layer base {
   html {
-    font-size: 106.25%; /* 17px: a Barlow fica pequena em 16px */
+    font-size: 93.75%; /* 15px no celular: letras proporcionais à tela pequena */
     scroll-behavior: smooth;
+    /* Altura do cabeçalho fixo: links internos e o encaixe da rolagem param logo abaixo dele */
+    --cabecalho: calc(4rem + 2px); /* h-16 + a borda de baixo */
+    scroll-padding-top: var(--cabecalho);
+  }
+
+  @media (width >= 40rem) {
+    html {
+      font-size: 100%;
+    }
+  }
+
+  @media (width >= 48rem) {
+    html {
+      --cabecalho: calc(5rem + 2px);
+    }
+  }
+
+  /* Camadas da página inicial: quanto cada divisão sobe por cima da anterior e o arredondado dos cantos.
+     Menos sobreposição em janelas baixas, para o conteúdo de cada divisão continuar cabendo na tela. */
+  html {
+    --sobreposicao: 2.5rem;
+    --raio-camada: 2rem;
+  }
+
+  @media (width >= 40rem) {
+    html {
+      --raio-camada: 3rem;
+    }
+  }
+
+  @media (max-height: 860px) {
+    html {
+      --sobreposicao: 1.75rem;
+    }
+  }
+
+  @media (max-height: 700px) {
+    html {
+      --sobreposicao: 1.25rem;
+    }
   }
 
   body {
-    @apply bg-mata-900 font-sans text-areia-100 antialiased;
+    @apply bg-carvao-900 font-sans text-creme-100 antialiased;
   }
 
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-trilha-500;
+    @apply outline-2 outline-offset-2 outline-vermelho-500;
   }
 
   input[type='range'] {
-    accent-color: var(--color-trilha-500);
+    accent-color: var(--color-vermelho-500);
   }
 }
 
@@ -88,8 +139,8 @@
 
 /* Painel com acabamento de equipamento: borda fina, brilho de luz no topo e sombra profunda. */
 @utility painel {
-  border: 1px solid color-mix(in oklab, var(--color-areia-100) 10%, transparent);
-  background: linear-gradient(180deg, color-mix(in oklab, var(--color-mata-800) 94%, white), var(--color-mata-800));
+  border: 1px solid color-mix(in oklab, var(--color-creme-100) 10%, transparent);
+  background: linear-gradient(180deg, color-mix(in oklab, var(--color-carvao-800) 94%, white), var(--color-carvao-800));
   box-shadow:
     inset 0 1px 0 color-mix(in oklab, white 7%, transparent),
     0 24px 60px -32px rgb(0 0 0 / 0.85);
@@ -110,15 +161,175 @@
   animation: balancar-seta 1.6s ease-in-out infinite;
 }
 
+/* Rolagem com charme: o conteúdo de cada divisão surge subindo quando ela entra na tela, um elemento depois do outro
+   (o atraso vem de --atraso; quem marca os elementos e liga a classe é o useRevelarAoRolar). */
+[data-revelar] {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.7s ease-out,
+    transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--atraso, 0ms);
+}
+
+[data-revelar][data-revelado] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Topo: a foto entra com um zoom lento e, ao rolar, anda mais devagar que o texto (parallax); o texto sobe e esmaece.
+   --progresso vai de 0 (topo à vista) a 1 (topo fora da tela). */
+@keyframes entrada-foto {
+  from {
+    transform: scale(1.18);
+  }
+  to {
+    transform: scale(1.04);
+  }
+}
+
+.entrada-foto {
+  animation: entrada-foto 2.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.parallax-foto {
+  transform: translateY(calc(var(--progresso, 0) * 18%));
+}
+
+.parallax-conteudo {
+  opacity: calc(1 - var(--progresso, 0) * 1.4);
+  transform: translateY(calc(var(--progresso, 0) * -70px));
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .balancar-seta {
+  [data-revelar] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .entrada-foto {
+    animation: none;
+    transform: scale(1.04);
+  }
+
+  .parallax-foto,
+  .parallax-conteudo {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Divisões da página inicial como camadas: cada uma desliza por cima da anterior, com cantos arredondados e sombra.
+   A anterior reserva no fim um espaço do tamanho da sobreposição (.espaco-sobreposicao), para nada ficar escondido. */
+.secao-sobreposta {
+  position: relative;
+  margin-top: calc(var(--sobreposicao) * -1);
+  border-top-left-radius: var(--raio-camada);
+  border-top-right-radius: var(--raio-camada);
+  overflow: clip;
+  box-shadow: 0 -28px 60px -30px rgb(0 0 0 / 0.55);
+}
+
+.espaco-sobreposicao {
+  height: var(--sobreposicao);
+  flex-shrink: 0;
+}
+
+/* Ao ser coberta pela próxima, a divisão recua: encolhe um pouco e arredonda os cantos (sem escurecer, para as
+   seções claras não ficarem acinzentadas). Animação ligada à rolagem, do próprio navegador; onde não houver
+   suporte, as camadas ficam paradas. */
+@keyframes recuar-ao-sair {
+  to {
+    transform: scale(0.93);
+    border-radius: var(--raio-camada);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .recuar-ao-sair {
+    transform-origin: 50% 100%;
+    animation: recuar-ao-sair linear both;
+    animation-timeline: view();
+    animation-range: exit 0% exit 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .recuar-ao-sair {
     animation: none;
   }
 }
 
-/* A Saira é variável na largura: um pouco condensada nos títulos e números, para caber bem e lembrar placar esportivo. */
-.font-display {
-  font-stretch: semi-condensed;
+/* Vitrine de saídas em tela cheia: a foto nova entra como uma cortina (da direita para a esquerda) com um zoom
+   lento, o texto sobe linha a linha (atraso em --atraso) e a linha do tempo mostra quanto falta para a próxima
+   (--duracao-vitrine; para quando a vitrine pausa). */
+@keyframes cortina-entrada {
+  from {
+    clip-path: inset(0 0 0 100%);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes cortina-foto {
+  from {
+    transform: scale(1.18);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes linha-sobe {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes linha-tempo {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.cortina-entrada {
+  animation: cortina-entrada 1.1s cubic-bezier(0.77, 0, 0.18, 1) both;
+}
+
+.cortina-foto {
+  animation: cortina-foto 1.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.linha-sobe {
+  animation: linha-sobe 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: var(--atraso, 0ms);
+}
+
+.linha-tempo {
+  transform-origin: left;
+  animation: linha-tempo var(--duracao-vitrine, 6s) linear both;
+}
+
+[data-pausado='true'] .linha-tempo {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .balancar-seta,
+  .cortina-entrada,
+  .cortina-foto,
+  .linha-sobe,
+  .linha-tempo {
+    animation: none;
+  }
 }
 
 /* Ciclista do logo: estica o braço direito e aponta. Com mouse (any-hover, que também cobre notebooks com tela

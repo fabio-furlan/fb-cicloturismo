@@ -15,7 +15,7 @@ function SaidasDoRoteiro({ roteiroId }: { roteiroId: number }) {
   const { estado, recarregar } = useRecurso((sinal) => api.saidasDoRoteiro(roteiroId, sinal), [api, roteiroId])
   if (estado.situacao === 'carregando') return <CarregandoAdm />
   if (estado.situacao === 'erro') return <ErroAoCarregar mensagem={estado.mensagem} aoTentarDeNovo={recarregar} />
-  if (estado.dados.length === 0) return <p className="text-sm text-areia-400">Este roteiro ainda não tem saídas.</p>
+  if (estado.dados.length === 0) return <p className="text-sm text-cinza-400">Este roteiro ainda não tem saídas.</p>
   return <TabelaSaidas saidas={estado.dados} mostrarRoteiro={false} />
 }
 
@@ -32,8 +32,8 @@ function LinhaRoteiro({ roteiro }: { roteiro: RoteiroAdm }) {
     <li className="py-5">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h2 className="font-display text-2xl font-semibold leading-tight">{roteiro.titulo}</h2>
-          <p className="text-sm text-areia-400">{roteiro.regiao}</p>
+          <h2 className="font-display text-xl font-extrabold uppercase leading-tight">{roteiro.titulo}</h2>
+          <p className="text-sm text-cinza-400">{roteiro.regiao}</p>
           <p className="mt-1 text-sm tabular-nums">
             {diasDePedal} · {formatarNumero(roteiro.distanciaKm)} km · {formatarNumero(roteiro.subidaTotalM)} m de subida ·{' '}
             {niveisRoteiro[roteiro.nivel]}
@@ -42,7 +42,7 @@ function LinhaRoteiro({ roteiro }: { roteiro: RoteiroAdm }) {
         <div className="flex flex-wrap gap-3">
           <Link
             to={rotaRoteiroAdm(roteiro.id)}
-            className="inline-flex min-h-11 items-center rounded-lg border border-areia-100/30 px-5 text-sm font-semibold hover:border-trilha-500 hover:text-trilha-400"
+            className="inline-flex min-h-11 items-center rounded-lg border border-creme-100/30 px-5 text-sm font-semibold hover:border-vermelho-500 hover:text-sol-400"
           >
             Editar<span className="sr-only"> {roteiro.titulo}</span>
           </Link>
@@ -61,7 +61,7 @@ function LinhaRoteiro({ roteiro }: { roteiro: RoteiroAdm }) {
         </div>
       )}
       {aberto === 'nova-saida' && (
-        <div className="mt-5 rounded-xl border border-white/10 bg-mata-950/40 p-5">
+        <div className="mt-5 rounded-xl border border-white/10 bg-carvao-950/40 p-5">
           <h3 className="mb-4 font-semibold">Nova saída de {roteiro.titulo}</h3>
           <FormularioSaida
             comVagasEPreco
@@ -89,12 +89,12 @@ export function Roteiros() {
     <div className="space-y-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="font-display text-4xl font-semibold sm:text-5xl">Roteiros</h1>
-          <p className="mt-1 text-areia-400">Escolha um roteiro para editar, ver as saídas dele ou abrir uma data nova.</p>
+          <h1 className="font-display text-3xl font-black uppercase sm:text-4xl">Roteiros</h1>
+          <p className="mt-1 text-cinza-400">Escolha um roteiro para editar, ver as saídas dele ou abrir uma data nova.</p>
         </div>
         <Link
           to={ROTAS.admNovoRoteiro}
-          className="inline-flex min-h-11 items-center rounded-lg bg-trilha-500 px-5 text-sm font-semibold text-mata-950 hover:bg-trilha-400"
+          className="inline-flex min-h-11 items-center rounded-full bg-vermelho-500 px-6 font-display text-[0.75rem] font-bold uppercase tracking-[0.08em] text-white hover:bg-vermelho-600"
         >
           Novo roteiro
         </Link>
@@ -104,7 +104,7 @@ export function Roteiros() {
       {estado.situacao === 'pronto' && (
         <Cartao>
           {estado.dados.length === 0 ? (
-            <p className="py-6 text-center text-areia-400">Nenhum roteiro cadastrado ainda.</p>
+            <p className="py-6 text-center text-cinza-400">Nenhum roteiro cadastrado ainda.</p>
           ) : (
             <ul className="-my-5 divide-y divide-white/10">
               {estado.dados.map((roteiro) => (

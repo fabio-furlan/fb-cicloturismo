@@ -11,7 +11,10 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-em%20breve-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
+![Java](https://img.shields.io/badge/Java-21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
+
+### 🌐 [Ver o site no ar](https://fb-cicloturismo.vercel.app)
 
 [Sobre](#-sobre-o-projeto) •
 [Demonstração](#-demonstração) •
@@ -22,7 +25,7 @@
 
 <br />
 
-<img src="docs/screenshots/desktop.png" alt="Página inicial do Fábio Cicloturismo no desktop" width="100%" />
+<img src="docs/screenshots/desktop.jpg" alt="Página inicial do Fábio Cicloturismo no computador" width="100%" />
 
 </div>
 
@@ -30,7 +33,7 @@
 
 ## 🚴 Sobre o projeto
 
-O **Fábio Cicloturismo** é uma plataforma de cicloturismo e viagens de bicicleta que conecta ciclistas e entusiastas de aventura a roteiros inesquecíveis. A ideia é unir o planejamento da viagem, a escolha do nível de pedal (do recreativo ao avançado) e a descoberta de destinos cênicos, com foco em conforto, superação e segurança.
+O **Fábio Cicloturismo** é uma plataforma de cicloturismo e viagens de bicicleta que conecta ciclistas e entusiastas de aventura a roteiros inesquecíveis. A ideia é unir o planejamento da viagem, a escolha do nível de pedal (do iniciante ao avançado) e a descoberta de destinos cênicos, com foco em conforto, superação e segurança.
 
 É um projeto de portfólio **full stack**, construído como um produto real:
 
@@ -42,18 +45,23 @@ O **Fábio Cicloturismo** é uma plataforma de cicloturismo e viagens de bicicle
 
 ## 📸 Demonstração
 
+**Veja rodando:** [fb-cicloturismo.vercel.app](https://fb-cicloturismo.vercel.app). O site publicado acompanha a branch
+`main`, então as novidades da `develop` aparecem lá quando entram numa nova versão.
+
 <table>
   <tr>
-    <th>Desktop</th>
-    <th>Celular (página inicial e menu)</th>
+    <th>Computador: próximas saídas</th>
+    <th>Celular: topo e próximas saídas</th>
   </tr>
   <tr>
-    <td><img src="docs/screenshots/desktop.png" alt="Versão desktop" width="520" /></td>
-    <td><img src="docs/screenshots/mobile.png" alt="Versão mobile com o menu aberto" width="360" /></td>
+    <td><img src="docs/screenshots/vitrine.jpg" alt="Vitrine das próximas saídas no computador" width="560" /></td>
+    <td><img src="docs/screenshots/mobile.png" alt="Topo e próximas saídas no celular" width="360" /></td>
   </tr>
 </table>
 
-> O cabeçalho fica **transparente sobre a foto** e ganha fundo sólido quando o usuário rola a página. No celular, o menu abre em tela cheia.
+> A página inicial é dividida em partes que **sobem umas sobre as outras como camadas**, com cantos arredondados. As
+> próximas saídas aparecem numa **vitrine em tela cheia**: a foto troca com um efeito de cortina e o texto sobe linha a
+> linha. Tudo é ajustado à altura da tela, do celular ao monitor grande.
 
 ---
 
@@ -61,14 +69,17 @@ O **Fábio Cicloturismo** é uma plataforma de cicloturismo e viagens de bicicle
 
 ### Já disponível
 
-- [x] Layout **responsivo** (mobile first): celular, tablet e desktop
-- [x] Cabeçalho com menu desktop e **menu mobile** (fecha com Esc e trava a rolagem da página)
-- [x] Rodapé com navegação e contato
-- [x] Botão **Minha conta**, que leva à futura área do cliente
+- [x] Layout **responsivo** (mobile first), testado em celulares, tablets, notebooks e monitores grandes
+- [x] **Identidade visual** em vermelho, amarelo e verde, com títulos em Montserrat e textos em Lato
+- [x] Cabeçalho transparente sobre a foto do topo, que fica branco ao rolar, e **menu mobile** em tela cheia
+- [x] Rodapé com navegação e contato, e páginas que sempre abrem no topo
 - [x] Rotas com **carregamento sob demanda** (lazy loading) e página 404
-- [x] Página inicial com **busca de viagens** por paisagem, mês e nível, e cartões das próximas saídas
-- [x] **Explorador de rota:** perfil altimétrico interativo, inclinação por trecho e simulação do percurso
+- [x] Página inicial com **busca de viagens** por paisagem, mês e nível
+- [x] **Vitrine das próximas saídas** em tela cheia, com troca automática, efeito de cortina e filtros por paisagem e mês
+- [x] **Faixa de números** do catálogo (roteiros, km de pedal, saídas abertas), com contagem animada
 - [x] **Calculadora de nível:** indica quais roteiros cabem no ritmo de quem visita
+- [x] **Rolagem animada:** partes da página em camadas, conteúdo que surge ao rolar e parallax na foto do topo
+- [x] **Explorador de rota:** perfil altimétrico interativo, inclinação por trecho e simulação do percurso
 - [x] **API do ADM:** cadastro de roteiros e saídas, publicação, cancelamento, duplicação para novas datas e opcionais
 - [x] **Login do ADM** com JWT e senhas em BCrypt
 - [x] **Catálogo público** da API, consumido pela página inicial
@@ -93,7 +104,7 @@ flowchart LR
     F -- "API REST (JSON)" --> B["<b>Backend</b><br/>Java + Spring Boot<br/><i>Render</i>"]
     B --> D[("<b>Banco de dados</b><br/>PostgreSQL<br/><i>Supabase</i>")]
 
-    classDef pronto fill:#eaa62a,stroke:#d18f14,color:#111512
+    classDef pronto fill:#c8102e,stroke:#8a0a20,color:#ffffff
     classDef planejado fill:#f8f6f1,stroke:#999,color:#333,stroke-dasharray:5 5
     class F,B,D pronto
 ```
@@ -121,8 +132,10 @@ flowchart LR
 | **Configuração centralizada** (`config/`, `constants/`) | Menu, dados de contato e caminhos das rotas ficam num lugar só. Mudar um telefone ou adicionar um item no menu é editar uma linha. |
 | **Lazy loading das páginas** | Cada página é baixada só quando o usuário entra nela, o que deixa o carregamento inicial mais leve. |
 | **Imports absolutos com `@/`** | `@/components/ui/Logo` em vez de `../../../components/ui/Logo`: mais legível e resistente a mudanças de pasta. |
-| **Hooks reutilizáveis** (`useRolagemPassou`, `useTravarRolagem`) | A lógica de comportamento fica separada da interface e pode ser reaproveitada. |
-| **Tema no Tailwind** (`@theme`) | Cores e fontes definidas como tokens (`night-*`, `amber-*`). Trocar a identidade visual é mudar um arquivo. |
+| **Hooks reutilizáveis** (`useRolagemPassou`, `useTravarRolagem`, `useRevelarAoRolar`, `useRolagemAoTopo`) | A lógica de comportamento fica separada da interface e pode ser reaproveitada. |
+| **Tema no Tailwind** (`@theme`) | Cores e fontes definidas como tokens (`vermelho-*`, `sol-*`, `verde-*`, `carvao-*`, `creme-*`). Trocar a identidade visual é mudar um arquivo. |
+| **Ajuste à altura da tela** | Além das larguras do Tailwind, há variantes pela altura da janela (`baixa`, `mini`, `curta`), e a vitrine calcula a própria altura para o título, os filtros e a faixa de números caberem juntos na tela, do notebook baixo ao monitor 2K. |
+| **Animações com respeito ao usuário** | Entradas, parallax e troca da vitrine usam CSS e animações ligadas à rolagem; quem pede "reduzir movimento" no sistema vê tudo parado. |
 | **Nomes em português** | O domínio do negócio é brasileiro. `Cabecalho`, `MinhaConta` e `linksNavegacao` deixam o código próximo da linguagem do produto. |
 | **Acessibilidade** | `aria-label`, `aria-expanded`, navegação por teclado (Esc) e textos para leitores de tela. |
 
@@ -215,7 +228,8 @@ Acesse **http://localhost:5173**. Sem configuração, o site usa dados de exempl
 
 ### Backend
 
-**Pré-requisitos:** JDK 21 e [Docker Desktop](https://www.docker.com/products/docker-desktop/) aberto.
+**Pré-requisitos:** JDK 21 (versões anteriores não rodam o projeto) e
+[Docker Desktop](https://www.docker.com/products/docker-desktop/) aberto.
 
 ```bash
 cd fb-cicloturismo/backend
@@ -227,6 +241,23 @@ APP_ADMIN_EMAIL=voce@exemplo.com APP_ADMIN_SENHA=uma-senha-longa ./mvnw spring-b
 # Testes (o Testcontainers usa o Docker)
 ./mvnw test
 ```
+
+<details>
+<summary><b>Windows, outro JDK instalado ou porta 8080 ocupada</b></summary>
+
+<br />
+
+Se o `JAVA_HOME` aponta para outra versão do Java, indique o JDK 21 só para este comando. Se a porta 8080 já estiver
+em uso (o Oracle, por exemplo, ocupa essa porta), suba a API em outra, como a 8081:
+
+```powershell
+cd fb-cicloturismo\backend
+$env:JAVA_HOME="C:\caminho\para\jdk-21"; $env:PORT="8081"; .\mvnw.cmd spring-boot:run
+```
+
+Nesse caso, aponte o frontend para a mesma porta em `frontend/.env.local`: `VITE_API_URL=http://localhost:8081`.
+
+</details>
 
 A documentação interativa da API (Swagger) fica em **http://localhost:8080/docs**. Para chamar as rotas do ADM, faça o
 login em `POST /api/auth/login` e cole o token em **Authorize**.
@@ -269,10 +300,10 @@ gitGraph
 ## 🗺️ Roadmap
 
 - [x] **Fase 1: Fundação do frontend.** Estrutura, layout responsivo, cabeçalho, rodapé e rotas.
-- [ ] **Fase 2: Catálogo.** Página inicial completa, listagem de roteiros com filtros e página de detalhes da viagem. *Em andamento: a página inicial está pronta e já lê a API.*
+- [ ] **Fase 2: Catálogo.** Página inicial completa, listagem de roteiros com filtros e página de detalhes da viagem. *Em andamento: a página inicial está pronta, com o novo visual, e já lê a API.*
 - [ ] **Fase 3: Backend.** API REST em Spring Boot com PostgreSQL (roteiros, clientes e reservas). *Em andamento: roteiros, saídas e login do ADM prontos; faltam clientes e reservas.*
 - [ ] **Fase 4: Área do cliente.** Login, cadastro, compra de passeios e histórico de reservas.
-- [ ] **Fase 5: Deploy.** Frontend na Vercel, API no Render e banco no Supabase, com link público para teste.
+- [ ] **Fase 5: Deploy.** Frontend na Vercel, API no Render e banco no Supabase, com link público para teste. *Em andamento: o site já está no ar em [fb-cicloturismo.vercel.app](https://fb-cicloturismo.vercel.app).*
 
 ---
 

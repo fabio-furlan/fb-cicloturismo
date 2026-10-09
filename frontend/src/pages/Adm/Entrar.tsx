@@ -37,17 +37,17 @@ export function Entrar() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-mata-900 px-4 py-16">
+    <main className="flex min-h-screen items-center justify-center bg-carvao-900 px-4 py-16">
       <div className="w-full max-w-sm">
         <div className="flex justify-center">
           <Logo />
         </div>
-        <form onSubmit={enviar} className="mt-10 space-y-5 rounded-2xl border border-white/10 bg-mata-800/60 p-6" aria-labelledby="titulo-entrar">
+        <form onSubmit={enviar} className="mt-10 space-y-5 rounded-2xl border border-white/10 bg-carvao-800/60 p-6" aria-labelledby="titulo-entrar">
           <div>
-            <h1 id="titulo-entrar" className="font-display text-3xl font-semibold">
+            <h1 id="titulo-entrar" className="font-display text-3xl font-black uppercase">
               Painel do ADM
             </h1>
-            <p className="mt-1 text-sm text-areia-400">Entre para gerenciar roteiros, saídas e vagas.</p>
+            <p className="mt-1 text-sm text-cinza-400">Entre para gerenciar roteiros, saídas e vagas.</p>
           </div>
           {motivoDaSaida && !erro && <Aviso tipo="erro">{motivoDaSaida}</Aviso>}
           <Campo rotulo="E-mail" type="email" autoComplete="username" required value={email} onChange={(e) => setEmail(e.target.value)} />

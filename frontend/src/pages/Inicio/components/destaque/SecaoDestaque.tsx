@@ -11,8 +11,10 @@ import {
   IconeVan,
 } from '@/components/icones'
 import { Container } from '@/components/ui/Container'
-import { useRolagemPassou } from '@/hooks/useRolagemPassou'
+import { Selo } from '@/components/ui/Selo'
+import { SetaSecao } from '@/components/ui/SetaSecao'
 import { niveis, ordemNiveis } from '@/config/niveis'
+import { revelar } from '@/hooks/useRevelarAoRolar'
 import { paisagens } from '@/config/paisagens'
 import type { Nivel, Paisagem, Roteiro } from '@/types/roteiro'
 import { formatarMesAno } from '@/utils/formatacao'
@@ -39,19 +41,19 @@ interface CampoProps {
 function Campo({ rotulo, icone: Icone, children }: CampoProps) {
   const id = useId()
   return (
-    <div className="relative flex min-w-0 flex-1 items-center gap-2 px-3 py-1.5 lg:py-0">
+    <div className="relative flex min-w-0 flex-1 items-center gap-2 rounded-xl bg-white/[0.06] px-3 py-1 lg:rounded-none lg:bg-transparent lg:py-0">
       <label htmlFor={id} className="sr-only">
         {rotulo}
       </label>
-      <Icone className="pointer-events-none h-4 w-4 shrink-0 text-trilha-500" />
+      <Icone className="pointer-events-none h-4 w-4 shrink-0 text-sol-500" />
       {children(id)}
-      <IconeSeta className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 rotate-90 text-areia-400" />
+      <IconeSeta className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 rotate-90 text-cinza-400" />
     </div>
   )
 }
 
 const classeSelect =
-  'h-9 w-full min-w-0 cursor-pointer appearance-none bg-transparent pr-5 text-sm font-semibold text-areia-100 [&>option]:text-mata-950'
+  'h-9 w-full min-w-0 cursor-pointer appearance-none bg-transparent pr-5 text-[0.8rem] font-semibold sm:text-sm text-creme-100 [&>option]:text-carvao-950'
 
 interface SecaoDestaqueProps {
   roteiros: Roteiro[]
@@ -62,20 +64,28 @@ interface SecaoDestaqueProps {
 /** Topo da página inicial: foto em tela cheia, a proposta da empresa e a busca de viagens. */
 export function SecaoDestaque({ roteiros, filtros, aoBuscar }: SecaoDestaqueProps) {
   const [rascunho, setRascunho] = useState(filtros)
-  const rolou = useRolagemPassou(60)
-  // O convite para rolar só aparece se o topo ocupa a tela toda, ou seja, se a próxima seção ainda não está à vista.
+
+  // Parallax: --progresso vai de 0 (topo inteiro à vista) a 1 (topo fora da tela) e move foto e texto em ritmos diferentes.
   const secaoRef = useRef<HTMLElement>(null)
-  const [topoCobreATela, setTopoCobreATela] = useState(true)
   useEffect(() => {
-    const medir = () => {
-      const fim = secaoRef.current?.getBoundingClientRect().bottom ?? 0
-      setTopoCobreATela(fim + window.scrollY > window.innerHeight - 24)
+    const secao = secaoRef.current
+    if (!secao) return
+    let quadro = 0
+    const atualizar = () => {
+      const progresso = Math.min(Math.max(window.scrollY / secao.offsetHeight, 0), 1)
+      secao.style.setProperty('--progresso', progresso.toFixed(3))
     }
-    medir()
-    window.addEventListener('resize', medir)
-    return () => window.removeEventListener('resize', medir)
+    const aoRolar = () => {
+      cancelAnimationFrame(quadro)
+      quadro = requestAnimationFrame(atualizar)
+    }
+    atualizar()
+    window.addEventListener('scroll', aoRolar, { passive: true })
+    return () => {
+      cancelAnimationFrame(quadro)
+      window.removeEventListener('scroll', aoRolar)
+    }
   }, [])
-  const mostrarConvite = topoCobreATela && !rolou
 
   const buscar = (evento: FormEvent) => {
     evento.preventDefault()
@@ -83,30 +93,37 @@ export function SecaoDestaque({ roteiros, filtros, aoBuscar }: SecaoDestaqueProp
   }
 
   return (
-    <section ref={secaoRef} className="relative isolate overflow-hidden pb-14 pt-24 sm:pt-28">
-      <img
-        src={fotoDestaque}
-        alt=""
-        className="absolute inset-0 -z-10 h-full w-full object-cover object-[68%_center]"
-        fetchPriority="high"
-      />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-mata-950/95 via-mata-950/60 to-mata-950/10" />
-      <div className="absolute inset-x-0 bottom-0 -z-10 h-1/3 bg-gradient-to-t from-mata-950/80 to-transparent" />
+    <section ref={secaoRef} id="topo" className="relative isolate flex min-h-[100svh] recuar-ao-sair flex-col overflow-clip pb-4 pt-[calc(var(--cabecalho)+1.5rem)] sm:pb-6 baixa:pb-3 baixa:pt-[calc(var(--cabecalho)+0.75rem)]">
+      {/* A foto entra com um zoom lento e anda mais devagar que o texto ao rolar */}
+      <div className="parallax-foto absolute inset-0 -z-10">
+        <img
+          src={fotoDestaque}
+          alt=""
+          className="entrada-foto h-full w-full object-cover object-[68%_center]"
+          fetchPriority="high"
+        />
+      </div>
+      <div className="absolute inset-0 -z-10 bg-black/50" />
+      <div className="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-gradient-to-t from-black/60 to-transparent" />
 
-      <Container>
-        <div className="max-w-3xl">
-          <h1 className="font-display text-5xl font-semibold uppercase italic leading-[0.92] text-balance sm:text-6xl lg:text-7xl">
-            Viagens de bicicleta guiadas pelo Brasil
-          </h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-areia-100/85 sm:text-lg">
-            Roteiros de 1 a 7 dias pelas serras do Sul, pelo Vale Europeu e pelo caminho da fé até Aparecida, com guia,
-            carro de apoio e pousada reservada.
-          </p>
+      {/* O texto surge em sequência e, ao rolar, sobe e esmaece */}
+      <Container className="parallax-conteudo flex flex-1 flex-col items-center justify-center text-center">
+        <div {...revelar(100)}>
+          <Selo>Viva o mundo com cicloturismo</Selo>
         </div>
+        <h1 {...revelar(250)} className="mt-5 font-display text-[1.6rem] font-black uppercase leading-[1] text-white [text-shadow:0_4px_24px_rgb(0_0_0/0.45)] sm:mt-6 sm:text-5xl sm:leading-[0.95] lg:text-6xl baixa:mt-4 baixa:lg:text-5xl mini:text-[1.5rem]! mini:sm:text-4xl!">
+          <span className="block">Viagens de bicicleta</span>
+          <span className="block text-sol-500">guiadas pelo Brasil</span>
+        </h1>
+        <p {...revelar(450)} className="mt-5 max-w-2xl text-base font-light leading-relaxed text-white/85 sm:mt-6 sm:text-lg baixa:mt-3 baixa:text-base max-sm:curta:hidden">
+          Roteiros de 1 a 7 dias pelas serras do Sul, pelo Vale Europeu e pelo caminho da fé até Aparecida, com guia,
+          carro de apoio e pousada reservada.
+        </p>
 
         <form
+          {...revelar(650)}
           onSubmit={buscar}
-          className="mt-9 flex max-w-3xl flex-col divide-y divide-white/10 rounded-2xl border border-white/15 bg-mata-950/55 p-1 shadow-[0_18px_50px_-24px_rgb(0_0_0/0.8)] backdrop-blur-md lg:flex-row lg:items-center lg:divide-x lg:divide-y-0 lg:rounded-xl lg:pl-2"
+          className="mt-6 grid w-full max-w-3xl grid-cols-2 gap-1 rounded-2xl border border-white/15 bg-black/45 p-1.5 text-left shadow-[0_18px_50px_-24px_rgb(0_0_0/0.8)] backdrop-blur-md sm:mt-9 lg:rounded-xl lg:pl-2 lg:flex lg:items-center lg:gap-0 lg:divide-x lg:divide-white/10 baixa:mt-5"
           aria-label="Buscar viagens"
         >
           <Campo rotulo="Paisagem" icone={IconeMontanha}>
@@ -160,10 +177,10 @@ export function SecaoDestaque({ roteiros, filtros, aoBuscar }: SecaoDestaqueProp
               </select>
             )}
           </Campo>
-          <div className="pt-1 lg:pl-1 lg:pt-0">
+          <div className="lg:pl-1">
             <button
               type="submit"
-              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-trilha-500 h-9 px-5 text-sm font-semibold text-mata-950 transition-colors hover:bg-trilha-400 lg:w-auto lg:rounded-lg"
+              className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-vermelho-500 px-6 font-display text-[0.8rem] font-bold uppercase tracking-[0.08em] text-white shadow-[0_6px_18px_-6px_rgb(200_16_46/0.8)] transition-colors hover:bg-vermelho-600 lg:w-auto"
             >
               <IconeLupa className="h-4 w-4" />
               Buscar
@@ -172,12 +189,12 @@ export function SecaoDestaque({ roteiros, filtros, aoBuscar }: SecaoDestaqueProp
         </form>
 
         {/* Informação discreta, com estilo diferente da busca para não parecer uma segunda barra */}
-        <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-[0.82rem] text-areia-100/75">
-          <span className="font-semibold text-areia-100/90">Incluso em todas as viagens:</span>
-          <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
+        <div {...revelar(850)} className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[0.85rem] text-white/80 baixa:mt-4 max-sm:curta:hidden">
+          <span className="font-bold text-white">Incluso em todas as viagens:</span>
+          <ul className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
             {inclusos.map(({ icone: Icone, texto }) => (
               <li key={texto} className="flex items-center gap-1.5">
-                <Icone className="h-4 w-4 text-trilha-400" />
+                <Icone className="h-4 w-4 text-sol-400" />
                 {texto}
               </li>
             ))}
@@ -185,21 +202,15 @@ export function SecaoDestaque({ roteiros, filtros, aoBuscar }: SecaoDestaqueProp
         </div>
       </Container>
 
-      {/* Convite para rolar: sem ele, o topo parece ser a página inteira. Fica preso na base da tela
-          (aparece em qualquer altura de janela) e some quando a pessoa começa a rolar. */}
-      <a
-        href="#saidas"
-        aria-hidden={!mostrarConvite}
-        tabIndex={mostrarConvite ? undefined : -1}
-        className={`group fixed bottom-4 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-1.5 text-sm font-semibold text-areia-100/85 transition-opacity duration-300 [text-shadow:0_1px_6px_rgb(0_0_0/0.5)] hover:text-areia-100 ${
-          mostrarConvite ? 'opacity-100' : 'pointer-events-none opacity-0'
-        }`}
-      >
-        Ver as próximas saídas
-        <span className="balancar-seta flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-mata-950/70 backdrop-blur-sm transition-colors group-hover:border-trilha-500 group-hover:bg-trilha-500 group-hover:text-mata-950">
-          <IconeSeta className="h-4 w-4 rotate-90" />
-        </span>
-      </a>
+      {/* Convite para a próxima divisão da página */}
+      {/* Dois elementos: o parallax e a entrada usam a mesma propriedade (transform) */}
+      <div className="parallax-conteudo">
+        <div {...revelar(1100)}>
+          <SetaSecao para="saidas" rotulo="Ver as próximas saídas" className="mt-8 baixa:mt-4" compacta />
+        </div>
+      </div>
+      {/* Espaço que a próxima divisão cobre ao subir por cima desta */}
+      <div className="espaco-sobreposicao" aria-hidden="true" />
     </section>
   )
 }

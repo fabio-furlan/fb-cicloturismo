@@ -97,11 +97,11 @@ function PreviaPerfil({ altitudes }: { altitudes: number[] }) {
   const pontos = altitudes.map((a, i) => `${(i / (altitudes.length - 1)) * 300},${58 - ((a - minima) / faixa) * 54}`).join(' ')
   return (
     <figure className="mt-3">
-      <svg viewBox="0 0 300 60" className="h-24 w-full rounded-xl bg-mata-950/60" preserveAspectRatio="none" role="img" aria-label="Prévia do perfil altimétrico">
-        <polyline points={`0,60 ${pontos} 300,60`} fill="color-mix(in oklab, var(--color-trilha-500) 25%, transparent)" stroke="none" />
-        <polyline points={pontos} fill="none" stroke="var(--color-trilha-500)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+      <svg viewBox="0 0 300 60" className="h-24 w-full rounded-xl bg-carvao-950/60" preserveAspectRatio="none" role="img" aria-label="Prévia do perfil altimétrico">
+        <polyline points={`0,60 ${pontos} 300,60`} fill="color-mix(in oklab, var(--color-vermelho-500) 25%, transparent)" stroke="none" />
+        <polyline points={pontos} fill="none" stroke="var(--color-vermelho-500)" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
       </svg>
-      <figcaption className="mt-1 text-xs text-areia-400 tabular-nums">
+      <figcaption className="mt-1 text-xs text-cinza-400 tabular-nums">
         {altitudes.length} pontos · de {formatarNumero(minima)} a {formatarNumero(maxima)} m
       </figcaption>
     </figure>
@@ -236,15 +236,15 @@ export function FormularioRoteiro({ inicial, rotuloBotao, aoEnviar }: Formulario
       <Cartao
         titulo="Etapas"
         acoes={
-          <p className="text-sm text-areia-400 tabular-nums" aria-live="polite">
-            Distância total: <span className="font-semibold text-areia-100">{formatarNumero(Math.round(distanciaTotal * 10) / 10)} km</span>
+          <p className="text-sm text-cinza-400 tabular-nums" aria-live="polite">
+            Distância total: <span className="font-semibold text-creme-100">{formatarNumero(Math.round(distanciaTotal * 10) / 10)} km</span>
           </p>
         }
       >
-        <p className="-mt-2 mb-4 text-sm text-areia-400">Um item por dia de pedal. Dias sem pedal não têm etapa. A distância do roteiro é a soma das etapas.</p>
+        <p className="-mt-2 mb-4 text-sm text-cinza-400">Um item por dia de pedal. Dias sem pedal não têm etapa. A distância do roteiro é a soma das etapas.</p>
         <ol className="space-y-4">
           {estado.etapas.map((etapa, i) => (
-            <li key={etapa.chave} className="rounded-xl border border-white/10 bg-mata-950/40 p-4">
+            <li key={etapa.chave} className="rounded-xl border border-white/10 bg-carvao-950/40 p-4">
               <div className="grid gap-4 sm:grid-cols-[6rem_minmax(0,1fr)_8rem_8rem]">
                 <Campo rotulo="Dia" type="number" min={1} step={1} required value={etapa.dia} onChange={(e) => mudarEtapa(etapa.chave, { dia: e.target.value })} />
                 <Campo
@@ -318,9 +318,9 @@ export function FormularioRoteiro({ inicial, rotuloBotao, aoEnviar }: Formulario
             onChange={(e) => mudar({ subidaTotalM: e.target.value })}
           />
           {subidaSugerida !== null && String(subidaSugerida) !== estado.subidaTotalM && (
-            <div className="self-end pb-1 text-sm text-areia-400">
-              Pelas altitudes: <span className="font-semibold text-areia-100 tabular-nums">{formatarNumero(subidaSugerida)} m</span>{' '}
-              <button type="button" onClick={() => mudar({ subidaTotalM: String(subidaSugerida) })} className="font-semibold text-trilha-400 hover:underline">
+            <div className="self-end pb-1 text-sm text-cinza-400">
+              Pelas altitudes: <span className="font-semibold text-creme-100 tabular-nums">{formatarNumero(subidaSugerida)} m</span>{' '}
+              <button type="button" onClick={() => mudar({ subidaTotalM: String(subidaSugerida) })} className="font-semibold text-sol-400 hover:underline">
                 Usar este valor
               </button>
             </div>
@@ -329,14 +329,14 @@ export function FormularioRoteiro({ inicial, rotuloBotao, aoEnviar }: Formulario
       </Cartao>
 
       <Cartao titulo="Fotos">
-        <p className="-mt-2 mb-4 text-sm text-areia-400">
-          Endereço de cada foto (por exemplo, <code className="text-areia-100">/images/roteiros/vale-europeu.jpg</code> para uma imagem do site). Um banner no
+        <p className="-mt-2 mb-4 text-sm text-cinza-400">
+          Endereço de cada foto (por exemplo, <code className="text-creme-100">/images/roteiros/vale-europeu.jpg</code> para uma imagem do site). Um banner no
           máximo: ele aparece no cartão do site.
         </p>
         {estado.imagens.length > 0 && (
           <ul className="space-y-4">
             {estado.imagens.map((imagem) => (
-              <li key={imagem.chave} className="rounded-xl border border-white/10 bg-mata-950/40 p-4">
+              <li key={imagem.chave} className="rounded-xl border border-white/10 bg-carvao-950/40 p-4">
                 <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_14rem]">
                   <div className="grid gap-4">
                     <div className="grid gap-4 sm:grid-cols-[12rem_minmax(0,1fr)]">
@@ -357,7 +357,7 @@ export function FormularioRoteiro({ inicial, rotuloBotao, aoEnviar }: Formulario
                     </div>
                   </div>
                   {imagem.url.trim() && (
-                    <img src={imagem.url.trim()} alt="" className="aspect-[16/10] w-full rounded-lg bg-mata-950 object-cover" />
+                    <img src={imagem.url.trim()} alt="" className="aspect-[16/10] w-full rounded-lg bg-carvao-950 object-cover" />
                   )}
                 </div>
                 <button
