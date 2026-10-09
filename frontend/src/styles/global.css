@@ -121,78 +121,139 @@
   font-stretch: semi-condensed;
 }
 
-/* Logo animado: as montanhas sobem a partir da base ao carregar a página (a de trás logo depois da da frente).
-   Ao passar o mouse, o símbolo sobe um pouco e gira em perspectiva, realçando o volume das faces, e volta ao sair. */
-@keyframes erguer-montanha {
-  from {
-    opacity: 0;
-    transform: scaleY(0.15);
-  }
-  to {
-    opacity: 1;
-    transform: scaleY(1);
-  }
+/* Ciclista do logo: estica o braço direito e aponta. Com mouse (any-hover, que também cobre notebooks com tela
+   sensível ao toque), acontece enquanto o mouse está sobre o logo ou a faixa; no celular, a cada toque (ciclista-apontando).
+   A origem da rotação é o ombro (21.4, 17.4 no viewBox do símbolo). */
+.ciclista-braco-apontar {
+  opacity: 0;
+  transform-origin: 21.4px 17.4px;
+  transform: rotate(75deg);
+  transition:
+    transform 0.35s cubic-bezier(0.3, 0.7, 0.3, 1.2),
+    opacity 0.15s;
 }
 
-.marca-erguer {
+.ciclista-braco-baixo {
+  transition: opacity 0.15s;
+}
+
+/* Parado, o ciclista fica colado no nome; ao apontar, dá um passinho para trás para abrir espaço para o braço. */
+.ciclista-corpo {
+  transition: transform 0.3s cubic-bezier(0.3, 0.7, 0.3, 1);
+}
+
+.ciclista-dedo {
   transform-box: fill-box;
-  transform-origin: 50% 100%;
-  animation: erguer-montanha 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
-.marca-erguer-tras {
-  animation-delay: 0.18s;
+@media (any-hover: hover) {
+  .group:hover .ciclista-braco-apontar {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
+
+  .group:hover .ciclista-braco-baixo {
+    opacity: 0;
+  }
+
+  .group:hover .ciclista-corpo {
+    transform: translateX(-10px);
+  }
+
+  /* Enquanto o mouse estiver em cima (do logo ou da faixa), o ciclista fica apontando sem parar: "é aqui, é aqui" */
+  .group:hover .ciclista-dedo {
+    animation: cutucar-insistente 0.45s ease-in-out 0.3s infinite;
+  }
 }
 
-.marca-girar {
-  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+.ciclista-apontando .ciclista-braco-apontar {
+  animation: apontar-uma-vez 1.8s cubic-bezier(0.3, 0.7, 0.3, 1) both;
 }
 
-.group:hover .marca-girar {
-  transform: translateY(-4px) perspective(160px) rotateY(-22deg) rotateX(6deg);
+.ciclista-apontando .ciclista-braco-baixo {
+  animation: esconder-braco 1.8s linear both;
 }
 
-/* Trilha até o cume: a máscara revela a trilha tracejada da base ao pico ao passar o mouse e a recolhe ao sair. */
-.marca-trilha-mascara {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  transition: stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+.ciclista-apontando .ciclista-dedo {
+  animation: cutucar 0.32s ease-in-out 0.35s 2;
 }
 
-.group:hover .marca-trilha-mascara,
-.group:focus-visible .marca-trilha-mascara {
-  stroke-dashoffset: 0;
+.ciclista-corpo.ciclista-apontando {
+  animation: afastar-uma-vez 1.8s cubic-bezier(0.3, 0.7, 0.3, 1) both;
 }
 
-/* Continuação da trilha no chão, por baixo do nome: revelada da esquerda para a direita junto com a subida. */
-.logo-trilha-chao {
-  clip-path: inset(0 100% 0 0);
-  transition: clip-path 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+@keyframes afastar-uma-vez {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  18%,
+  82% {
+    transform: translateX(-10px);
+  }
 }
 
-.group:hover .logo-trilha-chao,
-.group:focus-visible .logo-trilha-chao {
-  clip-path: inset(-4px -4px -4px -4px);
+@keyframes cutucar {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(1.2px);
+  }
+}
+
+@keyframes cutucar-insistente {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(1.8px);
+  }
+}
+
+@keyframes apontar-uma-vez {
+  0% {
+    opacity: 0;
+    transform: rotate(75deg);
+  }
+  18%,
+  82% {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(75deg);
+  }
+}
+
+@keyframes esconder-braco {
+  0% {
+    opacity: 1;
+  }
+  8%,
+  92% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .marca-erguer {
+  .ciclista-braco-apontar,
+  .ciclista-braco-baixo,
+  .ciclista-corpo {
+    transition: none;
+  }
+
+  .group:hover .ciclista-dedo,
+  .ciclista-apontando .ciclista-dedo,
+  .ciclista-apontando .ciclista-braco-apontar,
+  .ciclista-apontando .ciclista-braco-baixo,
+  .ciclista-corpo.ciclista-apontando {
     animation: none;
-  }
-
-  .marca-girar {
-    transition: none;
-  }
-
-  .group:hover .marca-girar {
-    transform: none;
-  }
-
-  .marca-trilha-mascara {
-    transition: none;
-  }
-
-  .logo-trilha-chao {
-    transition: none;
   }
 }

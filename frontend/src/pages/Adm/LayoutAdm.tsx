@@ -17,7 +17,7 @@ export function LayoutAdm() {
 
   useEffect(() => {
     const anterior = document.title
-    document.title = 'Painel do ADM · Fabio Cicloturismo'
+    document.title = 'Painel do ADM · Fábio Cicloturismo'
     return () => {
       document.title = anterior
     }
@@ -31,7 +31,7 @@ export function LayoutAdm() {
         <Container className="flex min-h-16 flex-wrap items-center justify-between gap-x-6 gap-y-2 py-2">
           <div className="flex items-center gap-6">
             <Link to={ROTAS.admPainel} className="flex items-center gap-2.5" aria-label="Painel do ADM, início">
-              <MarcaFabio className="h-6 w-8 shrink-0" />
+              <MarcaFabio className="h-8 w-7 shrink-0" />
               <span className="font-display text-xl font-bold leading-none">
                 Painel <span className="text-trilha-500">ADM</span>
               </span>

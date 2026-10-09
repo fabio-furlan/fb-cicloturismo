@@ -55,7 +55,7 @@ export function SecaoExplorador({ roteiros, roteiroId, aoSelecionarRoteiro }: Se
   }, [simulacao, pontos])
 
   return (
-    <section id="explorar" className="relative isolate scroll-mt-16 overflow-hidden bg-mata-950 py-12 sm:py-16" aria-labelledby="titulo-explorar">
+    <section id="explorar" className="relative isolate overflow-hidden bg-mata-950 pb-12 pt-8 sm:pb-16 sm:pt-10" aria-labelledby="titulo-explorar">
       {/* Fundo: a foto da trilha desfocada e escurecida, como se o painel flutuasse sobre a paisagem */}
       <img
         src="/images/hero-bikepacking.jpg"
@@ -66,16 +66,50 @@ export function SecaoExplorador({ roteiros, roteiroId, aoSelecionarRoteiro }: Se
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-mata-950/85 via-mata-950/55 to-mata-950/90" />
 
       <Container>
-        <h2 id="titulo-explorar" className="font-display text-4xl font-semibold uppercase italic leading-none sm:text-6xl">
-          Pedale a rota antes de ir
-        </h2>
-        <p className="mt-4 max-w-2xl text-lg text-areia-400">
-          Escolha um roteiro e passe o mouse ou o dedo pelo perfil para sentir cada subida. As cores mostram a inclinação
-          de cada trecho.
-        </p>
+        <h1 id="titulo-explorar" className="font-display text-3xl font-semibold uppercase italic leading-none sm:text-4xl">
+          Roteiros
+        </h1>
+       
 
         <div className="mt-10">
           <SeletorRoteiro roteiros={roteiros} selecionadoId={roteiro.id} aoSelecionar={aoSelecionarRoteiro} />
+        </div>
+
+        {/* Sobre o roteiro e o dia a dia; a etapa em que a bike está fica destacada */}
+        <div className="painel mt-6 grid gap-8 rounded-2xl p-5 sm:p-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
+          <div>
+            <h3 className="font-display text-2xl font-bold">{roteiro.nome}</h3>
+            <p className="mt-3 leading-relaxed text-areia-100/85">{roteiro.descricao}</p>
+          </div>
+          <ol className="space-y-2" aria-label="Dia a dia">
+            {roteiro.etapas.map((etapa) => {
+              const atual = etapa.dia === pontos[indice].dia
+              return (
+                <li
+                  key={etapa.dia}
+                  className={`flex items-start gap-4 rounded-xl border p-3 transition-colors ${
+                    atual ? 'border-trilha-500/70 bg-trilha-500/10' : 'border-white/10'
+                  }`}
+                >
+                  <span
+                    className={`flex h-11 w-11 shrink-0 flex-col items-center justify-center rounded-lg font-display leading-none ${
+                      atual ? 'bg-trilha-500 text-mata-950' : 'bg-white/[0.06]'
+                    }`}
+                  >
+                    <span className="text-[0.65rem] font-semibold">Dia</span>
+                    <span className="text-lg font-bold">{etapa.dia}</span>
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block font-semibold leading-snug">{etapa.titulo}</span>
+                    <span className="mt-0.5 block text-sm tabular-nums text-areia-400">
+                      {etapa.distanciaKm} km
+                      {etapa.subidaM ? ` e ${formatarNumero(etapa.subidaM)} m de subida` : ''}
+                    </span>
+                  </span>
+                </li>
+              )
+            })}
+          </ol>
         </div>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_21rem] lg:grid-rows-[auto_1fr]">
@@ -128,51 +162,15 @@ export function SecaoExplorador({ roteiros, roteiroId, aoSelecionarRoteiro }: Se
                 <span className="font-display text-3xl font-bold tabular-nums">{formatarPreco(roteiro.precoReais)}</span>
               </p>
               <Link
-                to={ROTAS.roteiros}
+                to={ROTAS.contato}
                 className="rounded-lg bg-trilha-500 px-5 py-3 text-sm font-semibold text-mata-950 transition-colors hover:bg-trilha-400"
               >
-                Ver roteiro
+                Quero reservar
               </Link>
             </div>
           </div>
         </div>
 
-        {/* Sobre o roteiro e o dia a dia; a etapa em que a bike está fica destacada */}
-        <div className="painel mt-6 grid gap-8 rounded-2xl p-5 sm:p-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
-          <div>
-            <h3 className="font-display text-2xl font-bold">{roteiro.nome}</h3>
-            <p className="mt-3 leading-relaxed text-areia-100/85">{roteiro.descricao}</p>
-          </div>
-          <ol className="space-y-2" aria-label="Dia a dia">
-            {roteiro.etapas.map((etapa) => {
-              const atual = etapa.dia === pontos[indice].dia
-              return (
-                <li
-                  key={etapa.dia}
-                  className={`flex items-start gap-4 rounded-xl border p-3 transition-colors ${
-                    atual ? 'border-trilha-500/70 bg-trilha-500/10' : 'border-white/10'
-                  }`}
-                >
-                  <span
-                    className={`flex h-11 w-11 shrink-0 flex-col items-center justify-center rounded-lg font-display leading-none ${
-                      atual ? 'bg-trilha-500 text-mata-950' : 'bg-white/[0.06]'
-                    }`}
-                  >
-                    <span className="text-[0.65rem] font-semibold">Dia</span>
-                    <span className="text-lg font-bold">{etapa.dia}</span>
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block font-semibold leading-snug">{etapa.titulo}</span>
-                    <span className="mt-0.5 block text-sm tabular-nums text-areia-400">
-                      {etapa.distanciaKm} km
-                      {etapa.subidaM ? ` e ${formatarNumero(etapa.subidaM)} m de subida` : ''}
-                    </span>
-                  </span>
-                </li>
-              )
-            })}
-          </ol>
-        </div>
       </Container>
     </section>
   )

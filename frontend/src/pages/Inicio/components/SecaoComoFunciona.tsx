@@ -3,11 +3,11 @@ import { Container } from '@/components/ui/Container'
 const etapas = [
   {
     titulo: 'Você reserva',
-    texto: 'Escolha o roteiro e garanta sua vaga com 30% do valor. O restante pode ser pago até 15 dias antes da saída.',
+    texto: 'Escolha o roteiro e reserve sua vaga após o pagamento.',
   },
   {
-    titulo: 'O guia liga para você',
-    texto: 'Uma semana antes, o guia confere sua bike, o equipamento e o seu ritmo, e tira as dúvidas sobre o percurso.',
+    titulo: 'Você online',
+    texto: 'Uma semana antes, o guia faz uma reunião online, para orientar todos os ciclistas sobre o percurso, hidratação e apoio.',
   },
   {
     titulo: 'Você pedala',
@@ -23,7 +23,7 @@ export function SecaoComoFunciona() {
   return (
     <section className="bg-areia-100 py-12 text-mata-900 sm:py-16" aria-labelledby="titulo-como-funciona">
       <Container>
-        <h2 id="titulo-como-funciona" className="font-display text-4xl font-semibold uppercase italic leading-none sm:text-6xl">
+        <h2 id="titulo-como-funciona" className="font-display text-3xl font-semibold uppercase italic leading-none sm:text-4xl">
           Como funciona uma viagem
         </h2>
 
