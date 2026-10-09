@@ -98,7 +98,7 @@ export function SecaoDestaque({ roteiros, filtros, aoBuscar }: SecaoDestaqueProp
           <h1 className="font-display text-5xl font-semibold uppercase italic leading-[0.92] text-balance sm:text-6xl lg:text-7xl">
             Viagens de bicicleta guiadas pelo Brasil
           </h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-areia-100/85 sm:text-xl">
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-areia-100/85 sm:text-lg">
             Roteiros de 1 a 7 dias pelas serras do Sul, pelo Vale Europeu e pelo caminho da fé até Aparecida, com guia,
             carro de apoio e pousada reservada.
           </p>

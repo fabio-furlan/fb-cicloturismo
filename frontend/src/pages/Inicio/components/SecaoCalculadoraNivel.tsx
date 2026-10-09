@@ -70,10 +70,10 @@ export function SecaoCalculadoraNivel({ roteiros, aoExplorar }: SecaoCalculadora
     <section id="nivel" className="scroll-mt-16 bg-mata-800 py-12 sm:py-16" aria-labelledby="titulo-nivel">
       <Container className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
         <div>
-          <h2 id="titulo-nivel" className="font-display text-4xl font-semibold uppercase italic leading-none sm:text-6xl">
+          <h2 id="titulo-nivel" className="font-display text-3xl font-semibold uppercase italic leading-none sm:text-4xl">
             Qual viagem cabe nas suas pernas?
           </h2>
-          <p className="mt-4 text-lg text-areia-400">Conte como é um bom dia de pedal para você hoje.</p>
+          <p className="mt-3 text-areia-400">Conte como é um bom dia de pedal para você hoje.</p>
 
           <div className="mt-10 space-y-8">
             <Controle rotulo="Distância por dia" unidade="km" valor={kmPorDia} min={10} max={120} passo={5} aoMudar={setKmPorDia} />
@@ -127,7 +127,7 @@ export function SecaoCalculadoraNivel({ roteiros, aoExplorar }: SecaoCalculadora
                   onClick={() => aoExplorar(roteiro.id)}
                   className="rounded-lg border border-areia-400/50 px-4 py-2.5 text-sm font-semibold transition-colors hover:border-trilha-500 hover:text-trilha-500"
                 >
-                  Ver no explorador
+                  Ver roteiro
                 </button>
               </li>
             ))}

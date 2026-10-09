@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react'
-import { IconeFechar } from '@/components/icones'
+import { IconeCalendario, IconeFechar, IconeSeta } from '@/components/icones'
 import { Container } from '@/components/ui/Container'
 import { niveis } from '@/config/niveis'
 import { paisagens } from '@/config/paisagens'
 import type { Paisagem, Roteiro } from '@/types/roteiro'
-import { partesData } from '@/utils/formatacao'
+import { formatarMesAno } from '@/utils/formatacao'
 import { contarRoteiros, type FiltrosViagem, filtrarSaidas, mesesComSaida } from '@/utils/saidas'
 import { CartaoSaida } from './CartaoSaida'
 
@@ -46,7 +46,7 @@ interface SecaoSaidasProps {
   aoExplorar: (roteiroId: string) => void
 }
 
-/** Resultado da busca do topo: as próximas saídas, com filtros rápidos por paisagem e mês. */
+/** Resultado da busca do topo: as próximas saídas, com filtros rápidos por paisagem e um campo de mês. */
 export function SecaoSaidas({ roteiros, filtros, aoMudarFiltros, aoExplorar }: SecaoSaidasProps) {
   const resultados = filtrarSaidas(roteiros, filtros)
   // Um cartão por roteiro: a primeira saída que combina com os filtros vira o destaque, as outras ficam como "outras datas".
@@ -69,8 +69,8 @@ export function SecaoSaidas({ roteiros, filtros, aoMudarFiltros, aoExplorar }: S
 
       <Container>
         <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-3">
-          <h2 id="titulo-saidas" className="font-display text-4xl font-semibold uppercase italic leading-none sm:text-6xl">
-            Próximas saídas
+          <h2 id="titulo-saidas" className="font-display text-3xl font-semibold uppercase italic leading-none sm:text-4xl">
+            Destinos
           </h2>
           <p className="text-areia-400" aria-live="polite">
             {porRoteiro.length === 0
@@ -96,23 +96,31 @@ export function SecaoSaidas({ roteiros, filtros, aoMudarFiltros, aoExplorar }: S
             ))}
           </div>
 
-          <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:px-0" role="group" aria-label="Filtrar por mês">
-            <FiltroRapido ativo={!filtros.mes} quantidade={contar({ mes: '' })} aoEscolher={() => mudar({ mes: '' })}>
-              Qualquer mês
-            </FiltroRapido>
-            {mesesComSaida(roteiros).map((m) => {
-              const { mes } = partesData(`${m}-01`)
-              return (
-                <FiltroRapido
-                  key={m}
-                  ativo={filtros.mes === m}
-                  quantidade={contar({ mes: m })}
-                  aoEscolher={() => mudar({ mes: filtros.mes === m ? '' : m })}
-                >
-                  {mes} {m.slice(0, 4)}
-                </FiltroRapido>
-              )
-            })}
+          <div className="flex flex-wrap items-center gap-2">
+            {/* Mês num campo só, igual ao "Quando" da busca do topo, em vez de um botão para cada mês */}
+            <div className="relative inline-flex h-11 items-center gap-2 rounded-lg border border-white/15 bg-white/[0.04] pl-3 transition-colors focus-within:border-trilha-500 hover:border-trilha-500">
+              <label htmlFor="filtro-mes" className="sr-only">
+                Filtrar por mês
+              </label>
+              <IconeCalendario className="pointer-events-none h-4 w-4 shrink-0 text-trilha-500" />
+              <select
+                id="filtro-mes"
+                value={filtros.mes}
+                onChange={(e) => mudar({ mes: e.target.value })}
+                className="h-full cursor-pointer appearance-none bg-transparent pr-9 text-sm font-semibold text-areia-100 [&>option]:text-mata-950"
+              >
+                <option value="">Datas disponiveis ({contar({ mes: '' })})</option>
+                {mesesComSaida(roteiros).map((m) => {
+                  const quantidade = contar({ mes: m })
+                  return (
+                    <option key={m} value={m} disabled={quantidade === 0 && filtros.mes !== m}>
+                      {formatarMesAno(m)} ({quantidade})
+                    </option>
+                  )
+                })}
+              </select>
+              <IconeSeta className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 rotate-90 text-areia-400" />
+            </div>
             {filtros.nivel && (
               <button
                 type="button"
