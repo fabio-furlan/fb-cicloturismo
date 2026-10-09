@@ -4,24 +4,31 @@ import { Container } from '@/components/ui/Container'
 import { Logo } from '@/components/ui/Logo'
 import { empresa } from '@/config/empresa'
 import { linksNavegacao } from '@/config/navegacao'
+import { ROTAS } from '@/constants/rotas'
 import { ColunaRodape } from './ColunaRodape'
 
 const anoAtual = new Date().getFullYear()
 
+// No rodapé, "Contato" já é o título da coluna ao lado (e leva à página de contato); a navegação fica sem ele.
+const ordemRodape: string[] = [ROTAS.inicio, ROTAS.sobre, ROTAS.roteiros]
+const linksRodape = ordemRodape.flatMap((rota) => linksNavegacao.filter((link) => link.rota === rota))
+
 export function Rodape() {
   const { contato } = empresa
 
+  // "group": com o mouse em qualquer parte do rodapé, o ciclista do logo aponta para o nome.
   return (
-    <footer className="bg-mata-950 text-sm text-white/70">
-      <Container className="grid gap-10 py-12 sm:grid-cols-2 sm:py-14 lg:grid-cols-3">
-        <div className="space-y-4 sm:col-span-2 lg:col-span-1">
+    <footer className="group bg-mata-950 text-sm text-white/70">
+      {/* Três blocos distribuídos pela largura: marca à esquerda, navegação no centro e contato à direita */}
+      <Container className="grid gap-8 py-8 sm:grid-cols-3 sm:items-start">
+        <div className="space-y-2">
           <Logo />
           <p className="max-w-xs leading-relaxed">{empresa.descricao}</p>
         </div>
 
-        <ColunaRodape titulo="Navegação">
-          <ul className="space-y-2">
-            {linksNavegacao.map(({ rota, rotulo }) => (
+        <ColunaRodape titulo="Navegação" className="sm:justify-self-center">
+          <ul className="space-y-1.5">
+            {linksRodape.map(({ rota, rotulo }) => (
               <li key={rota}>
                 <Link to={rota} className="transition-colors hover:text-trilha-500">
                   {rotulo}
@@ -31,8 +38,8 @@ export function Rodape() {
           </ul>
         </ColunaRodape>
 
-        <ColunaRodape titulo="Contato">
-          <ul className="space-y-3">
+        <ColunaRodape titulo="Contato" rota={ROTAS.contato} className="sm:justify-self-end">
+          <ul className="space-y-1.5">
             <li className="flex items-center gap-2">
               <IconeEmail className="h-4 w-4 shrink-0 text-trilha-500" />
               <a href={`mailto:${contato.email}`} className="break-all transition-colors hover:text-trilha-500">
@@ -52,7 +59,7 @@ export function Rodape() {
       </Container>
 
       <div className="border-t border-white/10 bg-black/25">
-        <Container className="py-5 text-center text-xs text-white/50">
+        <Container className="py-3 text-center text-xs text-white/50">
           © {anoAtual} {empresa.nome}. Todos os direitos reservados.
         </Container>
       </div>
