@@ -9,7 +9,7 @@ import { useRecurso } from './useRecurso'
 
 function Voltar() {
   return (
-    <Link to={ROTAS.admRoteiros} className="text-sm font-semibold text-trilha-400 hover:text-trilha-500">
+    <Link to={ROTAS.admRoteiros} className="text-sm font-semibold text-sol-400 hover:text-sol-500">
       ← Roteiros
     </Link>
   )
@@ -23,8 +23,8 @@ export function NovoRoteiro() {
     <div className="space-y-6">
       <div>
         <Voltar />
-        <h1 className="mt-2 font-display text-4xl font-semibold sm:text-5xl">Novo roteiro</h1>
-        <p className="mt-1 text-areia-400">Depois de salvar, crie as saídas (datas, vagas e preço) na lista de roteiros.</p>
+        <h1 className="mt-2 font-display text-3xl font-black uppercase sm:text-4xl">Novo roteiro</h1>
+        <p className="mt-1 text-cinza-400">Depois de salvar, crie as saídas (datas, vagas e preço) na lista de roteiros.</p>
       </div>
       <FormularioRoteiro
         rotuloBotao="Criar roteiro"
@@ -60,9 +60,9 @@ function PaginaEditarRoteiro({ id }: { id: number }) {
     <div className="space-y-6">
       <div>
         <Voltar />
-        <h1 className="mt-2 font-display text-4xl font-semibold sm:text-5xl">{roteiro.titulo}</h1>
-        <p className="mt-1 text-areia-400 tabular-nums">
-          {formatarNumero(roteiro.distanciaKm)} km · endereço no site: <code className="text-areia-100">{roteiro.slug}</code> (não muda ao editar o título)
+        <h1 className="mt-2 font-display text-3xl font-black uppercase sm:text-4xl">{roteiro.titulo}</h1>
+        <p className="mt-1 text-cinza-400 tabular-nums">
+          {formatarNumero(roteiro.distanciaKm)} km · endereço no site: <code className="text-creme-100">{roteiro.slug}</code> (não muda ao editar o título)
         </p>
       </div>
 
@@ -82,7 +82,7 @@ function PaginaEditarRoteiro({ id }: { id: number }) {
       />
 
       <Cartao titulo="Excluir roteiro">
-        <p className="mb-4 text-sm text-areia-400">
+        <p className="mb-4 text-sm text-cinza-400">
           Só é possível excluir um roteiro sem nenhuma saída. Se ele já teve saídas, cancele-as: assim o histórico de vendas fica guardado.
         </p>
         <AcaoConfirmada

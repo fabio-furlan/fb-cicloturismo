@@ -11,7 +11,7 @@ function Ocupacao({ ocupadas, capacidade }: { ocupadas: number; capacidade: numb
     <div className="min-w-28">
       <p className="text-sm tabular-nums">
         <span className="font-semibold">{ocupadas}</span>
-        <span className="text-areia-400"> de {capacidade} vendidas</span>
+        <span className="text-cinza-400"> de {capacidade} vendidas</span>
       </p>
       <div
         className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-white/10"
@@ -21,7 +21,7 @@ function Ocupacao({ ocupadas, capacidade }: { ocupadas: number; capacidade: numb
         aria-valuenow={ocupadas}
         aria-label="Vagas vendidas"
       >
-        <div className="h-full rounded-full bg-trilha-500" style={{ width: `${Math.round(fracao * 100)}%` }} />
+        <div className="h-full rounded-full bg-vermelho-500" style={{ width: `${Math.round(fracao * 100)}%` }} />
       </div>
     </div>
   )
@@ -39,7 +39,7 @@ export function TabelaSaidas({ saidas, mostrarRoteiro = true }: TabelaSaidasProp
       {/* Telas largas: tabela. */}
       <div className="hidden overflow-x-auto md:block">
         <table className="w-full text-left text-sm">
-          <thead className="border-b border-white/10 text-xs uppercase tracking-wider text-areia-400">
+          <thead className="border-b border-white/10 text-xs uppercase tracking-wider text-cinza-400">
             <tr>
               <th scope="col" className="py-3 pr-4 font-semibold">
                 Datas
@@ -76,7 +76,7 @@ export function TabelaSaidas({ saidas, mostrarRoteiro = true }: TabelaSaidasProp
                 </td>
                 <td className="py-3.5 pr-4 text-right tabular-nums">{formatarReais(saida.precoBase)}</td>
                 <td className="py-3.5 text-right">
-                  <Link to={rotaSaidaAdm(saida.id)} className="font-semibold text-trilha-400 hover:text-trilha-500">
+                  <Link to={rotaSaidaAdm(saida.id)} className="font-semibold text-sol-400 hover:text-sol-500">
                     Abrir<span className="sr-only">: saída de {formatarPeriodo(saida.dataInicio, saida.dataFim)}</span>
                   </Link>
                 </td>
@@ -90,11 +90,11 @@ export function TabelaSaidas({ saidas, mostrarRoteiro = true }: TabelaSaidasProp
       <ul className="space-y-3 md:hidden">
         {saidas.map((saida) => (
           <li key={saida.id}>
-            <Link to={rotaSaidaAdm(saida.id)} className="block rounded-xl border border-white/10 bg-mata-950/40 p-4 hover:border-trilha-500/60">
+            <Link to={rotaSaidaAdm(saida.id)} className="block rounded-xl border border-white/10 bg-carvao-950/40 p-4 hover:border-vermelho-500/60">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="font-semibold tabular-nums">{formatarPeriodo(saida.dataInicio, saida.dataFim)}</p>
-                  {mostrarRoteiro && <p className="text-sm text-areia-400">{saida.roteiroTitulo}</p>}
+                  {mostrarRoteiro && <p className="text-sm text-cinza-400">{saida.roteiroTitulo}</p>}
                 </div>
                 <SeloStatus status={saida.status} />
               </div>

@@ -2,7 +2,7 @@ import { type KeyboardEvent, type PointerEvent, useEffect, useMemo, useRef, useS
 import type { Roteiro } from '@/types/roteiro'
 import { formatarNumero } from '@/utils/formatacao'
 import { corDaFaixa, faixaDaInclinacao, type FaixaInclinacao, limitesDasEtapas, type PontoRota } from '@/utils/rota'
-import { BikeMtb } from './BikeMtb'
+import { BikeMtb } from '@/components/ui/BikeMtb'
 
 interface GraficoPerfilProps {
   roteiro: Roteiro
@@ -110,8 +110,8 @@ export function GraficoPerfil({ roteiro, pontos, indice, aoMudarIndice, aoIntera
   return (
     <div className="relative select-none pb-7 pl-12 pt-7">
       {/* Altitudes de referência no eixo vertical */}
-      <span className="absolute left-0 top-7 text-xs tabular-nums text-areia-400">{formatarNumero(Math.round(escala.topo))} m</span>
-      <span className="absolute bottom-7 left-0 text-xs tabular-nums text-areia-400">{formatarNumero(Math.round(escala.base))} m</span>
+      <span className="absolute left-0 top-7 text-xs tabular-nums text-cinza-400">{formatarNumero(Math.round(escala.topo))} m</span>
+      <span className="absolute bottom-7 left-0 text-xs tabular-nums text-cinza-400">{formatarNumero(Math.round(escala.base))} m</span>
 
       <div
         ref={areaRef}
@@ -128,7 +128,7 @@ export function GraficoPerfil({ roteiro, pontos, indice, aoMudarIndice, aoIntera
         }}
         onPointerMove={aoMoverPonteiro}
         onKeyDown={aoPressionarTecla}
-        className="relative h-52 cursor-crosshair touch-pan-y rounded-sm border-b border-l border-mata-600 sm:h-72"
+        className="relative h-52 cursor-crosshair touch-pan-y rounded-sm border-b border-l border-carvao-600 sm:h-72"
       >
         {/* Linhas de grade horizontais */}
         {[25, 50, 75].map((p) => (
@@ -144,8 +144,8 @@ export function GraficoPerfil({ roteiro, pontos, indice, aoMudarIndice, aoIntera
         >
           <defs>
             <linearGradient id="preenchimento-perfil" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor="var(--color-areia-100)" stopOpacity="0.16" />
-              <stop offset="1" stopColor="var(--color-areia-100)" stopOpacity="0.01" />
+              <stop offset="0" stopColor="var(--color-creme-100)" stopOpacity="0.16" />
+              <stop offset="1" stopColor="var(--color-creme-100)" stopOpacity="0.01" />
             </linearGradient>
           </defs>
           <path d={area} fill="url(#preenchimento-perfil)" />
@@ -167,18 +167,18 @@ export function GraficoPerfil({ roteiro, pontos, indice, aoMudarIndice, aoIntera
         {roteiro.etapas.slice(1).map((etapa, i) => (
           <div
             key={etapa.dia}
-            className="pointer-events-none absolute inset-y-0 border-l border-dashed border-areia-100/25"
+            className="pointer-events-none absolute inset-y-0 border-l border-dashed border-creme-100/25"
             style={{ left: `${(limites[i] / roteiro.distanciaKm) * 100}%` }}
           >
-            <span className="absolute -top-6 left-1.5 whitespace-nowrap text-xs font-semibold text-areia-400">Dia {etapa.dia}</span>
+            <span className="absolute -top-6 left-1.5 whitespace-nowrap text-xs font-semibold text-cinza-400">Dia {etapa.dia}</span>
           </div>
         ))}
-        <span className="pointer-events-none absolute -top-6 left-1.5 text-xs font-semibold text-areia-400">
+        <span className="pointer-events-none absolute -top-6 left-1.5 text-xs font-semibold text-cinza-400">
           Dia {roteiro.etapas[0].dia}
         </span>
 
         {/* Cursor: posição atual na rota */}
-        <div className="pointer-events-none absolute inset-y-0 w-px bg-areia-100/70" style={{ left: `${posX}%` }} />
+        <div className="pointer-events-none absolute inset-y-0 w-px bg-creme-100/70" style={{ left: `${posX}%` }} />
         {/* A bike apoia as rodas na linha e inclina junto com a rampa */}
         <div
           className="pointer-events-none absolute w-9 sm:w-10"
@@ -191,7 +191,7 @@ export function GraficoPerfil({ roteiro, pontos, indice, aoMudarIndice, aoIntera
         {marcasKm.map((km) => (
           <span
             key={km}
-            className="pointer-events-none absolute -bottom-6 -translate-x-1/2 whitespace-nowrap text-xs tabular-nums text-areia-400"
+            className="pointer-events-none absolute -bottom-6 -translate-x-1/2 whitespace-nowrap text-xs tabular-nums text-cinza-400"
             style={{ left: `${(km / roteiro.distanciaKm) * 100}%` }}
           >
             {km} km

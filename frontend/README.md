@@ -50,7 +50,7 @@ src/
 │   │   ├── Inicio.tsx
 │   │   └── index.ts
 │   ├── Roteiros/  Sobre/  Contato/  MinhaConta/  NaoEncontrada/
-│   ├── Adm/                painel do ADM em /adm (login, saídas, roteiros), num pacote separado
+│   ├── Adm/                painel do ADM (login, saídas, roteiros), num pacote separado
 ├── services/               comunicação com a API (backend)
 ├── styles/global.css       Tailwind + tema (cores e fontes)
 └── types/                  tipos TypeScript compartilhados
@@ -63,7 +63,7 @@ src/
 - **Rotas** sempre pelas constantes de `constants/rotas.ts`, nunca com o caminho escrito à mão.
 - **Componente usado só por uma página** fica em `pages/<Pagina>/components/`. Se passar a ser usado em mais lugares, vai para `components/`.
 - **Textos e dados da empresa** (e-mail, telefone, menu) ficam em `config/`, não espalhados pelos componentes.
-- **Cores e fontes** ficam no `@theme` de `styles/global.css` (`night-*`, `amber-*`, `stone-50`).
+- **Cores e fontes** ficam no `@theme` de `styles/global.css` (`vermelho-*`, `sol-*`, `verde-*`, `carvao-*`, `creme-*`; Montserrat nos títulos e Lato nos textos).
 
 ### Adicionando uma página
 
@@ -76,8 +76,12 @@ src/
 
 Mobile first, com os breakpoints padrão do Tailwind:
 
-- **Celular (< 768px):** menu hambúrguer em tela cheia, com o botão "Minha conta" dentro do menu.
-- **Tablet/desktop (≥ 768px):** menu horizontal e botão "Minha conta" no cabeçalho.
+- **Celular (< 768px):** menu hambúrguer em tela cheia, com o botão "Entrar" dentro do menu.
+- **Tablet/desktop (≥ 768px):** menu horizontal e botão "Entrar" no cabeçalho.
+
+Além da largura, a página inicial se adapta à **altura** da janela, com as variantes definidas em `styles/global.css`:
+`baixa` (até 860px, notebooks e celulares comuns), `mini` (até 700px) e `curta` (até 600px, celulares bem baixos). A
+vitrine das próximas saídas calcula a própria altura para o título, os filtros e a faixa de números caberem juntos na tela.
 
 ## Imagens
 

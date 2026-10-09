@@ -23,9 +23,9 @@ function Resumo({ saidas }: { saidas: ResumoSaida[] }) {
   return (
     <dl className="grid gap-4 sm:grid-cols-3">
       {itens.map(({ rotulo, valor }) => (
-        <div key={rotulo} className="rounded-2xl border border-white/10 bg-mata-800/60 p-5">
-          <dt className="text-sm text-areia-400">{rotulo}</dt>
-          <dd className="mt-1 font-display text-4xl font-bold tabular-nums">{valor}</dd>
+        <div key={rotulo} className="rounded-2xl border border-white/10 bg-carvao-800/60 p-5">
+          <dt className="text-sm text-cinza-400">{rotulo}</dt>
+          <dd className="mt-1 font-display text-4xl font-black tabular-nums text-sol-500">{valor}</dd>
         </div>
       ))}
     </dl>
@@ -42,12 +42,12 @@ export function Painel() {
     <div className="space-y-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="font-display text-4xl font-semibold sm:text-5xl">Próximas saídas</h1>
-          <p className="mt-1 text-areia-400">Todas as saídas que ainda não terminaram, da mais próxima para a mais distante.</p>
+          <h1 className="font-display text-3xl font-black uppercase sm:text-4xl">Próximas saídas</h1>
+          <p className="mt-1 text-cinza-400">Todas as saídas que ainda não terminaram, da mais próxima para a mais distante.</p>
         </div>
         <Link
           to={ROTAS.admRoteiros}
-          className="inline-flex min-h-11 items-center rounded-lg bg-trilha-500 px-5 text-sm font-semibold text-mata-950 hover:bg-trilha-400"
+          className="inline-flex min-h-11 items-center rounded-full bg-vermelho-500 px-6 font-display text-[0.75rem] font-bold uppercase tracking-[0.08em] text-white hover:bg-vermelho-600"
         >
           Nova saída
         </Link>
@@ -71,18 +71,18 @@ export function Painel() {
                     aria-pressed={ativo}
                     onClick={() => setFiltro(status)}
                     className={`inline-flex min-h-11 items-center gap-2 rounded-lg border px-4 text-sm font-semibold transition-colors ${
-                      ativo ? 'border-trilha-500 bg-trilha-500 text-mata-950' : 'border-white/15 hover:border-trilha-500 hover:text-trilha-400'
+                      ativo ? 'border-vermelho-500 bg-vermelho-500 text-white' : 'border-white/15 hover:border-vermelho-500 hover:text-sol-400'
                     }`}
                   >
                     {status ? statusSaida[status].rotulo : 'Todas'}
-                    <span className={`rounded-full px-1.5 text-xs tabular-nums ${ativo ? 'bg-mata-950/15' : 'bg-white/10'}`}>{quantidade}</span>
+                    <span className={`rounded-full px-1.5 text-xs tabular-nums ${ativo ? 'bg-carvao-950/15' : 'bg-white/10'}`}>{quantidade}</span>
                   </button>
                 )
               })}
             </div>
             {estado.dados.length === 0 ? (
-              <p className="py-6 text-center text-areia-400">
-                Nenhuma saída por vir. Crie uma em <Link to={ROTAS.admRoteiros} className="font-semibold text-trilha-400">Roteiros</Link>.
+              <p className="py-6 text-center text-cinza-400">
+                Nenhuma saída por vir. Crie uma em <Link to={ROTAS.admRoteiros} className="font-semibold text-sol-400">Roteiros</Link>.
               </p>
             ) : (
               <TabelaSaidas saidas={filtro ? estado.dados.filter((s) => s.status === filtro) : estado.dados} />

@@ -5,8 +5,8 @@ import { statusSaida } from './formato'
 type Variante = 'principal' | 'secundario' | 'perigo'
 
 const variantes: Record<Variante, string> = {
-  principal: 'bg-trilha-500 text-mata-950 hover:bg-trilha-400',
-  secundario: 'border border-areia-100/30 text-areia-100 hover:border-trilha-500 hover:text-trilha-400',
+  principal: 'bg-vermelho-500 text-white hover:bg-vermelho-600',
+  secundario: 'border border-creme-100/30 text-creme-100 hover:border-vermelho-500 hover:text-sol-400',
   perigo: 'border border-alerta-600 text-[#ff9b8a] hover:bg-alerta-600 hover:text-white',
 }
 
@@ -22,7 +22,7 @@ export function Botao({ variante = 'principal', carregando = false, className = 
       {...resto}
       disabled={disabled || carregando}
       aria-busy={carregando || undefined}
-      className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-5 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${variantes[variante]} ${className}`}
+      className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-6 text-sm font-bold transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${variantes[variante]} ${className}`}
     >
       {carregando && <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden="true" />}
       {children}
@@ -39,17 +39,17 @@ export function Campo({ rotulo, ajuda, className = '', ...resto }: CampoProps) {
   const id = useId()
   return (
     <div className={className}>
-      <label htmlFor={id} className="block text-sm font-semibold text-areia-100">
+      <label htmlFor={id} className="block text-sm font-semibold text-creme-100">
         {rotulo}
       </label>
       <input
         id={id}
         {...resto}
         aria-describedby={ajuda ? `${id}-ajuda` : undefined}
-        className="mt-1.5 min-h-11 w-full rounded-xl border border-white/15 bg-mata-950/60 px-3.5 text-base text-areia-100 placeholder:text-areia-400/60 [color-scheme:dark] focus:border-trilha-500 focus:outline-none"
+        className="mt-1.5 min-h-11 w-full rounded-xl border border-white/15 bg-carvao-950/60 px-3.5 text-base text-creme-100 placeholder:text-cinza-400/60 [color-scheme:dark] focus:border-vermelho-500 focus:outline-none"
       />
       {ajuda && (
-        <p id={`${id}-ajuda`} className="mt-1 text-xs text-areia-400">
+        <p id={`${id}-ajuda`} className="mt-1 text-xs text-cinza-400">
           {ajuda}
         </p>
       )}
@@ -64,10 +64,10 @@ export function SeloStatus({ status }: { status: StatusSaida }) {
 
 export function Cartao({ titulo, acoes, children }: { titulo?: string; acoes?: ReactNode; children: ReactNode }) {
   return (
-    <section className="rounded-2xl border border-white/10 bg-mata-800/60 p-5 sm:p-6">
+    <section className="rounded-2xl border border-white/10 bg-carvao-800/60 p-5 sm:p-6">
       {(titulo || acoes) && (
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-          {titulo && <h2 className="font-display text-2xl font-semibold">{titulo}</h2>}
+          {titulo && <h2 className="font-display text-xl font-extrabold uppercase">{titulo}</h2>}
           {acoes}
         </div>
       )}
@@ -89,7 +89,7 @@ export function Aviso({ tipo, children }: { tipo: 'erro' | 'sucesso'; children: 
 export function CarregandoAdm() {
   return (
     <div className="flex min-h-60 items-center justify-center" role="status">
-      <span className="h-8 w-8 animate-spin rounded-full border-4 border-trilha-500 border-t-transparent" />
+      <span className="h-8 w-8 animate-spin rounded-full border-4 border-vermelho-500 border-t-transparent" />
       <span className="sr-only">Carregando...</span>
     </div>
   )
@@ -151,7 +151,7 @@ export function AcaoConfirmada({ rotulo, pergunta, confirmar, aoConfirmar }: {
 }
 
 const classeControle =
-  'mt-1.5 w-full rounded-xl border border-white/15 bg-mata-950/60 px-3.5 text-base text-areia-100 placeholder:text-areia-400/60 [color-scheme:dark] focus:border-trilha-500 focus:outline-none'
+  'mt-1.5 w-full rounded-xl border border-white/15 bg-carvao-950/60 px-3.5 text-base text-creme-100 placeholder:text-cinza-400/60 [color-scheme:dark] focus:border-vermelho-500 focus:outline-none'
 
 interface SelecaoProps<T extends string> {
   rotulo: string
@@ -165,7 +165,7 @@ export function Selecao<T extends string>({ rotulo, valor, opcoes, aoMudar, clas
   const id = useId()
   return (
     <div className={className}>
-      <label htmlFor={id} className="block text-sm font-semibold text-areia-100">
+      <label htmlFor={id} className="block text-sm font-semibold text-creme-100">
         {rotulo}
       </label>
       <select id={id} value={valor} onChange={(e) => aoMudar(e.target.value as T)} className={`${classeControle} min-h-11 px-3`}>
@@ -188,12 +188,12 @@ export function AreaTexto({ rotulo, ajuda, className = '', ...resto }: AreaTexto
   const id = useId()
   return (
     <div className={className}>
-      <label htmlFor={id} className="block text-sm font-semibold text-areia-100">
+      <label htmlFor={id} className="block text-sm font-semibold text-creme-100">
         {rotulo}
       </label>
       <textarea id={id} {...resto} aria-describedby={ajuda ? `${id}-ajuda` : undefined} className={`${classeControle} py-2.5`} />
       {ajuda && (
-        <div id={`${id}-ajuda`} className="mt-1 text-xs text-areia-400">
+        <div id={`${id}-ajuda`} className="mt-1 text-xs text-cinza-400">
           {ajuda}
         </div>
       )}
