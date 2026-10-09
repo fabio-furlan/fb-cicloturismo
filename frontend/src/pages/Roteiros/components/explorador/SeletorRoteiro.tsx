@@ -21,12 +21,12 @@ export function SeletorRoteiro({ roteiros, selecionadoId, aoSelecionar }: Seleto
               aria-pressed={ativo}
               onClick={() => aoSelecionar(roteiro.id)}
               className={`w-64 rounded-xl border p-4 text-left transition-colors sm:w-auto ${
-                ativo ? 'border-trilha-500 bg-mata-800' : 'border-mata-700 hover:border-mata-600 hover:bg-mata-800/60'
+                ativo ? 'border-vermelho-500 bg-vermelho-500/15' : 'border-white/10 hover:border-white/25 hover:bg-white/[0.04]'
               }`}
             >
-              <span className="block font-display text-xl font-semibold leading-tight">{roteiro.nome}</span>
-              <span className="mt-2 flex items-center justify-between gap-3 text-sm text-areia-400">
-                <IndicadorNivel nivel={roteiro.nivel} className={ativo ? 'text-trilha-500' : ''} />
+              <span className="block font-display text-lg font-extrabold leading-tight">{roteiro.nome}</span>
+              <span className="mt-2 flex items-center justify-between gap-3 text-sm text-cinza-400">
+                <IndicadorNivel nivel={roteiro.nivel} className={ativo ? 'text-sol-500' : ''} />
                 <span>Saída {formatarData(roteiro.saidas[0].data)}</span>
               </span>
             </button>

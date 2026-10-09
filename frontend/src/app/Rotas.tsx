@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import { LayoutPrincipal } from '@/components/layout/LayoutPrincipal'
 import { Carregando } from '@/components/ui/Carregando'
 import { ROTAS } from '@/constants/rotas'
+import { useTopoAoTrocarDePagina } from '@/hooks/useRolagemAoTopo'
 
 // Cada página é carregada sob demanda, deixando o carregamento inicial mais leve.
 const Inicio = lazy(() => import('@/pages/Inicio'))
@@ -15,6 +16,9 @@ const NaoEncontrada = lazy(() => import('@/pages/NaoEncontrada'))
 const AreaAdm = lazy(() => import('@/pages/Adm'))
 
 export function Rotas() {
+  // Vale para todas as páginas, do site e do painel do ADM.
+  useTopoAoTrocarDePagina()
+
   return (
     <Suspense fallback={<Carregando />}>
       <Routes>

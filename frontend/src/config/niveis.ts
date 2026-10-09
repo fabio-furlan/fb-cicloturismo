@@ -12,7 +12,7 @@ interface InfoNivel {
 
 export const niveis: Record<Nivel, InfoNivel> = {
   recreativo: {
-    nome: 'Recreativo',
+    nome: 'Iniciante',
     ordem: 1,
     kmPorDiaMax: 40,
     subidaPorDiaMax: 400,

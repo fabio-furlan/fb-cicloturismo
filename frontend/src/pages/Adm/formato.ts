@@ -22,12 +22,12 @@ interface InfoStatus {
 }
 
 export const statusSaida: Record<StatusSaida, InfoStatus> = {
-  RASCUNHO: { rotulo: 'Rascunho', classe: 'bg-white/10 text-areia-100' },
+  RASCUNHO: { rotulo: 'Rascunho', classe: 'bg-white/10 text-creme-100' },
   ABERTA: { rotulo: 'Aberta', classe: 'bg-rampa-leve/20 text-rampa-leve' },
-  ESGOTADA: { rotulo: 'Esgotada', classe: 'bg-trilha-500/20 text-trilha-400' },
+  ESGOTADA: { rotulo: 'Esgotada', classe: 'bg-vermelho-500/20 text-sol-400' },
   INSCRICOES_ENCERRADAS: { rotulo: 'Inscrições encerradas', classe: 'bg-rampa-moderada/20 text-rampa-moderada' },
   EM_ANDAMENTO: { rotulo: 'Em andamento', classe: 'bg-rampa-descida/20 text-rampa-descida' },
-  FINALIZADA: { rotulo: 'Finalizada', classe: 'bg-white/5 text-areia-400' },
+  FINALIZADA: { rotulo: 'Finalizada', classe: 'bg-white/5 text-cinza-400' },
   CANCELADA: { rotulo: 'Cancelada', classe: 'bg-alerta-600/25 text-[#ff9b8a]' },
 }
 
@@ -53,7 +53,7 @@ export const modalidades: Record<Modalidade, string> = { MTB: 'MTB', SPEED: 'Spe
 export const destinos: Record<Destino, string> = { NACIONAL: 'Nacional', INTERNACIONAL: 'Internacional' }
 
 export const niveisRoteiro: Record<NivelRoteiro, string> = {
-  RECREATIVO: 'Recreativo',
+  RECREATIVO: 'Iniciante',
   INTERMEDIARIO: 'Intermediário',
   AVANCADO: 'Avançado',
 }

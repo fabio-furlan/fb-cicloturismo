@@ -60,7 +60,7 @@ function Opcionais({ saida, aoAtualizar }: { saida: SaidaAdm; aoAtualizar: (said
   return (
     <Cartao titulo="Opcionais">
       {saida.opcionais.length === 0 ? (
-        <p className="text-sm text-areia-400">Nenhum opcional. Use o formulário abaixo para oferecer quarto individual, aluguel de bike, transfer...</p>
+        <p className="text-sm text-cinza-400">Nenhum opcional. Use o formulário abaixo para oferecer quarto individual, aluguel de bike, transfer...</p>
       ) : (
         <ul className="divide-y divide-white/5">
           {saida.opcionais.map((opcional) => (
@@ -68,9 +68,9 @@ function Opcionais({ saida, aoAtualizar }: { saida: SaidaAdm; aoAtualizar: (said
               <div>
                 <p className="font-semibold">
                   {opcional.nome}
-                  <span className="ml-2 text-xs font-normal text-areia-400">{gruposOpcional[opcional.grupo].rotulo}</span>
+                  <span className="ml-2 text-xs font-normal text-cinza-400">{gruposOpcional[opcional.grupo].rotulo}</span>
                 </p>
-                {opcional.descricao && <p className="text-sm text-areia-400">{opcional.descricao}</p>}
+                {opcional.descricao && <p className="text-sm text-cinza-400">{opcional.descricao}</p>}
               </div>
               <div className="flex items-center gap-4">
                 <span className="tabular-nums">+ {formatarReais(opcional.acrescimo)}</span>
@@ -94,7 +94,7 @@ function Opcionais({ saida, aoAtualizar }: { saida: SaidaAdm; aoAtualizar: (said
               id={idGrupo}
               value={grupo}
               onChange={(e) => setGrupo(e.target.value as GrupoOpcional)}
-              className="mt-1.5 min-h-11 w-full rounded-xl border border-white/15 bg-mata-950/60 px-3 text-base [color-scheme:dark] focus:border-trilha-500 focus:outline-none"
+              className="mt-1.5 min-h-11 w-full rounded-xl border border-white/15 bg-carvao-950/60 px-3 text-base [color-scheme:dark] focus:border-vermelho-500 focus:outline-none"
             >
               {(Object.keys(gruposOpcional) as GrupoOpcional[]).map((g) => (
                 <option key={g} value={g}>
@@ -102,7 +102,7 @@ function Opcionais({ saida, aoAtualizar }: { saida: SaidaAdm; aoAtualizar: (said
                 </option>
               ))}
             </select>
-            <p className="mt-1 text-xs text-areia-400">{gruposOpcional[grupo].ajuda}</p>
+            <p className="mt-1 text-xs text-cinza-400">{gruposOpcional[grupo].ajuda}</p>
           </div>
           <Campo rotulo="Nome" required maxLength={120} value={nome} onChange={(e) => setNome(e.target.value)} placeholder="Quarto individual" />
           <Campo rotulo="Descrição (opcional)" maxLength={255} value={descricao} onChange={(e) => setDescricao(e.target.value)} />
@@ -161,14 +161,14 @@ function PaginaSaida({ id }: { id: number }) {
   return (
     <div className="space-y-6">
       <div>
-        <Link to={ROTAS.admPainel} className="text-sm font-semibold text-trilha-400 hover:text-trilha-500">
+        <Link to={ROTAS.admPainel} className="text-sm font-semibold text-sol-400 hover:text-sol-500">
           ← Saídas
         </Link>
         <div className="mt-2 flex flex-wrap items-center gap-3">
-          <h1 className="font-display text-4xl font-semibold sm:text-5xl">{saida.roteiroTitulo}</h1>
+          <h1 className="font-display text-3xl font-black uppercase sm:text-4xl">{saida.roteiroTitulo}</h1>
           <SeloStatus status={saida.status} />
         </div>
-        <p className="mt-1 text-areia-400 tabular-nums">
+        <p className="mt-1 text-cinza-400 tabular-nums">
           {formatarPeriodo(saida.dataInicio, saida.dataFim)} · {saida.vagasOcupadas} de {saida.capacidade} vagas vendidas ·{' '}
           {formatarReais(saida.precoBase)} por pessoa
         </p>
@@ -215,7 +215,7 @@ function PaginaSaida({ id }: { id: number }) {
             />
           )}
           {saida.situacao === 'CANCELADA' && (
-            <p className="text-sm text-areia-400">Saída cancelada. Para vender estas datas de novo, duplique-a para novas datas.</p>
+            <p className="text-sm text-cinza-400">Saída cancelada. Para vender estas datas de novo, duplique-a para novas datas.</p>
           )}
           {!duplicando && (
             <Botao variante="secundario" onClick={() => setDuplicando(true)}>

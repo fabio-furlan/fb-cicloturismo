@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Container } from '@/components/ui/Container'
+import { TituloSecao } from '@/components/ui/TituloSecao'
 import { ROTAS } from '@/constants/rotas'
 import type { Roteiro } from '@/types/roteiro'
 import { formatarNumero, formatarPreco } from '@/utils/formatacao'
@@ -55,7 +56,7 @@ export function SecaoExplorador({ roteiros, roteiroId, aoSelecionarRoteiro }: Se
   }, [simulacao, pontos])
 
   return (
-    <section id="explorar" className="relative isolate overflow-hidden bg-mata-950 pb-12 pt-8 sm:pb-16 sm:pt-10" aria-labelledby="titulo-explorar">
+    <section id="explorar" className="relative isolate overflow-hidden bg-carvao-950 pb-10 pt-6 sm:pb-16 sm:pt-10" aria-labelledby="titulo-explorar">
       {/* Fundo: a foto da trilha desfocada e escurecida, como se o painel flutuasse sobre a paisagem */}
       <img
         src="/images/hero-bikepacking.jpg"
@@ -63,23 +64,29 @@ export function SecaoExplorador({ roteiros, roteiroId, aoSelecionarRoteiro }: Se
         className="absolute inset-0 -z-20 h-full w-full scale-110 object-cover blur-2xl brightness-[0.45] saturate-[1.3]"
         loading="lazy"
       />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-mata-950/85 via-mata-950/55 to-mata-950/90" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-carvao-950/85 via-carvao-950/55 to-carvao-950/90" />
 
       <Container>
-        <h1 id="titulo-explorar" className="font-display text-3xl font-semibold uppercase italic leading-none sm:text-4xl">
-          Roteiros
-        </h1>
-       
+        <TituloSecao
+          id="titulo-explorar"
+          nivel="h1"
+          selo="Explore o percurso"
+          titulo="Nossos"
+          destaque="roteiros"
+          descricao="Escolha um roteiro, percorra o perfil de altimetria e veja o dia a dia da viagem."
+          tom="escuro"
+          alinhamento="esquerda"
+        />
 
-        <div className="mt-10">
+        <div className="mt-6 sm:mt-10">
           <SeletorRoteiro roteiros={roteiros} selecionadoId={roteiro.id} aoSelecionar={aoSelecionarRoteiro} />
         </div>
 
         {/* Sobre o roteiro e o dia a dia; a etapa em que a bike está fica destacada */}
         <div className="painel mt-6 grid gap-8 rounded-2xl p-5 sm:p-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
           <div>
-            <h3 className="font-display text-2xl font-bold">{roteiro.nome}</h3>
-            <p className="mt-3 leading-relaxed text-areia-100/85">{roteiro.descricao}</p>
+            <h3 className="font-display text-xl font-extrabold uppercase sm:text-2xl">{roteiro.nome}</h3>
+            <p className="mt-3 text-sm leading-relaxed text-white/80 sm:text-base">{roteiro.descricao}</p>
           </div>
           <ol className="space-y-2" aria-label="Dia a dia">
             {roteiro.etapas.map((etapa) => {
@@ -88,12 +95,12 @@ export function SecaoExplorador({ roteiros, roteiroId, aoSelecionarRoteiro }: Se
                 <li
                   key={etapa.dia}
                   className={`flex items-start gap-4 rounded-xl border p-3 transition-colors ${
-                    atual ? 'border-trilha-500/70 bg-trilha-500/10' : 'border-white/10'
+                    atual ? 'border-vermelho-500/70 bg-vermelho-500/15' : 'border-white/10'
                   }`}
                 >
                   <span
                     className={`flex h-11 w-11 shrink-0 flex-col items-center justify-center rounded-lg font-display leading-none ${
-                      atual ? 'bg-trilha-500 text-mata-950' : 'bg-white/[0.06]'
+                      atual ? 'bg-vermelho-500 text-white' : 'bg-white/[0.06]'
                     }`}
                   >
                     <span className="text-[0.65rem] font-semibold">Dia</span>
@@ -101,7 +108,7 @@ export function SecaoExplorador({ roteiros, roteiroId, aoSelecionarRoteiro }: Se
                   </span>
                   <span className="min-w-0">
                     <span className="block font-semibold leading-snug">{etapa.titulo}</span>
-                    <span className="mt-0.5 block text-sm tabular-nums text-areia-400">
+                    <span className="mt-0.5 block text-sm tabular-nums text-cinza-400">
                       {etapa.distanciaKm} km
                       {etapa.subidaM ? ` e ${formatarNumero(etapa.subidaM)} m de subida` : ''}
                     </span>
@@ -115,7 +122,7 @@ export function SecaoExplorador({ roteiros, roteiroId, aoSelecionarRoteiro }: Se
         <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_21rem] lg:grid-rows-[auto_1fr]">
           <div className="painel order-2 rounded-2xl p-4 sm:p-6 lg:col-start-1 lg:row-span-2 lg:row-start-1">
             <div className="flex flex-wrap items-center justify-between gap-4">
-              <ul className="flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-areia-400" aria-label="Legenda de inclinação">
+              <ul className="flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-cinza-400" aria-label="Legenda de inclinação">
                 {faixasInclinacao.map(({ faixa, rotulo }) => (
                   <li key={faixa} className="flex items-center gap-1.5">
                     <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: corDaFaixa(faixa) }} />
@@ -126,7 +133,7 @@ export function SecaoExplorador({ roteiros, roteiroId, aoSelecionarRoteiro }: Se
               <button
                 type="button"
                 onClick={alternarSimulacao}
-                className="inline-flex items-center gap-2 rounded-lg border border-trilha-500 px-4 py-2.5 text-sm font-semibold text-trilha-500 transition-colors hover:bg-trilha-500 hover:text-mata-950"
+                className="inline-flex items-center gap-2 rounded-full border border-vermelho-500 px-5 py-2.5 font-display text-[0.75rem] font-bold uppercase tracking-[0.08em] text-white transition-colors hover:bg-vermelho-500"
               >
                 <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 fill-current" aria-hidden="true">
                   {simulando ? <path d="M3 2h3.5v12H3zM9.5 2H13v12H9.5z" /> : <path d="M4 2l10 6-10 6z" />}
@@ -152,18 +159,18 @@ export function SecaoExplorador({ roteiros, roteiroId, aoSelecionarRoteiro }: Se
           </div>
 
           <div className="painel order-3 self-start rounded-2xl p-5 lg:col-start-2 lg:row-start-2">
-            <p className="text-sm text-areia-400">{roteiro.regiao}</p>
+            <p className="text-sm text-cinza-400">{roteiro.regiao}</p>
             <p className="mt-1 tabular-nums">
               {descreverDuracao(roteiro)}, {roteiro.distanciaKm} km e {formatarNumero(roteiro.subidaTotalM)} m de subida
             </p>
             <div className="mt-4 flex items-end justify-between gap-4">
               <p>
-                <span className="block text-sm text-areia-400">A partir de, por pessoa</span>
-                <span className="font-display text-3xl font-bold tabular-nums">{formatarPreco(roteiro.precoReais)}</span>
+                <span className="block text-sm text-cinza-400">A partir de, por pessoa</span>
+                <span className="font-display text-3xl font-black tabular-nums text-sol-500">{formatarPreco(roteiro.precoReais)}</span>
               </p>
               <Link
                 to={ROTAS.contato}
-                className="rounded-lg bg-trilha-500 px-5 py-3 text-sm font-semibold text-mata-950 transition-colors hover:bg-trilha-400"
+                className="rounded-full bg-vermelho-500 px-6 py-3 font-display text-[0.75rem] font-bold uppercase tracking-[0.08em] text-white shadow-[0_8px_24px_-8px_rgb(200_16_46/0.8)] transition-colors hover:bg-vermelho-600"
               >
                 Quero reservar
               </Link>
