@@ -7,6 +7,8 @@ export function useTopoAoTrocarDePagina() {
   useEffect(() => {
     // "instant": sem a rolagem suave do site, a página nova já aparece no topo.
     window.scrollTo({ top: 0, behavior: 'instant' })
+    // O efeito não lê `pathname`: a dependência existe justamente para ele rodar a cada troca de endereço.
+    // oxlint-disable-next-line react/exhaustive-deps
   }, [pathname])
 }
 

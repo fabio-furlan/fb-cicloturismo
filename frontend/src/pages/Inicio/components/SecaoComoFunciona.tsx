@@ -25,7 +25,7 @@ export function SecaoComoFunciona() {
   return (
     <section
       id="como-funciona"
-      className="secao-sobreposta recuar-ao-sair bg-verde-50 pb-8 pt-14 text-carvao-900 sm:pb-14 sm:pt-20"
+      className="secao-sobreposta recuar-ao-sair bg-verde-50 pt-14 pb-8 text-carvao-900 sm:pt-20 sm:pb-14"
       aria-labelledby="titulo-como-funciona"
     >
       <Container>
@@ -42,7 +42,7 @@ export function SecaoComoFunciona() {
         <ol className="relative mt-10 grid gap-8 sm:mt-14 sm:gap-10 md:grid-cols-4 md:gap-8">
           {/* Linha que liga as etapas, como um trajeto */}
           <span
-            className="absolute left-5 top-5 h-[calc(100%-2.5rem)] w-0.5 bg-vermelho-500/25 md:left-5 md:right-0 md:h-0.5 md:w-auto"
+            className="absolute top-5 left-5 h-[calc(100%-2.5rem)] w-0.5 bg-vermelho-500/25 md:right-0 md:left-5 md:h-0.5 md:w-auto"
             aria-hidden="true"
           />
           {etapas.map((etapa, i) => (
@@ -51,7 +51,7 @@ export function SecaoComoFunciona() {
                 {i + 1}
               </span>
               <div>
-                <h3 className="font-display text-lg font-extrabold uppercase leading-tight sm:text-xl md:mt-6">{etapa.titulo}</h3>
+                <h3 className="font-display text-lg leading-tight font-extrabold uppercase sm:text-xl md:mt-6">{etapa.titulo}</h3>
                 <p className="mt-2 max-w-sm leading-relaxed text-cinza-600">{etapa.texto}</p>
               </div>
             </li>

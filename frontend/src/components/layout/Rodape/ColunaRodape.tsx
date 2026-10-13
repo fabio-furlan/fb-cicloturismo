@@ -10,12 +10,12 @@ interface ColunaRodapeProps {
   children: ReactNode
 }
 
-export function ColunaRodape({ titulo, rota, className = '', children }: ColunaRodapeProps) {
+export function ColunaRodape({ titulo, rota, className, children }: ColunaRodapeProps) {
   const voltarAoTopo = useVoltarAoTopoNaMesmaPagina()
 
   return (
     <div className={className}>
-      <h2 className="mb-3 font-display text-xs font-extrabold uppercase tracking-[0.14em] text-white">
+      <h2 className="mb-3 font-display text-xs font-extrabold tracking-[0.14em] text-white uppercase">
         {rota ? (
           <Link to={rota} onClick={voltarAoTopo(rota)} className="-my-3 inline-flex py-3 transition-colors hover:text-sol-500">
             {titulo}

@@ -1,14 +1,23 @@
 import type { ReactNode } from 'react'
 import { IconeCalendario, IconeFechar, IconeSeta } from '@/components/icones'
 import { Container } from '@/components/ui/Container'
+import { estiloBotaoPrincipal } from '@/components/ui/estilosBotao'
 import { SetaSecao } from '@/components/ui/SetaSecao'
 import { TituloSecao } from '@/components/ui/TituloSecao'
-import { niveis } from '@/config/niveis'
+import {
+  contarRoteiros,
+  filtrarSaidas,
+  filtrosVazios,
+  mesesComSaida,
+  niveis,
+  paisagens,
+  type FiltrosViagem,
+  type Paisagem,
+  type Roteiro,
+} from '@/features/roteiros'
 import { revelar } from '@/hooks/useRevelarAoRolar'
-import { paisagens } from '@/config/paisagens'
-import type { Paisagem, Roteiro } from '@/types/roteiro'
+import { cn } from '@/utils/cn'
 import { formatarMesAno } from '@/utils/formatacao'
-import { contarRoteiros, type FiltrosViagem, filtrarSaidas, mesesComSaida } from '@/utils/saidas'
 import { VitrineSaidas } from './VitrineSaidas'
 
 interface FiltroRapidoProps {
@@ -26,7 +35,7 @@ function FiltroRapido({ ativo, quantidade, aoEscolher, children }: FiltroRapidoP
       aria-pressed={ativo}
       onClick={aoEscolher}
       disabled={quantidade === 0 && !ativo}
-      className={`inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-5 text-sm font-bold baixa:sm:min-h-9 baixa:px-4 transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${
+      className={`inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-5 text-sm font-bold transition-colors disabled:cursor-not-allowed disabled:opacity-40 baixa:px-4 baixa:sm:min-h-9 ${
         ativo
           ? 'border-vermelho-500 bg-vermelho-500 text-white shadow-[0_6px_18px_-8px_rgb(200_16_46/0.8)]'
           : 'border-carvao-900/10 bg-white text-carvao-900 hover:border-vermelho-500 hover:text-vermelho-500'
@@ -63,7 +72,7 @@ export function SecaoSaidas({ roteiros, filtros, aoMudarFiltros, aoExplorar, pro
   return (
     <section
       // Cresce para ocupar a tela em monitores altos, com o conteúdo centralizado na vertical
-      className="flex flex-1 flex-col justify-center overflow-hidden bg-creme-50 pb-4 pt-10 text-carvao-900 sm:pb-6 baixa:pb-3 baixa:pt-5 mini:pt-3"
+      className="flex flex-1 flex-col justify-center overflow-hidden bg-creme-50 pt-10 pb-4 text-carvao-900 sm:pb-6 baixa:pt-5 baixa:pb-3 mini:pt-3"
       aria-labelledby="titulo-saidas"
     >
       {/* data-conteudo-ajustavel: o carrossel mede este bloco para os cartões caberem na tela */}
@@ -87,7 +96,10 @@ export function SecaoSaidas({ roteiros, filtros, aoMudarFiltros, aoExplorar, pro
 
         {/* Filtros numa linha só (paisagem e mês), para o título e os cartões caberem juntos na tela.
             No celular, a linha rola para o lado. */}
-        <div {...revelar(150)} className="-mx-4 mt-6 flex items-center gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:justify-center sm:overflow-visible sm:px-0 sm:pb-0 baixa:mt-3 mini:mt-2">
+        <div
+          {...revelar(150)}
+          className="-mx-4 mt-6 flex [scrollbar-width:none] items-center gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:justify-center sm:overflow-visible sm:px-0 sm:pb-0 baixa:mt-3 mini:mt-2"
+        >
           <div className="flex shrink-0 gap-2 sm:flex-wrap sm:justify-center" role="group" aria-label="Filtrar por paisagem">
             <FiltroRapido ativo={!filtros.paisagem} quantidade={contar({ paisagem: '' })} aoEscolher={() => mudar({ paisagem: '' })}>
               Todas
@@ -106,7 +118,7 @@ export function SecaoSaidas({ roteiros, filtros, aoMudarFiltros, aoExplorar, pro
 
           <div className="flex shrink-0 items-center gap-2">
             {/* Mês num campo só, igual ao "Quando" da busca do topo, em vez de um botão para cada mês */}
-            <div className="relative inline-flex h-11 items-center gap-2 rounded-full baixa:sm:h-9 border border-carvao-900/10 bg-white pl-4 transition-colors focus-within:border-vermelho-500 hover:border-vermelho-500">
+            <div className="relative inline-flex h-11 items-center gap-2 rounded-full border border-carvao-900/10 bg-white pl-4 transition-colors focus-within:border-vermelho-500 hover:border-vermelho-500 baixa:sm:h-9">
               <label htmlFor="filtro-mes" className="sr-only">
                 Filtrar por mês
               </label>
@@ -127,13 +139,13 @@ export function SecaoSaidas({ roteiros, filtros, aoMudarFiltros, aoExplorar, pro
                   )
                 })}
               </select>
-              <IconeSeta className="pointer-events-none absolute right-4 top-1/2 h-3.5 w-3.5 -translate-y-1/2 rotate-90 text-cinza-600" />
+              <IconeSeta className="pointer-events-none absolute top-1/2 right-4 h-3.5 w-3.5 -translate-y-1/2 rotate-90 text-cinza-600" />
             </div>
             {filtros.nivel && (
               <button
                 type="button"
                 onClick={() => mudar({ nivel: '' })}
-                className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border border-vermelho-500 bg-white px-5 baixa:min-h-9 text-sm font-bold text-vermelho-500"
+                className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border border-vermelho-500 bg-white px-5 text-sm font-bold text-vermelho-500 baixa:min-h-9"
                 aria-label={`Remover filtro de nível ${niveis[filtros.nivel].nome}`}
               >
                 Nível {niveis[filtros.nivel].nome.toLowerCase()}
@@ -147,11 +159,7 @@ export function SecaoSaidas({ roteiros, filtros, aoMudarFiltros, aoExplorar, pro
           <div className="mx-auto mt-12 max-w-2xl rounded-2xl border border-dashed border-carvao-900/20 bg-white p-8 text-center">
             <p className="font-display text-2xl font-extrabold">Nada nessa combinação por enquanto</p>
             <p className="mt-2 text-cinza-600">Tente outro mês ou outra paisagem. Novas datas abrem todo mês.</p>
-            <button
-              type="button"
-              onClick={() => aoMudarFiltros({ paisagem: '', mes: '', nivel: '' })}
-              className="mt-6 min-h-11 rounded-full bg-vermelho-500 px-7 font-display text-[0.8rem] font-bold uppercase tracking-[0.08em] text-white hover:bg-vermelho-600"
-            >
+            <button type="button" onClick={() => aoMudarFiltros(filtrosVazios)} className={cn(estiloBotaoPrincipal(), 'mt-6')}>
               Ver todas as saídas
             </button>
           </div>

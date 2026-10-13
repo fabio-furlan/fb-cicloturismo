@@ -118,7 +118,7 @@ flowchart LR
 | **Frontend** | React 19, TypeScript, Vite, Tailwind CSS 4, React Router 7 | ✅ Em andamento |
 | **Backend** | Java 21, Spring Boot 4, Spring Web, Spring Data JPA, Spring Security (JWT), Bean Validation, springdoc (OpenAPI) | ✅ Em andamento |
 | **Banco de dados** | PostgreSQL 17, migrations com Flyway (Docker no desenvolvimento, Supabase em produção) | ✅ |
-| **Qualidade** | Frontend: oxlint e checagem de tipos no build. Backend: JUnit 5, AssertJ e Testcontainers (testes contra um PostgreSQL real) | ✅ |
+| **Qualidade** | Frontend: Vitest e Testing Library, oxlint, Prettier e CI no GitHub Actions. Backend: JUnit 5, AssertJ e Testcontainers (testes contra um PostgreSQL real) | ✅ |
 | **Deploy** | Vercel (frontend), Render (API), Supabase (banco) | ⚙️ Configurado, falta publicar ([guia](docs/deploy.md)) |
 
 <details>
@@ -128,11 +128,15 @@ flowchart LR
 
 | Decisão | Por quê |
 | --- | --- |
-| **Uma pasta por página** (`pages/Inicio`, `pages/MinhaConta`...) | Cada página reúne seus próprios componentes. Quando um componente passa a ser usado em mais de um lugar, ele sobe para `components/`. |
+| **Organização por domínio** (`features/roteiros`, `features/adm`) | Cada domínio reúne API, tipos, regras, hooks e componentes, e expõe só uma API pública (`index.ts`). O lint reprova importar um arquivo interno de outro domínio, então as fronteiras não se desfazem com o tempo. |
+| **Uma pasta por tela** (`pages/Inicio`, `pages/Adm/Painel`...) | As páginas só montam as telas a partir dos domínios. Um componente usado por uma tela só fica junto dela. |
+| **Lógica separada da tela** | Conversões, validações e cálculos (perfil altimétrico, filtros, formulário de roteiro) são funções puras, testadas sem desenhar nada. |
+| **Testes** (Vitest + Testing Library) | Regras de negócio, adaptador da API, cliente HTTP, sessão, hooks e componentes de interação, mais um teste que abre cada rota de verdade. A CI roda tudo a cada pull request. |
+| **Error Boundary** | Um erro numa página mostra uma mensagem no lugar dela, com cabeçalho e rodapé funcionando, em vez de deixar o site em branco. |
 | **Configuração centralizada** (`config/`, `constants/`) | Menu, dados de contato e caminhos das rotas ficam num lugar só. Mudar um telefone ou adicionar um item no menu é editar uma linha. |
 | **Lazy loading das páginas** | Cada página é baixada só quando o usuário entra nela, o que deixa o carregamento inicial mais leve. |
 | **Imports absolutos com `@/`** | `@/components/ui/Logo` em vez de `../../../components/ui/Logo`: mais legível e resistente a mudanças de pasta. |
-| **Hooks reutilizáveis** (`useRolagemPassou`, `useTravarRolagem`, `useRevelarAoRolar`, `useRolagemAoTopo`) | A lógica de comportamento fica separada da interface e pode ser reaproveitada. |
+| **Hooks reutilizáveis** (`useRecurso`, `useRolagemPassou`, `useTravarRolagem`, `useRevelarAoRolar`) | A lógica de comportamento fica separada da interface. `useRecurso` padroniza carregando, erro e pronto, e cancela a requisição anterior ao trocar de tela. |
 | **Tema no Tailwind** (`@theme`) | Cores e fontes definidas como tokens (`vermelho-*`, `sol-*`, `verde-*`, `carvao-*`, `creme-*`). Trocar a identidade visual é mudar um arquivo. |
 | **Ajuste à altura da tela** | Além das larguras do Tailwind, há variantes pela altura da janela (`baixa`, `mini`, `curta`), e a vitrine calcula a própria altura para o título, os filtros e a faixa de números caberem juntos na tela, do notebook baixo ao monitor 2K. |
 | **Animações com respeito ao usuário** | Entradas, parallax e troca da vitrine usam CSS e animações ligadas à rolagem; quem pede "reduzir movimento" no sistema vê tudo parado. |
@@ -169,23 +173,22 @@ fb-cicloturismo/
 ├── frontend/                  # Aplicação React (Vite + TypeScript)
 │   ├── public/images/         # Imagens estáticas
 │   └── src/
-│       ├── app/               # App e mapa de rotas
-│       ├── components/
-│       │   ├── icones/        # Ícones SVG
-│       │   ├── layout/        # LayoutPrincipal, Cabecalho, Rodape
-│       │   └── ui/            # Componentes genéricos (Logo, Container...)
+│       ├── app/               # Provedores, mapa de rotas e limite de erro
+│       ├── features/          # Domínios: roteiros (catálogo) e adm (painel)
+│       ├── pages/             # Uma pasta por tela, carregada sob demanda
+│       ├── components/        # Compartilhados: feedback, ícones, layout, ui
+│       ├── hooks/             # Hooks genéricos
+│       ├── lib/               # Cliente HTTP da API
+│       ├── utils/             # Funções puras (formatação, cn)
 │       ├── config/            # Dados editáveis (menu, contato da empresa)
 │       ├── constants/         # Caminhos das rotas
-│       ├── hooks/             # Hooks reutilizáveis
-│       ├── pages/             # Uma pasta por página
-│       ├── services/          # Comunicação com a API
-│       ├── styles/            # Tailwind + tema
-│       └── types/             # Tipos compartilhados
+│       └── styles/            # Tailwind + tema
 ├── backend/                   # API Spring Boot (Java 21 + Maven)
 │   └── src/main/java/br/com/fbcicloturismo/
 │       ├── expedicao/         # Roteiros, saídas, opcionais e catálogo público
 │       ├── autenticacao/      # Login do ADM e administradores
 │       └── compartilhado/     # Segurança, erros e configurações comuns
+├── .github/workflows/          # CI do frontend
 ├── docs/                      # Guia de deploy e imagens do README
 └── render.yaml                # Configuração do deploy da API no Render
 ```
@@ -196,7 +199,7 @@ Mais detalhes no [README do frontend](frontend/README.md) e no [guia de deploy](
 
 ## 🚀 Como executar
 
-**Pré-requisitos:** [Node.js](https://nodejs.org/) 20 ou superior.
+**Pré-requisitos:** [Node.js](https://nodejs.org/) 22 ou superior.
 
 ```bash
 # 1. Clone o repositório
@@ -223,6 +226,8 @@ Acesse **http://localhost:5173**. Sem configuração, o site usa dados de exempl
 | `npm run build` | Checa os tipos e gera o build de produção em `dist/` |
 | `npm run preview` | Serve o build de produção localmente |
 | `npm run lint` | Analisa o código com o oxlint |
+| `npm test` | Roda os testes (Vitest) |
+| `npm run check` | Tudo o que a CI confere: tipos, lint, formatação e testes |
 
 </details>
 

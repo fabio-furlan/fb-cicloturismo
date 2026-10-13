@@ -1,6 +1,5 @@
-import type { Roteiro } from '@/types/roteiro'
+import { corDaFaixa, faixaDaInclinacao, type PontoRota, type Roteiro } from '@/features/roteiros'
 import { formatarNumero } from '@/utils/formatacao'
-import { corDaFaixa, faixaDaInclinacao, type PontoRota } from '@/utils/rota'
 
 interface CiclocomputadorProps {
   roteiro: Roteiro
@@ -27,7 +26,7 @@ export function Ciclocomputador({ roteiro, ponto }: CiclocomputadorProps) {
 
         <div className="mt-3 border-y border-carvao-600 py-3">
           <p className="text-sm text-cinza-400">Inclinação</p>
-          <p className="font-display text-5xl font-bold leading-none sm:text-6xl" style={{ color: cor }}>
+          <p className="font-display text-5xl leading-none font-bold sm:text-6xl" style={{ color: cor }}>
             {inclinacao > 0 ? '+' : inclinacao < 0 ? '−' : ''}
             {decimal.format(Math.abs(inclinacao))}
             <span className="ml-1 text-3xl">%</span>
@@ -37,19 +36,19 @@ export function Ciclocomputador({ roteiro, ponto }: CiclocomputadorProps) {
         <dl className="mt-3 grid grid-cols-3 gap-3 lg:grid-cols-1 xl:grid-cols-3">
           <div>
             <dt className="text-xs text-cinza-400">Distância</dt>
-            <dd className="font-display text-2xl font-semibold leading-tight">
+            <dd className="font-display text-2xl leading-tight font-semibold">
               {decimal.format(ponto.km)} <span className="text-base text-cinza-400">km</span>
             </dd>
           </div>
           <div>
             <dt className="text-xs text-cinza-400">Altitude</dt>
-            <dd className="font-display text-2xl font-semibold leading-tight">
+            <dd className="font-display text-2xl leading-tight font-semibold">
               {formatarNumero(Math.round(ponto.altitude))} <span className="text-base text-cinza-400">m</span>
             </dd>
           </div>
           <div>
             <dt className="text-xs text-cinza-400">Subida feita</dt>
-            <dd className="font-display text-2xl font-semibold leading-tight">
+            <dd className="font-display text-2xl leading-tight font-semibold">
               {formatarNumero(Math.round(ponto.subidaAcumulada))} <span className="text-base text-cinza-400">m</span>
             </dd>
           </div>

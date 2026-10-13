@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Container } from '@/components/ui/Container'
-import type { Roteiro } from '@/types/roteiro'
+import type { Roteiro } from '@/features/roteiros'
 import { formatarNumero } from '@/utils/formatacao'
 
 const DURACAO_CONTAGEM_MS = 1400
@@ -66,10 +66,10 @@ export function SecaoNumeros({ roteiros }: { roteiros: Roteiro[] }) {
         <dl className="grid grid-cols-4 items-center gap-1 sm:flex sm:justify-center sm:gap-x-8 lg:gap-x-14">
           {numeros.map(({ valor, rotulo }) => (
             <div key={rotulo} className="flex flex-col-reverse items-center text-center sm:flex-row-reverse sm:items-baseline sm:gap-1.5">
-              <dt className="font-display text-[0.5rem] font-bold uppercase leading-none tracking-[0.08em] text-white/85 sm:text-[0.62rem] sm:tracking-[0.1em]">
+              <dt className="font-display text-[0.5rem] leading-none font-bold tracking-[0.08em] text-white/85 uppercase sm:text-[0.62rem] sm:tracking-[0.1em]">
                 {rotulo}
               </dt>
-              <dd className="mb-0.5 font-display text-sm font-black tabular-nums leading-none text-sol-500 sm:mb-0 sm:text-lg">{valor}</dd>
+              <dd className="mb-0.5 font-display text-sm leading-none font-black text-sol-500 tabular-nums sm:mb-0 sm:text-lg">{valor}</dd>
             </div>
           ))}
         </dl>
