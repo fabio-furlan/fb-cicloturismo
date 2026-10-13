@@ -1,4 +1,4 @@
-import { PaginaEmConstrucao } from '@/components/ui/PaginaEmConstrucao'
+import { PaginaEmConstrucao } from '@/components/feedback/PaginaEmConstrucao'
 
 // Futuramente: login, cadastro, reservas e dados do cliente.
 export function MinhaConta() {

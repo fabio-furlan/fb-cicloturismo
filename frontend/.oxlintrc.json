@@ -1,8 +1,126 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
+  "plugins": ["react", "typescript", "oxc", "import", "jsx-a11y", "vitest"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn"
+  },
   "rules": {
     "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
+    "react/exhaustive-deps": "warn",
+    "react/only-export-components": [
+      "warn",
+      {
+        "allowConstantExport": true
+      }
+    ],
+    "react/react-in-jsx-scope": "off",
+    "import/no-cycle": "error",
+    "import/no-duplicates": "error",
+    "typescript/consistent-type-imports": "error",
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          {
+            "group": ["@/features/*/*"],
+            "message": "Importe pela API pública do domínio (@/features/<dominio>), não de um arquivo interno."
+          },
+          {
+            "group": ["@/pages/*/*"],
+            "message": "Uma página não importa os arquivos de outra. O que for compartilhado vai para components/ ou features/."
+          }
+        ]
+      }
+    ],
+    "no-shadow": "off",
+    "jsx-a11y/prefer-tag-over-role": "off",
+    "jsx-a11y/control-has-associated-label": "off",
+    "import/no-unassigned-import": [
+      "warn",
+      {
+        "allow": ["**/*.css", "@testing-library/jest-dom/vitest"]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["src/components/**", "src/hooks/**", "src/lib/**", "src/utils/**", "src/config/**", "src/constants/**", "src/types/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@/features/*/*"],
+                "message": "Importe pela API pública do domínio (@/features/<dominio>), não de um arquivo interno."
+              },
+              {
+                "group": ["@/pages/*/*"],
+                "message": "Uma página não importa os arquivos de outra. O que for compartilhado vai para components/ ou features/."
+              },
+              {
+                "group": ["@/features", "@/features/*", "@/pages", "@/pages/*"],
+                "message": "Código compartilhado não conhece domínios nem páginas: quem usa passa o que for preciso por props ou parâmetros."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/features/roteiros/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@/features/*/*"],
+                "message": "Importe pela API pública do domínio (@/features/<dominio>), não de um arquivo interno."
+              },
+              {
+                "group": ["@/pages/*/*"],
+                "message": "Uma página não importa os arquivos de outra. O que for compartilhado vai para components/ ou features/."
+              },
+              {
+                "group": ["@/features/adm", "@/features/adm/*", "@/pages", "@/pages/*"],
+                "message": "O domínio de roteiros é a base: ele não depende do painel do ADM nem das páginas."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/features/adm/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@/features/*/*"],
+                "message": "Importe pela API pública do domínio (@/features/<dominio>), não de um arquivo interno."
+              },
+              {
+                "group": ["@/pages/*/*"],
+                "message": "Uma página não importa os arquivos de outra. O que for compartilhado vai para components/ ou features/."
+              },
+              {
+                "group": ["@/pages", "@/pages/*"],
+                "message": "Um domínio não depende das páginas: são elas que montam as telas a partir dele."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["**/*.test.ts", "**/*.test.tsx", "src/test/**"],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    }
+  ]
 }

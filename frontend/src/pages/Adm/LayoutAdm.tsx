@@ -1,9 +1,11 @@
-import { useEffect } from 'react'
 import { Link, Navigate, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { Container } from '@/components/ui/Container'
 import { MarcaFabio } from '@/components/ui/MarcaFabio'
+import { empresa } from '@/config/empresa'
 import { ROTAS } from '@/constants/rotas'
-import { useSessaoAdm } from './sessao/contexto'
+import { useSessaoAdm, type EstadoDaNavegacao } from '@/features/adm'
+import { useTituloDaPagina } from '@/hooks/useTituloDaPagina'
+import { cn } from '@/utils/cn'
 
 const links = [
   { rota: ROTAS.admPainel, rotulo: 'Saídas', fim: true },
@@ -15,15 +17,9 @@ export function LayoutAdm() {
   const { administrador, sair } = useSessaoAdm()
   const { pathname } = useLocation()
 
-  useEffect(() => {
-    const anterior = document.title
-    document.title = 'Painel do ADM · Fábio Cicloturismo'
-    return () => {
-      document.title = anterior
-    }
-  }, [])
+  useTituloDaPagina(`Painel do ADM · ${empresa.nome}`)
 
-  if (!administrador) return <Navigate to={ROTAS.admEntrar} replace state={{ de: pathname }} />
+  if (!administrador) return <Navigate to={ROTAS.admEntrar} replace state={{ de: pathname } satisfies EstadoDaNavegacao} />
 
   return (
     <div className="flex min-h-screen flex-col bg-carvao-900">
@@ -32,7 +28,7 @@ export function LayoutAdm() {
           <div className="flex items-center gap-6">
             <Link to={ROTAS.admPainel} className="flex items-center gap-2.5" aria-label="Painel do ADM, início">
               <MarcaFabio className="h-8 w-7 shrink-0" />
-              <span className="font-display text-lg font-black uppercase leading-none">
+              <span className="font-display text-lg leading-none font-black uppercase">
                 Painel <span className="text-sol-500">ADM</span>
               </span>
             </Link>
@@ -44,9 +40,10 @@ export function LayoutAdm() {
                       to={rota}
                       end={fim}
                       className={({ isActive }) =>
-                        `inline-flex min-h-11 items-center rounded-lg px-4 text-sm font-semibold transition-colors ${
-                          isActive ? 'bg-white/10 text-sol-400' : 'text-creme-100/85 hover:text-sol-400'
-                        }`
+                        cn(
+                          'inline-flex min-h-11 items-center rounded-lg px-4 text-sm font-semibold transition-colors',
+                          isActive ? 'bg-white/10 text-sol-400' : 'text-creme-100/85 hover:text-sol-400',
+                        )
                       }
                     >
                       {rotulo}

@@ -1,4 +1,5 @@
 import { IconeSeta } from '@/components/icones'
+import { cn } from '@/utils/cn'
 
 interface SetaSecaoProps {
   /** Id da divisão de destino. */
@@ -12,12 +13,13 @@ interface SetaSecaoProps {
 }
 
 /** Convite para a próxima divisão da página: texto curto e uma seta redonda que balança. */
-export function SetaSecao({ para, rotulo, tom = 'escuro', compacta = false, className = '' }: SetaSecaoProps) {
+export function SetaSecao({ para, rotulo, tom = 'escuro', compacta = false, className }: SetaSecaoProps) {
   const seta = (
     <span
-      className={`balancar-seta flex h-9 w-9 items-center justify-center rounded-full border backdrop-blur-sm transition-colors group-hover:border-vermelho-500 group-hover:bg-vermelho-500 group-hover:text-white ${
-        tom === 'escuro' ? 'border-white/30 bg-carvao-950/60' : 'border-carvao-900/15 bg-white'
-      }`}
+      className={cn(
+        'balancar-seta flex h-9 w-9 items-center justify-center rounded-full border backdrop-blur-sm transition-colors group-hover:border-vermelho-500 group-hover:bg-vermelho-500 group-hover:text-white',
+        tom === 'escuro' ? 'border-white/30 bg-carvao-950/60' : 'border-carvao-900/15 bg-white',
+      )}
     >
       <IconeSeta className="h-4 w-4 rotate-90" />
     </span>
@@ -26,11 +28,15 @@ export function SetaSecao({ para, rotulo, tom = 'escuro', compacta = false, clas
   return (
     <a
       href={`#${para}`}
-      className={`group mx-auto flex w-fit flex-col items-center gap-1.5 text-sm font-bold transition-colors ${
-        tom === 'escuro' ? 'text-white/85 [text-shadow:0_1px_6px_rgb(0_0_0/0.5)] hover:text-white' : 'text-carvao-900/70 hover:text-carvao-900'
-      } ${className}`}
+      className={cn(
+        'group mx-auto flex w-fit flex-col items-center gap-1.5 text-sm font-bold transition-colors',
+        tom === 'escuro'
+          ? 'text-white/85 [text-shadow:0_1px_6px_rgb(0_0_0/0.5)] hover:text-white'
+          : 'text-carvao-900/70 hover:text-carvao-900',
+        className,
+      )}
     >
-      <span className={compacta ? 'max-sm:curta:sr-only sm:mini:sr-only' : ''}>{rotulo}</span>
+      <span className={cn(compacta && 'sm:mini:sr-only max-sm:curta:sr-only')}>{rotulo}</span>
       {seta}
     </a>
   )

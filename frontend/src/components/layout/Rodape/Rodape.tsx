@@ -32,7 +32,11 @@ export function Rodape() {
           <ul className="sm:space-y-1.5">
             {linksRodape.map(({ rota, rotulo }) => (
               <li key={rota}>
-                <Link to={rota} onClick={voltarAoTopo(rota)} className="inline-flex min-h-10 items-center transition-colors hover:text-sol-500 sm:min-h-0">
+                <Link
+                  to={rota}
+                  onClick={voltarAoTopo(rota)}
+                  className="inline-flex min-h-10 items-center transition-colors hover:text-sol-500 sm:min-h-0"
+                >
                   {rotulo}
                 </Link>
               </li>
@@ -44,7 +48,7 @@ export function Rodape() {
           <ul className="sm:space-y-1.5">
             <li className="flex min-h-10 items-center gap-2 sm:min-h-0">
               <IconeEmail className="h-4 w-4 shrink-0 text-sol-500" />
-              <a href={`mailto:${contato.email}`} className="-my-3 break-all py-3 transition-colors hover:text-sol-500">
+              <a href={`mailto:${contato.email}`} className="-my-3 py-3 break-all transition-colors hover:text-sol-500">
                 {contato.email}
               </a>
             </li>
