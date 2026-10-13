@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 
+/* Os testes têm classes de exemplo nas strings: não devem gerar CSS no site. */
+@source not '../**/*.test.{ts,tsx}';
+@source not '../test';
+
 /* Variantes pela ALTURA da janela, para seções que precisam caber inteiras na tela (título e cartões juntos):
    baixa = notebooks e celulares comuns; mini = notebooks pequenos com barra de favoritos e celulares baixos;
    curta = só os celulares bem baixos (iPhone SE e parecidos), onde até o texto de apoio precisa sair. */
@@ -41,6 +45,8 @@
   --color-verde-400: #4caf72;
   --color-verde-600: #1a6b3c;
 
+  --color-alerta-200: #ffc2b8; /* texto de erro sobre fundo escuro */
+  --color-alerta-300: #ff9b8a; /* ações destrutivas sobre fundo escuro */
   --color-alerta-600: #c2361f;
 
   /* Cores de inclinação, na convenção dos apps de ciclismo */

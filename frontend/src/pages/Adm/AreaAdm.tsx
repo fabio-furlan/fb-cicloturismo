@@ -1,12 +1,13 @@
 import { Route, Routes } from 'react-router-dom'
-import { NaoEncontrada } from '@/pages/NaoEncontrada/NaoEncontrada'
-import { DetalheSaida } from './DetalheSaida'
-import { Entrar } from './Entrar'
+import { PaginaNaoEncontrada } from '@/components/feedback/PaginaNaoEncontrada'
+import { ProvedorSessaoAdm } from '@/features/adm'
+import { Entrar } from './Entrar/Entrar'
 import { LayoutAdm } from './LayoutAdm'
-import { EditarRoteiro, NovoRoteiro } from './PaginasRoteiro'
-import { Painel } from './Painel'
-import { Roteiros } from './Roteiros'
-import { ProvedorSessaoAdm } from './sessao/ProvedorSessaoAdm'
+import { Painel } from './Painel/Painel'
+import { EditarRoteiro } from './Roteiro/EditarRoteiro'
+import { NovoRoteiro } from './Roteiro/NovoRoteiro'
+import { Roteiros } from './Roteiros/Roteiros'
+import { DetalheSaida } from './Saida/DetalheSaida'
 
 /**
  * Tudo sob /adm. É carregado sob demanda, num pacote separado: quem só visita o site não baixa o código do painel.
@@ -23,7 +24,7 @@ export function AreaAdm() {
           <Route path="roteiros" element={<Roteiros />} />
           <Route path="roteiros/novo" element={<NovoRoteiro />} />
           <Route path="roteiros/:id" element={<EditarRoteiro />} />
-          <Route path="*" element={<NaoEncontrada />} />
+          <Route path="*" element={<PaginaNaoEncontrada />} />
         </Route>
       </Routes>
     </ProvedorSessaoAdm>

@@ -1,22 +1,20 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Carregando } from '@/components/ui/Carregando'
-import { ErroAoCarregar } from '@/components/ui/ErroAoCarregar'
+import { Carregando } from '@/components/feedback/Carregando'
 import { ROTAS } from '@/constants/rotas'
+import { ErroNoCatalogo, filtrosVazios, useRoteiros, type FiltrosViagem } from '@/features/roteiros'
 import { useRevelarAoRolar } from '@/hooks/useRevelarAoRolar'
-import { useRoteiros } from '@/hooks/useRoteiros'
-import { type FiltrosViagem, filtrosVazios } from '@/utils/saidas'
+import { SecaoDestaque } from './components/destaque/SecaoDestaque'
+import { SecaoSaidas } from './components/saidas/SecaoSaidas'
 import { SecaoCalculadoraNivel } from './components/SecaoCalculadoraNivel'
 import { SecaoChamadaFinal } from './components/SecaoChamadaFinal'
 import { SecaoComoFunciona } from './components/SecaoComoFunciona'
 import { SecaoNumeros } from './components/SecaoNumeros'
-import { SecaoDestaque } from './components/destaque/SecaoDestaque'
-import { SecaoSaidas } from './components/saidas/SecaoSaidas'
 
 const rolarAte = (id: string) => document.getElementById(id)?.scrollIntoView()
 
 export function Inicio() {
-  const estado = useRoteiros()
+  const { estado, recarregar } = useRoteiros()
   const [filtros, setFiltros] = useState<FiltrosViagem>(filtrosVazios)
   const navegar = useNavigate()
 
@@ -24,8 +22,8 @@ export function Inicio() {
   useRevelarAoRolar(estado.situacao === 'pronto')
 
   if (estado.situacao === 'carregando') return <Carregando />
-  if (estado.situacao === 'erro') return <ErroAoCarregar aoTentarDeNovo={estado.tentarDeNovo} />
-  const { roteiros } = estado
+  if (estado.situacao === 'erro') return <ErroNoCatalogo aoTentarDeNovo={recarregar} />
+  const roteiros = estado.dados
   const temCalculadora = roteiros.length > 0
 
   const buscar = (novos: FiltrosViagem) => {
@@ -41,7 +39,11 @@ export function Inicio() {
       {/* A chave recria a busca do topo quando um filtro é removido lá embaixo, para os campos refletirem o estado atual. */}
       <SecaoDestaque key={JSON.stringify(filtros)} roteiros={roteiros} filtros={filtros} aoBuscar={buscar} />
       {/* Divisão 2 (cada divisão sobe por cima da anterior como uma camada), destino de "Ver as próximas saídas" e da busca: saídas e faixa de números ocupam a tela abaixo do cabeçalho */}
-      <div id="saidas" data-caber-na-tela className="secao-sobreposta recuar-ao-sair flex min-h-[calc(100svh-var(--cabecalho))] flex-col bg-creme-50">
+      <div
+        id="saidas"
+        data-caber-na-tela
+        className="secao-sobreposta recuar-ao-sair flex min-h-[calc(100svh-var(--cabecalho))] flex-col bg-creme-50"
+      >
         <SecaoSaidas
           roteiros={roteiros}
           filtros={filtros}

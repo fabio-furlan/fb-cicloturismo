@@ -1,4 +1,4 @@
-import { type CSSProperties, useEffect } from 'react'
+import { useEffect, type CSSProperties } from 'react'
 
 /** Marca um elemento para surgir ao entrar na tela, `atraso` milissegundos depois dos anteriores da mesma divisão. */
 export function revelar(atraso = 0) {

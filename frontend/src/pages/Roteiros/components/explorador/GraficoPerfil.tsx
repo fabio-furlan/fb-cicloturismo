@@ -1,8 +1,7 @@
-import { type KeyboardEvent, type PointerEvent, useEffect, useMemo, useRef, useState } from 'react'
-import type { Roteiro } from '@/types/roteiro'
-import { formatarNumero } from '@/utils/formatacao'
-import { corDaFaixa, faixaDaInclinacao, type FaixaInclinacao, limitesDasEtapas, type PontoRota } from '@/utils/rota'
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react'
 import { BikeMtb } from '@/components/ui/BikeMtb'
+import { corDaFaixa, faixaDaInclinacao, limitesDasEtapas, type FaixaInclinacao, type PontoRota, type Roteiro } from '@/features/roteiros'
+import { formatarNumero } from '@/utils/formatacao'
 
 interface GraficoPerfilProps {
   roteiro: Roteiro
@@ -108,10 +107,10 @@ export function GraficoPerfil({ roteiro, pontos, indice, aoMudarIndice, aoIntera
   const anguloBike = Math.max(Math.min(((Math.atan2(dyTela, dxTela || 1) * 180) / Math.PI) * 0.85, 30), -30)
 
   return (
-    <div className="relative select-none pb-7 pl-12 pt-7">
+    <div className="relative pt-7 pb-7 pl-12 select-none">
       {/* Altitudes de referência no eixo vertical */}
-      <span className="absolute left-0 top-7 text-xs tabular-nums text-cinza-400">{formatarNumero(Math.round(escala.topo))} m</span>
-      <span className="absolute bottom-7 left-0 text-xs tabular-nums text-cinza-400">{formatarNumero(Math.round(escala.base))} m</span>
+      <span className="absolute top-7 left-0 text-xs text-cinza-400 tabular-nums">{formatarNumero(Math.round(escala.topo))} m</span>
+      <span className="absolute bottom-7 left-0 text-xs text-cinza-400 tabular-nums">{formatarNumero(Math.round(escala.base))} m</span>
 
       <div
         ref={areaRef}
@@ -170,7 +169,7 @@ export function GraficoPerfil({ roteiro, pontos, indice, aoMudarIndice, aoIntera
             className="pointer-events-none absolute inset-y-0 border-l border-dashed border-creme-100/25"
             style={{ left: `${(limites[i] / roteiro.distanciaKm) * 100}%` }}
           >
-            <span className="absolute -top-6 left-1.5 whitespace-nowrap text-xs font-semibold text-cinza-400">Dia {etapa.dia}</span>
+            <span className="absolute -top-6 left-1.5 text-xs font-semibold whitespace-nowrap text-cinza-400">Dia {etapa.dia}</span>
           </div>
         ))}
         <span className="pointer-events-none absolute -top-6 left-1.5 text-xs font-semibold text-cinza-400">
@@ -182,7 +181,12 @@ export function GraficoPerfil({ roteiro, pontos, indice, aoMudarIndice, aoIntera
         {/* A bike apoia as rodas na linha e inclina junto com a rampa */}
         <div
           className="pointer-events-none absolute w-9 sm:w-10"
-          style={{ left: `${posX}%`, top: `${posY}%`, transform: `translate(-50%, -96%) rotate(${anguloBike}deg)`, transformOrigin: '50% 96%' }}
+          style={{
+            left: `${posX}%`,
+            top: `${posY}%`,
+            transform: `translate(-50%, -96%) rotate(${anguloBike}deg)`,
+            transformOrigin: '50% 96%',
+          }}
         >
           <BikeMtb className="block w-full drop-shadow-[0_3px_6px_rgb(0_0_0/0.6)]" />
         </div>
@@ -191,7 +195,7 @@ export function GraficoPerfil({ roteiro, pontos, indice, aoMudarIndice, aoIntera
         {marcasKm.map((km) => (
           <span
             key={km}
-            className="pointer-events-none absolute -bottom-6 -translate-x-1/2 whitespace-nowrap text-xs tabular-nums text-cinza-400"
+            className="pointer-events-none absolute -bottom-6 -translate-x-1/2 text-xs whitespace-nowrap text-cinza-400 tabular-nums"
             style={{ left: `${(km / roteiro.distanciaKm) * 100}%` }}
           >
             {km} km

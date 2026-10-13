@@ -1,12 +1,10 @@
 import { useId, useState } from 'react'
 import { IconeSeta } from '@/components/icones'
 import { Container } from '@/components/ui/Container'
-import { IndicadorNivel } from '@/components/ui/IndicadorNivel'
 import { SetaSecao } from '@/components/ui/SetaSecao'
 import { TituloSecao } from '@/components/ui/TituloSecao'
-import { nivelPara, niveis } from '@/config/niveis'
+import { IndicadorNivel, niveis, nivelPara, type Roteiro } from '@/features/roteiros'
 import { revelar } from '@/hooks/useRevelarAoRolar'
-import type { Roteiro } from '@/types/roteiro'
 import { formatarNumero } from '@/utils/formatacao'
 
 // Margem de 10% acima do ritmo informado: um dia um pouco mais puxado ainda é confortável.
@@ -73,7 +71,7 @@ export function SecaoCalculadoraNivel({ roteiros, aoExplorar }: SecaoCalculadora
   return (
     <section
       id="nivel"
-      className="secao-sobreposta recuar-ao-sair flex min-h-[calc(100svh-var(--cabecalho))] flex-col justify-center bg-carvao-900 pb-4 pt-8 sm:pb-6 sm:pt-12 baixa:pb-3 baixa:pt-7 mini:pt-5"
+      className="secao-sobreposta recuar-ao-sair flex min-h-[calc(100svh-var(--cabecalho))] flex-col justify-center bg-carvao-900 pt-8 pb-4 sm:pt-12 sm:pb-6 baixa:pt-7 baixa:pb-3 mini:pt-5"
       aria-labelledby="titulo-nivel"
     >
       <Container className="grid gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:items-center lg:gap-12 baixa:gap-4 baixa:lg:gap-10">
@@ -91,21 +89,13 @@ export function SecaoCalculadoraNivel({ roteiros, aoExplorar }: SecaoCalculadora
 
           <div className="mt-5 space-y-3 sm:mt-6 sm:space-y-4 baixa:mt-3 baixa:space-y-2">
             <Controle rotulo="Distância por dia" unidade="km" valor={kmPorDia} min={10} max={120} passo={5} aoMudar={setKmPorDia} />
-            <Controle
-              rotulo="Subida por dia"
-              unidade="m"
-              valor={subidaPorDia}
-              min={0}
-              max={2000}
-              passo={50}
-              aoMudar={setSubidaPorDia}
-            />
+            <Controle rotulo="Subida por dia" unidade="m" valor={subidaPorDia} min={0} max={2000} passo={50} aoMudar={setSubidaPorDia} />
           </div>
 
-          <div className="painel mt-4 rounded-2xl px-4 py-3 sm:mt-5 sm:px-5 sm:py-4 baixa:mt-3" aria-live="polite">
+          <div className="mt-4 rounded-2xl px-4 py-3 painel sm:mt-5 sm:px-5 sm:py-4 baixa:mt-3" aria-live="polite">
             <p className="flex flex-wrap items-baseline gap-x-3">
               <span className="text-sm text-cinza-400">Seu nível</span>
-              <span className="font-display text-xl font-black uppercase text-sol-500 sm:text-2xl">
+              <span className="font-display text-xl font-black text-sol-500 uppercase sm:text-2xl">
                 <IndicadorNivel nivel={nivel} className="[&>svg]:h-4 [&>svg]:w-5" />
               </span>
             </p>
@@ -122,7 +112,7 @@ export function SecaoCalculadoraNivel({ roteiros, aoExplorar }: SecaoCalculadora
                 : `${quantosCabem} roteiros cabem no seu ritmo`}
           </p>
           {/* No celular, uma fileira de cartões com rolagem lateral; no computador, uma lista enxuta */}
-          <ul className="-mx-4 mt-3 flex snap-x snap-mandatory gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] lg:mx-0 lg:block lg:space-y-2 lg:overflow-visible mini:lg:space-y-1.5 lg:px-0 lg:pb-0">
+          <ul className="-mx-4 mt-3 flex snap-x snap-mandatory [scrollbar-width:none] gap-2 overflow-x-auto px-4 pb-1 lg:mx-0 lg:block lg:space-y-2 lg:overflow-visible lg:px-0 lg:pb-0 mini:lg:space-y-1.5">
             {avaliados.map(({ roteiro, km, subida, cabe }) => (
               <li
                 key={roteiro.id}
@@ -131,8 +121,8 @@ export function SecaoCalculadoraNivel({ roteiros, aoExplorar }: SecaoCalculadora
                 }`}
               >
                 <div className="min-w-0">
-                  <p className="truncate font-display text-sm font-extrabold leading-tight sm:text-base">{roteiro.nome}</p>
-                  <p className="mt-0.5 truncate text-xs tabular-nums text-cinza-400">
+                  <p className="truncate font-display text-sm leading-tight font-extrabold sm:text-base">{roteiro.nome}</p>
+                  <p className="mt-0.5 truncate text-xs text-cinza-400 tabular-nums">
                     {km} km e {formatarNumero(subida)} m de subida por dia
                   </p>
                   <p className={`mt-0.5 text-xs font-semibold ${cabe ? 'text-rampa-leve' : 'text-rampa-forte'}`}>
@@ -146,7 +136,7 @@ export function SecaoCalculadoraNivel({ roteiros, aoExplorar }: SecaoCalculadora
                   aria-label={`Ver roteiro ${roteiro.nome}`}
                 >
                   <IconeSeta className="h-4 w-4 sm:hidden" />
-                  <span className="hidden whitespace-nowrap font-display text-[0.75rem] font-bold uppercase tracking-[0.08em] sm:inline">
+                  <span className="hidden font-display text-[0.75rem] font-bold tracking-[0.08em] whitespace-nowrap uppercase sm:inline">
                     Ver roteiro
                   </span>
                 </button>

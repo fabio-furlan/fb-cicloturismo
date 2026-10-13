@@ -1,4 +1,4 @@
-import { type SVGProps, useId } from 'react'
+import { useId, type SVGProps } from 'react'
 
 interface MarcaFabioProps extends SVGProps<SVGSVGElement> {
   /** No celular (sem mouse), cada vez que este número muda o ciclista aponta para o nome uma vez. */

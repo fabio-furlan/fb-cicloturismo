@@ -29,12 +29,14 @@ export function Logo({ tom = 'escuro' }: LogoProps) {
     >
       {/* O desenho tem espaço vazio à direita (para o braço esticado): a margem negativa deixa o ciclista colado no nome */}
       <MarcaFabio apontar={toques} className="-mr-1.5 h-11 w-9 shrink-0 overflow-visible drop-shadow-[0_2px_3px_rgb(0_0_0/0.45)]" />
-      <span className="flex flex-col whitespace-nowrap leading-none">
-        <span className={`font-display text-[1.45rem] font-black uppercase tracking-[0.01em] ${escuro ? '[text-shadow:0_1px_6px_rgb(0_0_0/0.4)]' : ''}`}>
+      <span className="flex flex-col leading-none whitespace-nowrap">
+        <span
+          className={`font-display text-[1.45rem] font-black tracking-[0.01em] uppercase ${escuro ? '[text-shadow:0_1px_6px_rgb(0_0_0/0.4)]' : ''}`}
+        >
           Fábio
         </span>
         <span
-          className={`mt-0.5 font-display text-[0.68rem] font-extrabold uppercase tracking-[0.16em] ${escuro ? 'text-sol-500' : 'text-vermelho-500'}`}
+          className={`mt-0.5 font-display text-[0.68rem] font-extrabold tracking-[0.16em] uppercase ${escuro ? 'text-sol-500' : 'text-vermelho-500'}`}
         >
           cicloturismo
         </span>

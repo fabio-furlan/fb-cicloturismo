@@ -1,10 +1,9 @@
-import { type CSSProperties, type ReactNode, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { IconeCalendario, IconeLocal, IconeMontanha, IconeRota, IconeSeta } from '@/components/icones'
-import { IndicadorNivel } from '@/components/ui/IndicadorNivel'
-import { paisagens } from '@/config/paisagens'
-import type { Roteiro, Saida } from '@/types/roteiro'
+import { estiloBotaoPrincipal, sombraBotaoPrincipal } from '@/components/ui/estilosBotao'
+import { descreverDuracao, IndicadorNivel, paisagens, type Roteiro, type Saida } from '@/features/roteiros'
+import { cn } from '@/utils/cn'
 import { formatarData, formatarNumero, formatarPreco } from '@/utils/formatacao'
-import { descreverDuracao } from '@/utils/rota'
 
 export interface ItemVitrine {
   roteiro: Roteiro
@@ -118,6 +117,8 @@ export function VitrineSaidas({ itens, aoExplorar }: VitrineSaidasProps) {
   ]
 
   return (
+    // Mouse e foco só pausam a troca automática (WCAG 2.2.2): a vitrine em si não é um controle.
+    // oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <div
       ref={raizRef}
       onMouseEnter={() => setMouseEmCima(true)}
@@ -144,7 +145,9 @@ export function VitrineSaidas({ itens, aoExplorar }: VitrineSaidasProps) {
 
       {/* Alto: as vagas */}
       <div className="flex justify-end">
-        <span className={`rounded-full px-3 py-1 text-xs font-bold shadow-sm ${ultimasVagas ? 'bg-sol-500 text-carvao-950' : 'bg-white/95 text-carvao-900'}`}>
+        <span
+          className={`rounded-full px-3 py-1 text-xs font-bold shadow-sm ${ultimasVagas ? 'bg-sol-500 text-carvao-950' : 'bg-white/95 text-carvao-900'}`}
+        >
           {ultimasVagas ? `Últimas ${saida.vagasRestantes} vagas` : `${saida.vagasRestantes} vagas`}
         </span>
       </div>
@@ -153,12 +156,12 @@ export function VitrineSaidas({ itens, aoExplorar }: VitrineSaidasProps) {
       <div>
         <div key={`texto-${roteiro.id}`} className="max-w-3xl">
           <Linha atraso={350}>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-sol-500">
+            <p className="text-xs font-bold tracking-[0.2em] text-sol-500 uppercase">
               {paisagens[roteiro.paisagem]} · {formatarData(saida.data)}
             </p>
           </Linha>
           <Linha atraso={450}>
-            <h3 className="mt-1 font-display text-2xl font-black uppercase leading-[0.95] sm:text-3xl lg:text-4xl baixa:lg:text-3xl mini:text-xl mini:sm:text-2xl mini:lg:text-2xl">
+            <h3 className="mt-1 font-display text-2xl leading-[0.95] font-black uppercase sm:text-3xl lg:text-4xl baixa:lg:text-3xl mini:text-xl mini:sm:text-2xl mini:lg:text-2xl">
               {roteiro.nome}
             </h3>
           </Linha>
@@ -186,16 +189,18 @@ export function VitrineSaidas({ itens, aoExplorar }: VitrineSaidasProps) {
             <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3 mini:mt-2.5">
               <p>
                 <span className="block text-[0.7rem] text-white/70">
-                  {outrasSaidas.length > 0 ? `Outras datas: ${outrasSaidas.map((s) => formatarData(s.data)).join(', ')}` : 'Por pessoa, tudo incluso'}
+                  {outrasSaidas.length > 0
+                    ? `Outras datas: ${outrasSaidas.map((s) => formatarData(s.data)).join(', ')}`
+                    : 'Por pessoa, tudo incluso'}
                 </span>
-                <span className="block whitespace-nowrap font-display text-2xl font-black tabular-nums leading-none sm:text-3xl">
+                <span className="block font-display text-2xl leading-none font-black whitespace-nowrap tabular-nums sm:text-3xl">
                   {formatarPreco(saida.precoReais)}
                 </span>
               </p>
               <button
                 type="button"
                 onClick={() => aoExplorar(roteiro.id)}
-                className="group inline-flex min-h-11 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-vermelho-500 pl-5 pr-4 font-display text-[0.75rem] font-bold uppercase tracking-[0.08em] text-white shadow-[0_8px_24px_-8px_rgb(200_16_46/0.8)] transition-colors hover:bg-vermelho-600"
+                className={cn(estiloBotaoPrincipal('comSeta'), sombraBotaoPrincipal, 'group shrink-0 whitespace-nowrap')}
               >
                 Ver roteiro
                 <IconeSeta className="h-4 w-4 transition-transform group-hover:translate-x-0.5 motion-reduce:transition-none" />
@@ -231,9 +236,9 @@ export function VitrineSaidas({ itens, aoExplorar }: VitrineSaidasProps) {
 }
 
 /** Uma linha do texto que sobe de baixo de uma máscara, `atraso` milissegundos depois da troca. */
-function Linha({ atraso, className = '', children }: { atraso: number; className?: string; children: ReactNode }) {
+function Linha({ atraso, className, children }: { atraso: number; className?: string; children: ReactNode }) {
   return (
-    <div className={`overflow-hidden ${className}`}>
+    <div className={cn('overflow-hidden', className)}>
       <div className="linha-sobe" style={{ '--atraso': `${atraso}ms` } as CSSProperties}>
         {children}
       </div>

@@ -1,4 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react'
+import { cn } from '@/utils/cn'
 
 interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode
@@ -6,9 +7,9 @@ interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /** Centraliza o conteúdo e aplica as margens laterais padrão do site. */
-export function Container({ children, className = '', ...resto }: ContainerProps) {
+export function Container({ children, className, ...resto }: ContainerProps) {
   return (
-    <div {...resto} className={`mx-auto w-full max-w-[100rem] px-4 sm:px-6 lg:px-10 2xl:px-16 ${className}`}>
+    <div {...resto} className={cn('mx-auto w-full max-w-[100rem] px-4 sm:px-6 lg:px-10 2xl:px-16', className)}>
       {children}
     </div>
   )

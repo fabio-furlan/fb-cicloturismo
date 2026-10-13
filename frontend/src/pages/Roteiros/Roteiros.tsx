@@ -1,21 +1,20 @@
 import { useSearchParams } from 'react-router-dom'
-import { Carregando } from '@/components/ui/Carregando'
+import { Carregando } from '@/components/feedback/Carregando'
 import { Container } from '@/components/ui/Container'
-import { ErroAoCarregar } from '@/components/ui/ErroAoCarregar'
 import { TituloSecao } from '@/components/ui/TituloSecao'
-import { useRoteiros } from '@/hooks/useRoteiros'
+import { ErroNoCatalogo, useRoteiros } from '@/features/roteiros'
 import { SecaoExplorador } from './components/explorador/SecaoExplorador'
 
 export function Roteiros() {
-  const estado = useRoteiros()
+  const { estado, recarregar } = useRoteiros()
   // O roteiro aberto fica na URL (?roteiro=id): os cartões da página inicial abrem direto nele e o link pode ser compartilhado.
   // Sem nenhum escolhido, o explorador abre o da saída mais próxima.
   const [parametros, setParametros] = useSearchParams()
   const roteiroId = parametros.get('roteiro')
 
   if (estado.situacao === 'carregando') return <Carregando />
-  if (estado.situacao === 'erro') return <ErroAoCarregar aoTentarDeNovo={estado.tentarDeNovo} />
-  const { roteiros } = estado
+  if (estado.situacao === 'erro') return <ErroNoCatalogo aoTentarDeNovo={recarregar} />
+  const roteiros = estado.dados
 
   if (roteiros.length === 0) {
     return (
