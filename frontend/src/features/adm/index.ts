@@ -5,7 +5,8 @@ export type * from './types'
 
 export { entrar } from './api/apiAdm'
 export { ProvedorSessaoAdm } from './sessao/ProvedorSessaoAdm'
-export { useApiAdm, useSessaoAdm } from './sessao/contexto'
+export { type AdministradorLogado, useApiAdm, useSessaoAdm } from './sessao/contexto'
+export { concluirLogin } from './sessao/keycloak'
 export { type EstadoDaNavegacao, useEstadoDaNavegacao } from './hooks/useEstadoDaNavegacao'
 
 export { niveisRoteiro, ordemStatus, statusAVenda, statusSaida } from './config/rotulos'

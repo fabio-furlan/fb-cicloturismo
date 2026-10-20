@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom'
 import { PaginaNaoEncontrada } from '@/components/feedback/PaginaNaoEncontrada'
 import { ProvedorSessaoAdm } from '@/features/adm'
 import { Entrar } from './Entrar/Entrar'
+import { RetornoDoLogin } from './Entrar/RetornoDoLogin'
 import { LayoutAdm } from './LayoutAdm'
 import { Painel } from './Painel/Painel'
 import { EditarRoteiro } from './Roteiro/EditarRoteiro'
@@ -18,6 +19,7 @@ export function AreaAdm() {
     <ProvedorSessaoAdm>
       <Routes>
         <Route path="entrar" element={<Entrar />} />
+        <Route path="entrar/retorno" element={<RetornoDoLogin />} />
         <Route element={<LayoutAdm />}>
           <Route index element={<Painel />} />
           <Route path="saidas/:id" element={<DetalheSaida />} />

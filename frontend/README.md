@@ -38,6 +38,13 @@ mesma variável vai em _Settings → Environment Variables_. A API precisa liber
 
 A conversão do formato da API para o das telas fica em `src/features/roteiros/api/adaptadorRoteiro.ts`.
 
+### Login do painel pelo Keycloak
+
+Com `VITE_KEYCLOAK_URL` (o endereço do realm), o painel do ADM entra pelo Keycloak; sem ela, usa o formulário do login
+próprio da API. As telas não sabem qual dos dois está em uso: `ProvedorSessaoAdm` escolhe a forma e as duas entregam o
+mesmo contexto (`useSessaoAdm`, `useApiAdm`). A API precisa aceitar os mesmos tokens (`APP_KEYCLOAK_EMISSOR`). O passo a
+passo para rodar localmente está em [`docs/keycloak.md`](../docs/keycloak.md).
+
 ## Arquitetura
 
 O código é organizado **por domínio**. Cada domínio (`features/`) reúne tudo o que é dele: chamadas à API, tipos, regras,
@@ -72,7 +79,7 @@ src/
 │       ├── components/         ui/ (Botao, campos, Cartao...), roteiros/ e saidas/
 │       ├── config/             rótulos e cores de status, grupos, modalidades
 │       ├── hooks/              useEstadoDaNavegacao
-│       ├── sessao/             contexto, provedor e armazenamento do token
+│       ├── sessao/             contexto e provedores da sessão (login próprio e Keycloak)
 │       ├── utils/              conversão e validação do formulário de roteiro
 │       ├── types.ts            formatos da API do ADM
 │       └── index.ts            API pública do domínio
