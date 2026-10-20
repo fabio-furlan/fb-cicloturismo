@@ -5,13 +5,14 @@ export const entrar = (email: string, senha: string) =>
   requisitar<TokenEmitido>('/api/auth/login', { metodo: 'POST', corpo: { email, senha } })
 
 /**
- * As chamadas do painel, já com o token. Quando a API responde 401 (token expirado ou conta removida), avisa quem
- * criou o cliente para encerrar a sessão, e repassa o erro.
+ * As chamadas do painel, já com o token. Ele é lido a cada chamada, porque no Keycloak é renovado a cada 5 minutos.
+ * Quando a API responde 401 (token expirado ou conta removida), avisa quem criou o cliente para encerrar a sessão, e
+ * repassa o erro.
  */
-export function criarApiAdm(token: string, aoPerderAcesso: () => void) {
+export function criarApiAdm(obterToken: () => string, aoPerderAcesso: () => void) {
   async function chamar<T>(caminho: string, opcoes: Parameters<typeof requisitar>[1] = {}) {
     try {
-      return await requisitar<T>(caminho, { ...opcoes, token })
+      return await requisitar<T>(caminho, { ...opcoes, token: obterToken() })
     } catch (erro) {
       if (erro instanceof ErroApi && erro.status === 401) aoPerderAcesso()
       throw erro

@@ -78,8 +78,11 @@ providers* (login com Google).
   `fb-cicloturismo-web`. Fica ligado com a variável `APP_KEYCLOAK_EMISSOR`
   (`http://localhost:8180/realms/fb-cicloturismo` neste ambiente); sem ela, a API só aceita os próprios. Os testes
   ficam em `TokensDoKeycloakTest`.
-- [ ] **Painel do ADM:** sai a tela de login própria. Entra o redirecionamento ao Keycloak com `oidc-client-ts`, que
-  também renova o token sozinha.
+- [x] **Painel do ADM entra pelo Keycloak**, com `oidc-client-ts`. A tela `/adm/entrar` leva ao login do Keycloak
+  (sempre pedindo a senha), que devolve o ADM em `/adm/entrar/retorno` e daí para a página de onde ele saiu. O token
+  é renovado em silêncio, uma conta sem o papel `ADM` é recusada, e "Sair" encerra também a sessão no Keycloak. Fica
+  ligado com `VITE_KEYCLOAK_URL` no frontend; sem ela, o painel continua com o formulário do login próprio. Os testes
+  ficam em `LoginKeycloak.test.tsx`.
 - [ ] **Site do cliente:** login e cadastro pelo Keycloak, com o papel `CLIENTE`.
 - [ ] **Login próprio removido:** saem o `EmissorDeToken`, o `Autenticacao`, o `AdministradorInicial`, a tabela
   `administrador`, o `PasswordEncoder` e o `/api/auth`.
@@ -88,3 +91,12 @@ providers* (login com Google).
 
 Se o Keycloak já tinha subido antes de uma mudança no `fb-cicloturismo-realm.json`, apague o volume
 (`docker volume rm backend_dados-keycloak`): o realm só é importado na primeira subida.
+
+### Entrar no painel pelo Keycloak, localmente
+
+1. Suba o Keycloak (seção [Subir e derrubar](#subir-e-derrubar)).
+2. Inicie a API com `APP_KEYCLOAK_EMISSOR=http://localhost:8180/realms/fb-cicloturismo`.
+3. No `frontend/.env.local`, defina `VITE_KEYCLOAK_URL=http://localhost:8180/realms/fb-cicloturismo` e rode
+   `npm run dev`. O cliente do realm só aceita voltar para `http://localhost:5173`.
+4. Abra http://localhost:5173/adm e entre com `adm` / `pedal-forte-2026`. Com `cliente` / `pedal-leve-2026`, o painel
+   recusa a conta.

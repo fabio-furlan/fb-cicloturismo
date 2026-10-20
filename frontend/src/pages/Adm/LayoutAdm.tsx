@@ -1,4 +1,5 @@
 import { Link, Navigate, NavLink, Outlet, useLocation } from 'react-router-dom'
+import { Carregando } from '@/components/feedback/Carregando'
 import { Container } from '@/components/ui/Container'
 import { MarcaFabio } from '@/components/ui/MarcaFabio'
 import { empresa } from '@/config/empresa'
@@ -14,11 +15,12 @@ const links = [
 
 /** Estrutura das telas protegidas: barra do painel no topo e redirecionamento para o login sem sessão. */
 export function LayoutAdm() {
-  const { administrador, sair } = useSessaoAdm()
+  const { administrador, carregando, sair } = useSessaoAdm()
   const { pathname } = useLocation()
 
   useTituloDaPagina(`Painel do ADM · ${empresa.nome}`)
 
+  if (carregando) return <Carregando />
   if (!administrador) return <Navigate to={ROTAS.admEntrar} replace state={{ de: pathname } satisfies EstadoDaNavegacao} />
 
   return (
