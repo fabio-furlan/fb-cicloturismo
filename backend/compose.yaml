@@ -12,5 +12,26 @@ services:
     volumes:
       - 'dados-postgres:/var/lib/postgresql/data'
 
+  # Ambiente de estudo do Keycloak (docs/keycloak.md). Fica fora do "docker compose up" comum e do início da API:
+  # suba com "docker compose --profile keycloak up -d". Painel em http://localhost:8180 (admin / admin).
+  keycloak:
+    image: 'quay.io/keycloak/keycloak:26.7.4'
+    profiles: ['keycloak']
+    command: ['start-dev', '--import-realm']
+    environment:
+      - 'KC_BOOTSTRAP_ADMIN_USERNAME=admin'
+      - 'KC_BOOTSTRAP_ADMIN_PASSWORD=admin'
+      - 'KC_HEALTH_ENABLED=true'
+    ports:
+      - '8180:8080'
+    volumes:
+      # Importado só na primeira subida; depois disso o realm vive no volume e pode ser alterado pelo painel.
+      - './keycloak/fb-cicloturismo-realm.json:/opt/keycloak/data/import/fb-cicloturismo-realm.json:ro'
+      - 'dados-keycloak:/opt/keycloak/data'
+    labels:
+      # A API ainda não usa o Keycloak: o Spring Boot não precisa esperar nem se conectar a ele.
+      org.springframework.boot.ignore: 'true'
+
 volumes:
   dados-postgres:
+  dados-keycloak:

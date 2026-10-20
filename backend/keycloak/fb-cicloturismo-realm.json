@@ -1,0 +1,84 @@
+{
+  "realm": "fb-cicloturismo",
+  "displayName": "FB Cicloturismo",
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "resetPasswordAllowed": true,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "bruteForceProtected": true,
+  "failureFactor": 5,
+  "passwordPolicy": "length(12) and notUsername",
+  "accessTokenLifespan": 300,
+  "ssoSessionMaxLifespan": 28800,
+  "internationalizationEnabled": true,
+  "supportedLocales": ["pt-BR"],
+  "defaultLocale": "pt-BR",
+  "roles": {
+    "realm": [
+      {
+        "name": "ADM",
+        "description": "Opera o painel do ADM: roteiros, saídas e opcionais."
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "painel-adm",
+      "name": "Painel do ADM",
+      "description": "Frontend React. Cliente público: roda no navegador e não guarda segredo, por isso usa PKCE.",
+      "enabled": true,
+      "publicClient": true,
+      "protocol": "openid-connect",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "rootUrl": "http://localhost:5173",
+      "redirectUris": ["http://localhost:5173/*"],
+      "webOrigins": ["http://localhost:5173"],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "http://localhost:5173/*"
+      },
+      "protocolMappers": [
+        {
+          "name": "papeis",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "config": {
+            "claim.name": "papeis",
+            "multivalued": "true",
+            "jsonType.label": "String",
+            "access.token.claim": "true",
+            "id.token.claim": "false",
+            "userinfo.token.claim": "false"
+          }
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "adm",
+      "email": "adm@fbcicloturismo.local",
+      "emailVerified": true,
+      "firstName": "Administrador",
+      "lastName": "Estudo",
+      "enabled": true,
+      "realmRoles": ["default-roles-fb-cicloturismo", "ADM"],
+      "credentials": [{ "type": "password", "value": "pedal-forte-2026", "temporary": false }]
+    },
+    {
+      "username": "visitante",
+      "email": "visitante@fbcicloturismo.local",
+      "emailVerified": true,
+      "firstName": "Visitante",
+      "lastName": "Estudo",
+      "enabled": true,
+      "realmRoles": ["default-roles-fb-cicloturismo"],
+      "credentials": [{ "type": "password", "value": "pedal-leve-2026", "temporary": false }]
+    }
+  ]
+}
