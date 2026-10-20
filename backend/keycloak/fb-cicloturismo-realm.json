@@ -3,7 +3,8 @@
   "displayName": "FB Cicloturismo",
   "enabled": true,
   "sslRequired": "external",
-  "registrationAllowed": false,
+  "registrationAllowed": true,
+  "registrationEmailAsUsername": true,
   "resetPasswordAllowed": true,
   "loginWithEmailAllowed": true,
   "duplicateEmailsAllowed": false,
@@ -20,14 +21,40 @@
       {
         "name": "ADM",
         "description": "Opera o painel do ADM: roteiros, saídas e opcionais."
+      },
+      {
+        "name": "CLIENTE",
+        "description": "Cliente do site. Todo cadastro novo recebe este papel pelos papéis padrão do realm."
+      },
+      {
+        "name": "offline_access",
+        "description": "${role_offline-access}"
+      },
+      {
+        "name": "uma_authorization",
+        "description": "${role_uma_authorization}"
+      },
+      {
+        "name": "default-roles-fb-cicloturismo",
+        "description": "Papéis que todo usuário novo recebe, inclusive quem se cadastra pelo site.",
+        "composite": true,
+        "composites": {
+          "realm": ["offline_access", "uma_authorization", "CLIENTE"],
+          "client": {
+            "account": ["view-profile", "manage-account"]
+          }
+        }
       }
     ]
   },
+  "defaultRole": {
+    "name": "default-roles-fb-cicloturismo"
+  },
   "clients": [
     {
-      "clientId": "painel-adm",
-      "name": "Painel do ADM",
-      "description": "Frontend React. Cliente público: roda no navegador e não guarda segredo, por isso usa PKCE.",
+      "clientId": "fb-cicloturismo-web",
+      "name": "FB Cicloturismo",
+      "description": "Frontend React: site do cliente e painel do ADM. Cliente público: roda no navegador e não guarda segredo, por isso usa PKCE.",
       "enabled": true,
       "publicClient": true,
       "protocol": "openid-connect",
@@ -52,7 +79,7 @@
             "multivalued": "true",
             "jsonType.label": "String",
             "access.token.claim": "true",
-            "id.token.claim": "false",
+            "id.token.claim": "true",
             "userinfo.token.claim": "false"
           }
         }
@@ -71,10 +98,10 @@
       "credentials": [{ "type": "password", "value": "pedal-forte-2026", "temporary": false }]
     },
     {
-      "username": "visitante",
-      "email": "visitante@fbcicloturismo.local",
+      "username": "cliente",
+      "email": "cliente@fbcicloturismo.local",
       "emailVerified": true,
-      "firstName": "Visitante",
+      "firstName": "Cliente",
       "lastName": "Estudo",
       "enabled": true,
       "realmRoles": ["default-roles-fb-cicloturismo"],

@@ -39,7 +39,7 @@ class AutenticacaoController {
 	@Operation(summary = "Administrador dono do token")
 	@GetMapping("/eu")
 	AdministradorVisao eu(@AuthenticationPrincipal Jwt token) {
-		return autenticacao.atual(Long.parseLong(token.getSubject()));
+		return autenticacao.atual(token.getSubject());
 	}
 
 }

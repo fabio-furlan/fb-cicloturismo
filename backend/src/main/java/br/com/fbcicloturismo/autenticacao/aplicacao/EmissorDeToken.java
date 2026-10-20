@@ -17,8 +17,6 @@ import org.springframework.stereotype.Component;
 @Component
 class EmissorDeToken {
 
-	static final String EMISSOR = "fb-cicloturismo-api";
-
 	private final JwtEncoder encoder;
 
 	private final PropriedadesJwt propriedades;
@@ -35,7 +33,7 @@ class EmissorDeToken {
 		Instant agora = clock.instant();
 		Instant expiraEm = agora.plus(propriedades.validade());
 		var claims = JwtClaimsSet.builder()
-				.issuer(EMISSOR)
+				.issuer(PropriedadesJwt.EMISSOR)
 				.subject(administrador.getId().toString())
 				.issuedAt(agora)
 				.expiresAt(expiraEm)
