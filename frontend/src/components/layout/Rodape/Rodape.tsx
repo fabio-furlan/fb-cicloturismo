@@ -28,7 +28,8 @@ export function Rodape() {
           <p className="max-w-xs leading-relaxed">{empresa.descricao}</p>
         </div>
 
-        <ColunaRodape titulo="Navegação" className="sm:justify-self-center">
+        {/* No celular a navegação vem primeiro, para a marca ficar logo acima do contato */}
+        <ColunaRodape titulo="Navegação" className="order-first sm:order-none sm:justify-self-center">
           <ul className="sm:space-y-1.5">
             {linksRodape.map(({ rota, rotulo }) => (
               <li key={rota}>
