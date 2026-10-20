@@ -13,4 +13,8 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
  */
 @ConfigurationProperties("app.jwt")
 public record PropriedadesJwt(String segredo, @DefaultValue("8h") Duration validade) {
+
+	/** Claim {@code iss} dos tokens próprios. É por ele que a API sabe se um token é dela ou do Keycloak. */
+	public static final String EMISSOR = "fb-cicloturismo-api";
+
 }

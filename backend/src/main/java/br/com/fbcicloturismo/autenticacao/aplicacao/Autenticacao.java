@@ -15,6 +15,8 @@ public class Autenticacao {
 	/** A mesma mensagem para e-mail inexistente, senha errada e conta desativada: não revela quais e-mails existem. */
 	private static final String CREDENCIAIS_INVALIDAS = "E-mail ou senha inválidos.";
 
+	private static final String SESSAO_INVALIDA = "Sessão inválida. Entre de novo.";
+
 	private final AdministradorRepository administradores;
 
 	private final PasswordEncoder passwordEncoder;
@@ -44,12 +46,22 @@ public class Autenticacao {
 		return emissor.emitir(administrador);
 	}
 
-	/** O administrador dono do token. Um token de conta excluída ou desativada não serve mais para consultar. */
-	public AdministradorVisao atual(long id) {
+	/**
+	 * O administrador dono do token. Um token de conta excluída ou desativada não serve mais para consultar, nem um
+	 * token do Keycloak, cujo subject não é um id da tabela {@code administrador}.
+	 */
+	public AdministradorVisao atual(String subject) {
+		long id;
+		try {
+			id = Long.parseLong(subject);
+		}
+		catch (NumberFormatException e) {
+			throw new NaoAutenticadoException(SESSAO_INVALIDA);
+		}
 		return administradores.findById(id)
 				.filter(Administrador::isAtivo)
 				.map(AdministradorVisao::de)
-				.orElseThrow(() -> new NaoAutenticadoException("Sessão inválida. Entre de novo."));
+				.orElseThrow(() -> new NaoAutenticadoException(SESSAO_INVALIDA));
 	}
 
 }

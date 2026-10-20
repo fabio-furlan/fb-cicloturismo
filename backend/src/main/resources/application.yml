@@ -42,6 +42,11 @@ app:
     # Pelo menos 32 caracteres. Em branco, uma chave aleatória é gerada a cada início (só para desenvolvimento).
     segredo: ${APP_JWT_SEGREDO:}
     validade: ${APP_JWT_VALIDADE:8h}
+  # Tokens do Keycloak, aceitos ao lado dos próprios. Em branco, a API só aceita os próprios. No ambiente local
+  # (docker compose --profile keycloak), o emissor é http://localhost:8180/realms/fb-cicloturismo.
+  keycloak:
+    emissor: ${APP_KEYCLOAK_EMISSOR:}
+    cliente: ${APP_KEYCLOAK_CLIENTE:fb-cicloturismo-web}
   # Primeiro administrador, criado só enquanto não houver nenhum.
   admin-inicial:
     email: ${APP_ADMIN_EMAIL:}
