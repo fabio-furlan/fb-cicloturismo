@@ -1,7 +1,8 @@
 # Estudo: Keycloak
 
-Ambiente local para entender o Keycloak antes de integrá-lo à API e ao painel. **Nada do projeto usa o Keycloak
-ainda**: o login do ADM continua sendo o JWT próprio da API.
+Ambiente local do Keycloak, que vai cuidar do login do ADM e dos clientes do site. A integração está sendo feita por
+partes (veja [o andamento](#integração)): a API já aceita os tokens do Keycloak, mas o frontend ainda usa o login
+próprio da API.
 
 ## Subir e derrubar
 
@@ -25,10 +26,11 @@ na primeira subida.
 | --- | --- | --- |
 | Painel de administração | http://localhost:8180 (`admin` / `admin`) | Gerenciar realms, usuários, papéis e clientes |
 | Realm | `fb-cicloturismo` | O "espaço" com os usuários e as regras deste sistema |
-| Papel | `ADM` | O mesmo papel que a API já exige em `/api/adm/**` |
-| Cliente | `painel-adm` (público, PKCE obrigatório) | O frontend React. Público porque roda no navegador e não guarda segredo |
-| Usuário com papel ADM | `adm` / `pedal-forte-2026` | |
-| Usuário sem papel | `visitante` / `pedal-leve-2026` | Para comparar os tokens |
+| Papéis | `ADM` e `CLIENTE` | `ADM` abre `/api/adm/**`. `CLIENTE` vem nos papéis padrão: todo usuário novo recebe |
+| Cadastro | Aberto, com o e-mail como usuário | Link "Cadastre-se" na tela de login, para os clientes do site |
+| Cliente | `fb-cicloturismo-web` (público, PKCE obrigatório) | O frontend React, site e painel. Público porque roda no navegador e não guarda segredo |
+| Usuário ADM | `adm` / `pedal-forte-2026` | Tem `ADM` e `CLIENTE` |
+| Usuário cliente | `cliente` / `pedal-leve-2026` | Só `CLIENTE`, para comparar os tokens |
 | Proteção contra força bruta | 5 erros bloqueiam temporariamente | |
 | Política de senha | 12 caracteres, diferente do usuário | A mesma regra do `AdministradorInicial` |
 | Validade do token | 5 minutos (sessão de até 8 h) | Token curto, renovado em silêncio pelo frontend |
@@ -47,11 +49,11 @@ qualquer site. O que muda com o Keycloak é **para onde** ela vai. Ela vai só p
 nunca a recebem. Eles recebem um *código*, que é trocado por um token. Em produção, o HTTPS protege a senha no
 caminho.
 
-**3. Por dentro do token.** No painel: *fb-cicloturismo* → *Clients* → `painel-adm` → *Client scopes* →
+**3. Por dentro do token.** No painel: *fb-cicloturismo* → *Clients* → `fb-cicloturismo-web` → *Client scopes* →
 *Evaluate*. Escolha o usuário `adm` e abra *Generated access token*. Repare em:
 - `iss`: quem emitiu o token. É o endereço que a API usaria para confiar nele.
 - `papeis`: um *mapper* do cliente copia os papéis do usuário para esse claim, que é o mesmo nome que a API já lê
-  (`Papeis.CLAIM`). Compare com o usuário `visitante`, que não tem `ADM`.
+  (`Papeis.CLAIM`). Compare com o usuário `cliente`, que não tem `ADM`.
 - `exp`: o token vale 5 minutos.
 
 Cole o token em https://jwt.io para ver o cabeçalho: `RS256`, assinado com uma chave privada que só o Keycloak tem.
@@ -69,12 +71,20 @@ Keycloak recusa o pedido antes de mostrar a tela de login (`Missing parameter: c
 Explore também *Authentication* → *Required actions* (por exemplo, OTP com um app autenticador) e *Identity
 providers* (login com Google).
 
-## Como seria a integração (ainda não feita)
+## Integração
 
-- **API:** troca o segredo HMAC por `spring.security.oauth2.resourceserver.jwt.issuer-uri` apontando para o realm.
-  Saem o `EmissorDeToken`, o `Autenticacao`, o `AdministradorInicial`, a tabela `administrador` e o
-  `PasswordEncoder`. A checagem de papéis continua igual, porque o token já traz o claim `papeis`.
-- **Painel:** sai a tela de login própria. Entra o redirecionamento ao Keycloak com `keycloak-js` ou
-  `oidc-client-ts`, que também renovam o token sozinhas.
-- **Produção:** o `start-dev` deste ambiente usa banco embutido e HTTP. Em produção o Keycloak roda com `start`,
+- [x] **API aceita os tokens do Keycloak**, ao lado dos próprios. O claim `iss` decide quem confere cada token: os
+  próprios, com o segredo HMAC; os do Keycloak, com as chaves públicas do realm, desde que o `azp` seja o cliente
+  `fb-cicloturismo-web`. Fica ligado com a variável `APP_KEYCLOAK_EMISSOR`
+  (`http://localhost:8180/realms/fb-cicloturismo` neste ambiente); sem ela, a API só aceita os próprios. Os testes
+  ficam em `TokensDoKeycloakTest`.
+- [ ] **Painel do ADM:** sai a tela de login própria. Entra o redirecionamento ao Keycloak com `oidc-client-ts`, que
+  também renova o token sozinha.
+- [ ] **Site do cliente:** login e cadastro pelo Keycloak, com o papel `CLIENTE`.
+- [ ] **Login próprio removido:** saem o `EmissorDeToken`, o `Autenticacao`, o `AdministradorInicial`, a tabela
+  `administrador`, o `PasswordEncoder` e o `/api/auth`.
+- [ ] **Produção:** o `start-dev` deste ambiente usa banco embutido e HTTP. Em produção o Keycloak roda com `start`,
   Postgres próprio, HTTPS e `hostname` configurado, e precisa de uns 512 MB a 1 GB de RAM.
+
+Se o Keycloak já tinha subido antes de uma mudança no `fb-cicloturismo-realm.json`, apague o volume
+(`docker volume rm backend_dados-keycloak`): o realm só é importado na primeira subida.
