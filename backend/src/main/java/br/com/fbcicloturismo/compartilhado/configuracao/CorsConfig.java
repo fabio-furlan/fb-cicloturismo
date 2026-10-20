@@ -1,6 +1,5 @@
 package br.com.fbcicloturismo.compartilhado.configuracao;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -9,16 +8,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 class CorsConfig implements WebMvcConfigurer {
 
-	private final String[] origensPermitidas;
+	private final PropriedadesCors propriedades;
 
-	CorsConfig(@Value("${app.cors.origens-permitidas}") String[] origensPermitidas) {
-		this.origensPermitidas = origensPermitidas;
+	CorsConfig(PropriedadesCors propriedades) {
+		this.propriedades = propriedades;
 	}
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/api/**")
-				.allowedOrigins(origensPermitidas)
+				.allowedOrigins(propriedades.origensPermitidas().toArray(String[]::new))
 				.allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE");
 	}
 

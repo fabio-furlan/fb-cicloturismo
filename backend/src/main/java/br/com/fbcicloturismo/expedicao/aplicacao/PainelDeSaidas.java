@@ -1,6 +1,5 @@
 package br.com.fbcicloturismo.expedicao.aplicacao;
 
-import br.com.fbcicloturismo.compartilhado.dominio.RecursoNaoEncontradoException;
 import br.com.fbcicloturismo.expedicao.infraestrutura.RoteiroRepository;
 import br.com.fbcicloturismo.expedicao.infraestrutura.SaidaRepository;
 import java.time.Clock;
@@ -36,9 +35,7 @@ public class PainelDeSaidas {
 
 	/** Todas as saídas de um roteiro, inclusive as já finalizadas. */
 	public List<ResumoSaida> doRoteiro(long roteiroId) {
-		if (!roteiros.existsById(roteiroId)) {
-			throw new RecursoNaoEncontradoException("Roteiro %d não encontrado.".formatted(roteiroId));
-		}
+		roteiros.garantirQueExiste(roteiroId);
 		LocalDate hoje = LocalDate.now(clock);
 		return saidas.findByRoteiroIdOrderByDataInicio(roteiroId).stream()
 				.map(saida -> ResumoSaida.de(saida, hoje))

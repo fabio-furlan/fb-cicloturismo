@@ -79,6 +79,15 @@ class SaidaTest {
 			assertThatThrownBy(saida::publicar).isInstanceOf(RegraDeNegocioException.class);
 		}
 
+		@Test
+		void soRascunhoPodeSerExcluido() {
+			saida.validarExclusao();
+
+			saida.publicar();
+
+			assertThatThrownBy(saida::validarExclusao).isInstanceOf(RegraDeNegocioException.class);
+		}
+
 	}
 
 	@Nested
@@ -135,7 +144,7 @@ class SaidaTest {
 			saida.reservarVagas(8, ANTES_DAS_INSCRICOES_ENCERRAREM);
 			var mesmoPeriodo = new PeriodoSaida(saida.getDataInicio(), saida.getDataFim(), saida.getInscricoesAte());
 
-			assertThatThrownBy(() -> saida.alterar(mesmoPeriodo, 6, saida.getPrecoBase()))
+			assertThatThrownBy(() -> saida.alterar(new DadosSaida(mesmoPeriodo, 6, saida.getPrecoBase())))
 					.isInstanceOf(RegraDeNegocioException.class);
 		}
 
@@ -146,8 +155,10 @@ class SaidaTest {
 
 		@Test
 		void copiaCapacidadePrecoEOpcionaisParaNovasDatasComoRascunho() {
-			saida.adicionarOpcional(GrupoOpcional.ACOMODACAO, "Quarto individual", null, new BigDecimal("380.00"));
-			saida.adicionarOpcional(GrupoOpcional.EQUIPAMENTO, "Aluguel de bike", "MTB aro 29", new BigDecimal("250.00"));
+			saida.adicionarOpcional(
+					new DadosOpcional(GrupoOpcional.ACOMODACAO, "Quarto individual", null, new BigDecimal("380.00")));
+			saida.adicionarOpcional(
+					new DadosOpcional(GrupoOpcional.EQUIPAMENTO, "Aluguel de bike", "MTB aro 29", new BigDecimal("250.00")));
 			saida.publicar();
 			saida.reservarVagas(5, ANTES_DAS_INSCRICOES_ENCERRAREM);
 			var outubro = new PeriodoSaida(LocalDate.of(2027, 10, 9), LocalDate.of(2027, 10, 11), LocalDate.of(2027, 9, 25));
@@ -174,18 +185,19 @@ class SaidaTest {
 
 		@Test
 		void naoAceitaNomeRepetidoNoMesmoGrupo() {
-			saida.adicionarOpcional(GrupoOpcional.ACOMODACAO, "Quarto individual", null, new BigDecimal("380.00"));
+			saida.adicionarOpcional(
+					new DadosOpcional(GrupoOpcional.ACOMODACAO, "Quarto individual", null, new BigDecimal("380.00")));
 
 			assertThatThrownBy(() -> saida.adicionarOpcional(
-					GrupoOpcional.ACOMODACAO, "quarto individual", null, new BigDecimal("400.00")))
+					new DadosOpcional(GrupoOpcional.ACOMODACAO, "quarto individual", null, new BigDecimal("400.00"))))
 					.isInstanceOf(RegraDeNegocioException.class);
 		}
 
 		@Test
 		void ordenaPelaOrdemDeCadastroDentroDoGrupo() {
-			saida.adicionarOpcional(GrupoOpcional.ACOMODACAO, "Quarto duplo", null, BigDecimal.ZERO);
+			saida.adicionarOpcional(new DadosOpcional(GrupoOpcional.ACOMODACAO, "Quarto duplo", null, BigDecimal.ZERO));
 			var individual = saida.adicionarOpcional(
-					GrupoOpcional.ACOMODACAO, "Quarto individual", null, new BigDecimal("380.00"));
+					new DadosOpcional(GrupoOpcional.ACOMODACAO, "Quarto individual", null, new BigDecimal("380.00")));
 
 			assertThat(individual.getOrdem()).isEqualTo(1);
 		}
