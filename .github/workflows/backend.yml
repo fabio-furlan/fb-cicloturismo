@@ -1,0 +1,35 @@
+name: Backend
+
+on:
+  pull_request:
+    paths: ['backend/**', '.github/workflows/backend.yml']
+  push:
+    branches: [main, develop]
+    paths: ['backend/**', '.github/workflows/backend.yml']
+
+# Um push novo na mesma branch cancela a verificação anterior, que já ficou velha.
+concurrency:
+  group: backend-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    name: Compilação, arquitetura, testes e empacotamento
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      # Os testes de persistência e de API sobem um PostgreSQL com Testcontainers; o runner já tem Docker.
+      - run: ./mvnw -B verify

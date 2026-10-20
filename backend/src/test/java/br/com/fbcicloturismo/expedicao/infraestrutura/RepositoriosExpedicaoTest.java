@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 import br.com.fbcicloturismo.TestcontainersConfiguration;
+import br.com.fbcicloturismo.expedicao.dominio.DadosOpcional;
 import br.com.fbcicloturismo.expedicao.dominio.Etapa;
 import br.com.fbcicloturismo.expedicao.dominio.Exemplos;
 import br.com.fbcicloturismo.expedicao.dominio.GrupoOpcional;
@@ -59,7 +60,8 @@ class RepositoriosExpedicaoTest {
 	void gravaSaidaComOpcionaisEListaParaODashboard() {
 		Roteiro roteiro = roteiros.save(Exemplos.roteiroAparecida());
 		Saida dezembro = Exemplos.saidaDezembro(roteiro);
-		dezembro.adicionarOpcional(GrupoOpcional.ACOMODACAO, "Quarto individual", null, new BigDecimal("380.00"));
+		dezembro.adicionarOpcional(
+				new DadosOpcional(GrupoOpcional.ACOMODACAO, "Quarto individual", null, new BigDecimal("380.00")));
 		dezembro.publicar();
 		saidas.save(dezembro);
 		saidas.save(dezembro.duplicarPara(

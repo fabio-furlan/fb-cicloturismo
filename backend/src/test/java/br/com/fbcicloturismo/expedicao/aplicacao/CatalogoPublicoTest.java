@@ -1,49 +1,33 @@
 package br.com.fbcicloturismo.expedicao.aplicacao;
 
+import static br.com.fbcicloturismo.RelogioFixo.HOJE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import br.com.fbcicloturismo.RelogioFixo;
 import br.com.fbcicloturismo.TestcontainersConfiguration;
 import br.com.fbcicloturismo.compartilhado.dominio.RecursoNaoEncontradoException;
 import br.com.fbcicloturismo.expedicao.dominio.DadosRoteiro;
+import br.com.fbcicloturismo.expedicao.dominio.DadosSaida;
 import br.com.fbcicloturismo.expedicao.dominio.Exemplos;
 import br.com.fbcicloturismo.expedicao.dominio.PeriodoSaida;
 import br.com.fbcicloturismo.expedicao.dominio.Saida;
 import br.com.fbcicloturismo.expedicao.dominio.StatusSaida;
 import br.com.fbcicloturismo.expedicao.infraestrutura.SaidaRepository;
 import java.math.BigDecimal;
-import java.time.Clock;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 
 /** O que o site enxerga, com "hoje" fixo em 20/11/2026. */
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import({ TestcontainersConfiguration.class, CatalogoPublicoTest.RelogioFixo.class, GestaoDeRoteiros.class,
+@Import({ TestcontainersConfiguration.class, RelogioFixo.class, GestaoDeRoteiros.class,
 		GestaoDeSaidas.class, CatalogoPublico.class })
 class CatalogoPublicoTest {
-
-	private static final LocalDate HOJE = LocalDate.of(2026, 11, 20);
-
-	@TestConfiguration
-	static class RelogioFixo {
-
-		@Bean
-		Clock clock() {
-			ZoneId fuso = ZoneId.of("America/Sao_Paulo");
-			return Clock.fixed(ZonedDateTime.of(HOJE, LocalTime.NOON, fuso).toInstant(), fuso);
-		}
-
-	}
 
 	@Autowired
 	private GestaoDeRoteiros gestaoDeRoteiros;

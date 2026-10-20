@@ -4,10 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.tuple;
 
+import br.com.fbcicloturismo.RelogioFixo;
 import br.com.fbcicloturismo.TestcontainersConfiguration;
 import br.com.fbcicloturismo.compartilhado.dominio.RecursoNaoEncontradoException;
 import br.com.fbcicloturismo.compartilhado.dominio.RegraDeNegocioException;
+import br.com.fbcicloturismo.expedicao.dominio.DadosOpcional;
 import br.com.fbcicloturismo.expedicao.dominio.DadosRoteiro;
+import br.com.fbcicloturismo.expedicao.dominio.DadosSaida;
 import br.com.fbcicloturismo.expedicao.dominio.Exemplos;
 import br.com.fbcicloturismo.expedicao.dominio.GrupoOpcional;
 import br.com.fbcicloturismo.expedicao.dominio.PeriodoSaida;
@@ -16,23 +19,18 @@ import br.com.fbcicloturismo.expedicao.dominio.StatusSaida;
 import br.com.fbcicloturismo.expedicao.infraestrutura.SaidaRepository;
 import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
-import java.time.Clock;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 
 /** Casos de uso do ADM contra um PostgreSQL real, com "hoje" fixo em 20/11/2026. */
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import({ TestcontainersConfiguration.class, CasosDeUsoExpedicaoTest.RelogioFixo.class, GestaoDeRoteiros.class,
+@Import({ TestcontainersConfiguration.class, RelogioFixo.class, GestaoDeRoteiros.class,
 		GestaoDeSaidas.class, PainelDeSaidas.class })
 class CasosDeUsoExpedicaoTest {
 
@@ -42,17 +40,6 @@ class CasosDeUsoExpedicaoTest {
 
 	private static final PeriodoSaida OUTUBRO_2027 =
 			new PeriodoSaida(LocalDate.of(2027, 10, 9), LocalDate.of(2027, 10, 11), LocalDate.of(2027, 9, 25));
-
-	@TestConfiguration
-	static class RelogioFixo {
-
-		@Bean
-		Clock clock() {
-			ZoneId fuso = ZoneId.of("America/Sao_Paulo");
-			return Clock.fixed(ZonedDateTime.of(2026, 11, 20, 9, 0, 0, 0, fuso).toInstant(), fuso);
-		}
-
-	}
 
 	@Autowired
 	private GestaoDeRoteiros gestaoDeRoteiros;
@@ -152,7 +139,7 @@ class CasosDeUsoExpedicaoTest {
 			var saida = gestaoDeSaidas.criar(roteiro.id(), DEZEMBRO);
 
 			var comOpcional = gestaoDeSaidas.adicionarOpcional(saida.id(),
-					new NovoOpcional(GrupoOpcional.ACOMODACAO, "Quarto individual", null, new BigDecimal("380.00")));
+					new DadosOpcional(GrupoOpcional.ACOMODACAO, "Quarto individual", null, new BigDecimal("380.00")));
 			var opcional = comOpcional.opcionais().getFirst();
 			assertThat(opcional.id()).isNotNull();
 			assertThat(opcional.escolhaUnica()).isTrue();
@@ -167,7 +154,7 @@ class CasosDeUsoExpedicaoTest {
 			var roteiro = gestaoDeRoteiros.criar(Exemplos.dadosAparecida());
 			var original = gestaoDeSaidas.criar(roteiro.id(), DEZEMBRO);
 			gestaoDeSaidas.adicionarOpcional(original.id(),
-					new NovoOpcional(GrupoOpcional.EQUIPAMENTO, "Aluguel de bike", null, new BigDecimal("250.00")));
+					new DadosOpcional(GrupoOpcional.EQUIPAMENTO, "Aluguel de bike", null, new BigDecimal("250.00")));
 			gestaoDeSaidas.publicar(original.id());
 			gravarEEsquecer();
 

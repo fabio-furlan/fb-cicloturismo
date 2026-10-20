@@ -80,7 +80,7 @@ class SaidasAdmController {
 
 	@PostMapping("/{id}/opcionais")
 	SaidaVisao adicionarOpcional(@PathVariable long id, @Valid @RequestBody OpcionalRequest corpo) {
-		return gestaoDeSaidas.adicionarOpcional(id, corpo.paraNovoOpcional());
+		return gestaoDeSaidas.adicionarOpcional(id, corpo.paraDados());
 	}
 
 	@DeleteMapping("/{id}/opcionais/{opcionalId}")

@@ -1,6 +1,5 @@
 package br.com.fbcicloturismo.expedicao.aplicacao;
 
-import br.com.fbcicloturismo.compartilhado.dominio.RecursoNaoEncontradoException;
 import br.com.fbcicloturismo.compartilhado.dominio.RegraDeNegocioException;
 import br.com.fbcicloturismo.expedicao.dominio.DadosRoteiro;
 import br.com.fbcicloturismo.expedicao.dominio.Roteiro;
@@ -33,14 +32,14 @@ public class GestaoDeRoteiros {
 
 	/** Altera os dados do roteiro. O slug não muda, para não quebrar links já divulgados. */
 	public RoteiroVisao atualizar(long id, DadosRoteiro dados) {
-		var roteiro = carregar(id);
+		var roteiro = roteiros.carregar(id);
 		roteiro.atualizar(dados);
 		return RoteiroVisao.de(roteiro);
 	}
 
 	@Transactional(readOnly = true)
 	public RoteiroVisao buscar(long id) {
-		return RoteiroVisao.de(carregar(id));
+		return RoteiroVisao.de(roteiros.carregar(id));
 	}
 
 	@Transactional(readOnly = true)
@@ -50,16 +49,11 @@ public class GestaoDeRoteiros {
 
 	/** Só exclui roteiros sem saídas; os demais têm histórico de vendas e devem ter as saídas canceladas. */
 	public void excluir(long id) {
-		var roteiro = carregar(id);
+		var roteiro = roteiros.carregar(id);
 		if (saidas.existsByRoteiroId(id)) {
 			throw new RegraDeNegocioException("O roteiro tem saídas cadastradas e não pode ser excluído.");
 		}
 		roteiros.delete(roteiro);
-	}
-
-	private Roteiro carregar(long id) {
-		return roteiros.findById(id)
-				.orElseThrow(() -> new RecursoNaoEncontradoException("Roteiro %d não encontrado.".formatted(id)));
 	}
 
 	private String slugLivre(String titulo) {

@@ -38,7 +38,7 @@ public final class Exemplos {
 	/** Saída de 12 a 14/12/2026, inscrições até 01/12, 12 vagas a R$ 1.490. */
 	public static Saida saidaDezembro(Roteiro roteiro) {
 		var periodo = new PeriodoSaida(LocalDate.of(2026, 12, 12), LocalDate.of(2026, 12, 14), LocalDate.of(2026, 12, 1));
-		return new Saida(roteiro, periodo, 12, new BigDecimal("1490.00"));
+		return new Saida(roteiro, new DadosSaida(periodo, 12, new BigDecimal("1490.00")));
 	}
 
 }

@@ -37,17 +37,17 @@ public class Opcional {
 	protected Opcional() {
 	}
 
-	Opcional(Saida saida, GrupoOpcional grupo, String nome, String descricao, BigDecimal acrescimo, int ordem) {
+	Opcional(Saida saida, DadosOpcional dados, int ordem) {
 		this.saida = saida;
-		this.grupo = grupo;
-		this.nome = nome;
-		this.descricao = descricao;
-		this.acrescimo = acrescimo;
+		this.grupo = dados.grupo();
+		this.nome = dados.nome();
+		this.descricao = dados.descricao();
+		this.acrescimo = dados.acrescimo();
 		this.ordem = ordem;
 	}
 
 	Opcional copiarPara(Saida outraSaida) {
-		return new Opcional(outraSaida, grupo, nome, descricao, acrescimo, ordem);
+		return new Opcional(outraSaida, new DadosOpcional(grupo, nome, descricao, acrescimo), ordem);
 	}
 
 	public Long getId() {

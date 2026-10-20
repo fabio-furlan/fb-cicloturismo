@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
  * disso as variáveis são ignoradas: trocar a senha nelas não altera uma conta que já existe.
  */
 @Component
-@EnableConfigurationProperties(AdministradorInicial.Propriedades.class)
 class AdministradorInicial implements ApplicationRunner {
 
 	static final int TAMANHO_MINIMO_SENHA = 12;

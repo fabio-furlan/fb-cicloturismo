@@ -70,27 +70,28 @@ public class Saida {
 	protected Saida() {
 	}
 
-	public Saida(Roteiro roteiro, PeriodoSaida periodo, int capacidade, BigDecimal precoBase) {
+	/** Cria a saída como rascunho; ela só aparece para venda depois de {@link #publicar() publicada}. */
+	public Saida(Roteiro roteiro, DadosSaida dados) {
 		this.roteiro = roteiro;
-		alterar(periodo, capacidade, precoBase);
+		alterar(dados);
 	}
 
-	public void alterar(PeriodoSaida periodo, int capacidade, BigDecimal precoBase) {
-		if (capacidade <= 0) {
+	public void alterar(DadosSaida dados) {
+		if (dados.capacidade() <= 0) {
 			throw new RegraDeNegocioException("A capacidade precisa ser maior que zero.");
 		}
-		if (capacidade < vagasOcupadas) {
+		if (dados.capacidade() < vagasOcupadas) {
 			throw new RegraDeNegocioException(
 					"A capacidade não pode ficar abaixo das %d vagas já ocupadas.".formatted(vagasOcupadas));
 		}
-		if (precoBase.signum() < 0) {
+		if (dados.precoBase().signum() < 0) {
 			throw new RegraDeNegocioException("O preço base não pode ser negativo.");
 		}
-		this.dataInicio = periodo.dataInicio();
-		this.dataFim = periodo.dataFim();
-		this.inscricoesAte = periodo.inscricoesAte();
-		this.capacidade = capacidade;
-		this.precoBase = precoBase;
+		this.dataInicio = dados.periodo().dataInicio();
+		this.dataFim = dados.periodo().dataFim();
+		this.inscricoesAte = dados.periodo().inscricoesAte();
+		this.capacidade = dados.capacidade();
+		this.precoBase = dados.precoBase();
 	}
 
 	public StatusSaida status(LocalDate hoje) {
@@ -130,6 +131,13 @@ public class Saida {
 		situacao = SituacaoSaida.CANCELADA;
 	}
 
+	/** Só rascunhos podem ser excluídos: uma saída que já foi publicada pode ter inscrições, então deve ser cancelada. */
+	public void validarExclusao() {
+		if (situacao != SituacaoSaida.RASCUNHO) {
+			throw new RegraDeNegocioException("Só saídas em rascunho podem ser excluídas. Cancele a saída.");
+		}
+	}
+
 	/** Ocupa vagas para uma inscrição. Só é possível com a saída aberta e vagas suficientes. */
 	public void reservarVagas(int quantidade, LocalDate hoje) {
 		if (quantidade <= 0) {
@@ -152,17 +160,17 @@ public class Saida {
 		vagasOcupadas -= quantidade;
 	}
 
-	public Opcional adicionarOpcional(GrupoOpcional grupo, String nome, String descricao, BigDecimal acrescimo) {
-		if (acrescimo.signum() < 0) {
+	public Opcional adicionarOpcional(DadosOpcional dados) {
+		if (dados.acrescimo().signum() < 0) {
 			throw new RegraDeNegocioException("O acréscimo de um opcional não pode ser negativo.");
 		}
-		boolean nomeRepetido = opcionais.stream()
-				.anyMatch(opcional -> opcional.getGrupo() == grupo && opcional.getNome().equalsIgnoreCase(nome));
+		boolean nomeRepetido = opcionais.stream().anyMatch(
+				opcional -> opcional.getGrupo() == dados.grupo() && opcional.getNome().equalsIgnoreCase(dados.nome()));
 		if (nomeRepetido) {
-			throw new RegraDeNegocioException("Já existe o opcional \"%s\" nesse grupo.".formatted(nome));
+			throw new RegraDeNegocioException("Já existe o opcional \"%s\" nesse grupo.".formatted(dados.nome()));
 		}
-		int ordem = (int) opcionais.stream().filter(opcional -> opcional.getGrupo() == grupo).count();
-		var opcional = new Opcional(this, grupo, nome, descricao, acrescimo, ordem);
+		int ordem = (int) opcionais.stream().filter(opcional -> opcional.getGrupo() == dados.grupo()).count();
+		var opcional = new Opcional(this, dados, ordem);
 		opcionais.add(opcional);
 		return opcional;
 	}
@@ -176,7 +184,7 @@ public class Saida {
 
 	/** Nova saída do mesmo roteiro em outras datas, com a mesma capacidade, preço e opcionais. Nasce como rascunho. */
 	public Saida duplicarPara(PeriodoSaida periodo) {
-		var copia = new Saida(roteiro, periodo, capacidade, precoBase);
+		var copia = new Saida(roteiro, new DadosSaida(periodo, capacidade, precoBase));
 		opcionais.forEach(opcional -> copia.opcionais.add(opcional.copiarPara(copia)));
 		return copia;
 	}
@@ -219,10 +227,6 @@ public class Saida {
 
 	public List<Opcional> getOpcionais() {
 		return List.copyOf(opcionais);
-	}
-
-	public long getVersao() {
-		return versao;
 	}
 
 	public Instant getCriadoEm() {

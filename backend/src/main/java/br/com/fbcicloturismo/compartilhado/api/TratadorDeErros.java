@@ -25,7 +25,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
  * MVC já saem nesse formato pela classe base; a falha de validação ganha a lista dos campos com problema.
  */
 @RestControllerAdvice
-public class TratadorDeErros extends ResponseEntityExceptionHandler {
+class TratadorDeErros extends ResponseEntityExceptionHandler {
 
 	/**
 	 * Corpo com campos inválidos: o {@code detail} diz quais, e a propriedade {@code campos} os lista um a um, para o
