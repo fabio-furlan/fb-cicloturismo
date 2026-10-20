@@ -7,6 +7,7 @@ export const ROTAS = {
   minhaConta: '/minha-conta',
   cadastro: '/cadastro',
   admEntrar: '/adm/entrar',
+  admRetornoDoLogin: '/adm/entrar/retorno',
   admPainel: '/adm',
   admRoteiros: '/adm/roteiros',
   admNovoRoteiro: '/adm/roteiros/novo',
