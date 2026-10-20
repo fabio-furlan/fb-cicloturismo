@@ -18,8 +18,8 @@ class OpenApiConfig {
 	@Bean
 	OpenAPI openApi() {
 		return new OpenAPI().info(new Info()
-				.title("FB Cicloturismo API")
-				.description("Roteiros, saídas e inscrições das viagens de bicicleta da FB Cicloturismo.")
+				.title("Fábio Cicloturismo API")
+				.description("Roteiros, saídas e inscrições das viagens de bicicleta da Fábio Cicloturismo.")
 				.version("v1"))
 				.components(new Components().addSecuritySchemes("token",
 						new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")))
