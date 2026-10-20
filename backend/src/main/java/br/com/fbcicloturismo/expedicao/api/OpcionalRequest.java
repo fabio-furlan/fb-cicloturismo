@@ -1,6 +1,6 @@
 package br.com.fbcicloturismo.expedicao.api;
 
-import br.com.fbcicloturismo.expedicao.aplicacao.NovoOpcional;
+import br.com.fbcicloturismo.expedicao.dominio.DadosOpcional;
 import br.com.fbcicloturismo.expedicao.dominio.GrupoOpcional;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
@@ -15,8 +15,8 @@ record OpcionalRequest(
 		@Size(max = 255) String descricao,
 		@NotNull @PositiveOrZero @Digits(integer = 8, fraction = 2) BigDecimal acrescimo) {
 
-	NovoOpcional paraNovoOpcional() {
-		return new NovoOpcional(grupo, nome, descricao, acrescimo);
+	DadosOpcional paraDados() {
+		return new DadosOpcional(grupo, nome, descricao, acrescimo);
 	}
 
 }

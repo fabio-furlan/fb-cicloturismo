@@ -8,7 +8,6 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
@@ -37,7 +36,6 @@ import org.springframework.security.web.SecurityFilterChain;
  * no Render sem depender de cookies entre domínios.
  */
 @Configuration
-@EnableConfigurationProperties(PropriedadesJwt.class)
 class SegurancaConfig {
 
 	private static final Logger log = LoggerFactory.getLogger(SegurancaConfig.class);

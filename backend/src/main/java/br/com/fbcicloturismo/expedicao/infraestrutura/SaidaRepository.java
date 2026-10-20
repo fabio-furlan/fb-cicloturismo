@@ -1,5 +1,6 @@
 package br.com.fbcicloturismo.expedicao.infraestrutura;
 
+import br.com.fbcicloturismo.compartilhado.dominio.RecursoNaoEncontradoException;
 import br.com.fbcicloturismo.expedicao.dominio.Saida;
 import br.com.fbcicloturismo.expedicao.dominio.SituacaoSaida;
 import java.time.LocalDate;
@@ -8,6 +9,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface SaidaRepository extends JpaRepository<Saida, Long> {
+
+	/** A saída com este id, ou 404. */
+	default Saida carregar(long id) {
+		return findById(id)
+				.orElseThrow(() -> new RecursoNaoEncontradoException("Saída %d não encontrada.".formatted(id)));
+	}
 
 	/** Saídas que terminam a partir de {@code data}, com o roteiro já carregado, para o dashboard do ADM. */
 	@Query("""

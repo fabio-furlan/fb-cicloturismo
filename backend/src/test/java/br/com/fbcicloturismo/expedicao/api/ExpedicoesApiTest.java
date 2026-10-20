@@ -6,8 +6,6 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import br.com.fbcicloturismo.TestcontainersConfiguration;
 import com.jayway.jsonpath.JsonPath;
 import java.time.Clock;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -62,13 +60,8 @@ class ExpedicoesApiTest {
 			 "capacidade": 12, "precoBase": 1490.00}
 			""";
 
-	@TestBean
+	@TestBean(methodName = "br.com.fbcicloturismo.RelogioFixo#relogio")
 	private Clock clock;
-
-	static Clock clock() {
-		ZoneId fuso = ZoneId.of("America/Sao_Paulo");
-		return Clock.fixed(ZonedDateTime.of(2026, 11, 20, 9, 0, 0, 0, fuso).toInstant(), fuso);
-	}
 
 	@Autowired
 	private MockMvcTester mvc;

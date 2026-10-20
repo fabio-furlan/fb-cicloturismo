@@ -118,7 +118,7 @@ flowchart LR
 | **Frontend** | React 19, TypeScript, Vite, Tailwind CSS 4, React Router 7 | ✅ Em andamento |
 | **Backend** | Java 21, Spring Boot 4, Spring Web, Spring Data JPA, Spring Security (JWT), Bean Validation, springdoc (OpenAPI) | ✅ Em andamento |
 | **Banco de dados** | PostgreSQL 17, migrations com Flyway (Docker no desenvolvimento, Supabase em produção) | ✅ |
-| **Qualidade** | Frontend: Vitest e Testing Library, oxlint, Prettier e CI no GitHub Actions. Backend: JUnit 5, AssertJ e Testcontainers (testes contra um PostgreSQL real) | ✅ |
+| **Qualidade** | Frontend: Vitest e Testing Library, oxlint, Prettier e CI no GitHub Actions. Backend: JUnit 5, AssertJ, Testcontainers (testes contra um PostgreSQL real), ArchUnit e CI no GitHub Actions | ✅ |
 | **Deploy** | Vercel (frontend), Render (API), Supabase (banco) | ⚙️ Configurado, falta publicar ([guia](docs/deploy.md)) |
 
 <details>
@@ -153,6 +153,7 @@ flowchart LR
 | Decisão | Por quê |
 | --- | --- |
 | **Pacote por funcionalidade** (`expedicao/`, `autenticacao/`), cada um com `api`, `aplicacao`, `dominio` e `infraestrutura` | O código de um assunto fica junto. As regras de negócio moram no domínio; os controllers só traduzem HTTP. |
+| **Arquitetura verificada em teste** (ArchUnit) | As camadas só dependem para baixo, o domínio não conhece o Spring, um módulo não usa outro e "hoje" sempre vem do `Clock`. Quebrar uma regra derruba o build, em vez de depender da revisão. |
 | **Roteiro × Saída** | O roteiro é o produto (percurso, fotos, altimetria). A saída é cada edição vendável, com datas, vagas, preço e opcionais próprios. "Duplicar" copia uma saída para novas datas. |
 | **Status calculado** | Só a situação editorial (rascunho, publicada, cancelada) é gravada. Aberta, esgotada, em andamento e finalizada saem das datas e das vagas, então nunca ficam desatualizadas. |
 | **Concorrência otimista** (`@Version`) | Duas alterações simultâneas na mesma saída não se sobrescrevem: a segunda recebe 409 e recarrega. É o que vai impedir duas reservas ao mesmo tempo de passar da capacidade. |
@@ -188,7 +189,7 @@ fb-cicloturismo/
 │       ├── expedicao/         # Roteiros, saídas, opcionais e catálogo público
 │       ├── autenticacao/      # Login do ADM e administradores
 │       └── compartilhado/     # Segurança, erros e configurações comuns
-├── .github/workflows/          # CI do frontend
+├── .github/workflows/         # CI do frontend e do backend
 ├── docs/                      # Guia de deploy e imagens do README
 └── render.yaml                # Configuração do deploy da API no Render
 ```

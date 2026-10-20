@@ -1,6 +1,6 @@
 package br.com.fbcicloturismo.expedicao.api;
 
-import br.com.fbcicloturismo.expedicao.aplicacao.DadosSaida;
+import br.com.fbcicloturismo.expedicao.dominio.DadosSaida;
 import br.com.fbcicloturismo.expedicao.dominio.PeriodoSaida;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
