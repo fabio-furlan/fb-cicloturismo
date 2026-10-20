@@ -39,11 +39,7 @@ export function Inicio() {
       {/* A chave recria a busca do topo quando um filtro é removido lá embaixo, para os campos refletirem o estado atual. */}
       <SecaoDestaque key={JSON.stringify(filtros)} roteiros={roteiros} filtros={filtros} aoBuscar={buscar} />
       {/* Divisão 2 (cada divisão sobe por cima da anterior como uma camada), destino de "Ver as próximas saídas" e da busca: saídas e faixa de números ocupam a tela abaixo do cabeçalho */}
-      <div
-        id="saidas"
-        data-caber-na-tela
-        className="secao-sobreposta recuar-ao-sair flex min-h-[calc(100svh-var(--cabecalho))] flex-col bg-creme-50"
-      >
+      <div id="saidas" className="secao-sobreposta recuar-ao-sair flex min-h-[calc(100svh-var(--cabecalho))] flex-col bg-creme-50">
         <SecaoSaidas
           roteiros={roteiros}
           filtros={filtros}

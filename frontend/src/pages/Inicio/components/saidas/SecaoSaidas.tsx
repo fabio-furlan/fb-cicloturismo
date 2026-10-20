@@ -75,8 +75,7 @@ export function SecaoSaidas({ roteiros, filtros, aoMudarFiltros, aoExplorar, pro
       className="flex flex-1 flex-col justify-center overflow-hidden bg-creme-50 pt-10 pb-4 text-carvao-900 sm:pb-6 baixa:pt-5 baixa:pb-3 mini:pt-3"
       aria-labelledby="titulo-saidas"
     >
-      {/* data-conteudo-ajustavel: o carrossel mede este bloco para os cartões caberem na tela */}
-      <Container data-conteudo-ajustavel>
+      <Container>
         <div {...revelar(0)}>
           <TituloSecao
             id="titulo-saidas"
@@ -165,7 +164,7 @@ export function SecaoSaidas({ roteiros, filtros, aoMudarFiltros, aoExplorar, pro
           </div>
         ) : (
           <div {...revelar(300)} className="mt-2 baixa:mt-0">
-            {/* A chave recomeça a vitrine pela primeira viagem quando os filtros mudam */}
+            {/* A chave volta a faixa para a primeira viagem quando os filtros mudam */}
             <VitrineSaidas
               key={JSON.stringify(filtros)}
               itens={porRoteiro.map(({ roteiro, saida }) => ({
