@@ -39,8 +39,9 @@ describe('rotas do site', () => {
     ['/roteiros', /roteiros?/i],
     ['/sobre', /Sobre nós/i],
     ['/contato', /Contato/i],
-    ['/minha-conta', /Minha conta/i],
-    ['/cadastro', /Criar conta/i],
+    ['/minha-conta', /Bem-vindo de volta/i],
+    ['/cadastro', /Crie sua conta/i],
+    ['/recuperar-senha', /Esqueceu a senha/i],
     ['/um-endereco-que-nao-existe', /Página não encontrada/i],
   ])('%s abre com o título da página', async (endereco, titulo) => {
     abrir(endereco)
