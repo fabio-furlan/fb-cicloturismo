@@ -1,5 +1,5 @@
 package br.com.fbcicloturismo.expedicao.dominio;
 
 public enum Paisagem {
-	SERRA, VALE, FE
+	SERRA, VALE, FE, LITORAL
 }
