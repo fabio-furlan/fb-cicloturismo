@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Container } from '@/components/ui/Container'
+import { estiloBotao } from '@/components/ui/estilosBotao'
 import { TituloSecao } from '@/components/ui/TituloSecao'
 import { ROTAS } from '@/constants/rotas'
 import { corDaFaixa, descreverDuracao, detalharRota, faixasInclinacao, type Roteiro } from '@/features/roteiros'
@@ -133,11 +134,7 @@ export function SecaoExplorador({ roteiros, roteiroId, aoSelecionarRoteiro }: Se
                   </li>
                 ))}
               </ul>
-              <button
-                type="button"
-                onClick={alternarSimulacao}
-                className="inline-flex items-center gap-2 rounded-full border border-vermelho-500 px-5 py-2.5 font-display text-[0.75rem] font-bold tracking-[0.08em] text-white uppercase transition-colors hover:bg-vermelho-500"
-              >
+              <button type="button" onClick={alternarSimulacao} className={estiloBotao('secundarioEscuro', 'compacto')}>
                 <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 fill-current" aria-hidden="true">
                   {simulando ? <path d="M3 2h3.5v12H3zM9.5 2H13v12H9.5z" /> : <path d="M4 2l10 6-10 6z" />}
                 </svg>
@@ -165,10 +162,7 @@ export function SecaoExplorador({ roteiros, roteiroId, aoSelecionarRoteiro }: Se
                 <span className="block text-sm text-cinza-400">A partir de, por pessoa</span>
                 <span className="font-display text-3xl font-black text-sol-500 tabular-nums">{formatarPreco(roteiro.precoReais)}</span>
               </p>
-              <Link
-                to={ROTAS.contato}
-                className="rounded-full bg-vermelho-500 px-6 py-3 font-display text-[0.75rem] font-bold tracking-[0.08em] text-white uppercase shadow-[0_8px_24px_-8px_rgb(200_16_46/0.8)] transition-colors hover:bg-vermelho-600"
-              >
+              <Link to={ROTAS.contato} className={estiloBotao()}>
                 Quero reservar
               </Link>
             </div>

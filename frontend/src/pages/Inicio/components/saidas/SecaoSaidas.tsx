@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { IconeCalendario, IconeFechar, IconeSeta } from '@/components/icones'
 import { Container } from '@/components/ui/Container'
-import { estiloBotaoPrincipal } from '@/components/ui/estilosBotao'
+import { estiloBotao } from '@/components/ui/estilosBotao'
 import { SetaSecao } from '@/components/ui/SetaSecao'
 import { TituloSecao } from '@/components/ui/TituloSecao'
 import {
@@ -156,9 +156,9 @@ export function SecaoSaidas({ roteiros, filtros, aoMudarFiltros, aoExplorar, pro
 
         {porRoteiro.length === 0 ? (
           <div className="mx-auto mt-12 max-w-2xl rounded-2xl border border-dashed border-carvao-900/20 bg-white p-8 text-center">
-            <p className="font-display text-2xl font-extrabold">Nada nessa combinação por enquanto</p>
-            <p className="mt-2 text-cinza-600">Tente outro mês ou outra paisagem. Novas datas abrem todo mês.</p>
-            <button type="button" onClick={() => aoMudarFiltros(filtrosVazios)} className={cn(estiloBotaoPrincipal(), 'mt-6')}>
+            <p className="font-display text-2xl font-extrabold">Em breve teremos essa viagem</p>
+            <p className="mt-2 text-cinza-600">Tente selecionar outro mês ou explorar uma rota diferente.</p>
+            <button type="button" onClick={() => aoMudarFiltros(filtrosVazios)} className={cn(estiloBotao(), 'mt-6')}>
               Ver todas as saídas
             </button>
           </div>

@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
 import { IconeUsuario } from '@/components/icones'
+import { estiloBotao } from '@/components/ui/estilosBotao'
 import { ROTAS } from '@/constants/rotas'
+import { cn } from '@/utils/cn'
 
 interface AcessoContaProps {
   onClick?: () => void
@@ -8,16 +10,10 @@ interface AcessoContaProps {
   larguraTotal?: boolean
 }
 
-/** Entrada da área do cliente: botão "Entrar", em pílula vermelha. */
+/** Entrada da área do cliente: botão "Entrar", vermelho. */
 export function AcessoConta({ onClick, larguraTotal = false }: AcessoContaProps) {
   return (
-    <Link
-      to={ROTAS.minhaConta}
-      onClick={onClick}
-      className={`inline-flex items-center justify-center gap-2 rounded-full bg-vermelho-500 font-display font-bold tracking-[0.06em] text-white uppercase shadow-[0_6px_18px_-6px_rgb(200_16_46/0.7)] transition duration-200 hover:-translate-y-px hover:bg-vermelho-600 motion-reduce:transition-none motion-reduce:hover:translate-y-0 ${
-        larguraTotal ? 'w-full py-3 text-sm' : 'px-6 py-2.5 text-[0.8rem]'
-      }`}
-    >
+    <Link to={ROTAS.minhaConta} onClick={onClick} className={cn(estiloBotao('principal', 'compacto'), larguraTotal && 'w-full')}>
       <IconeUsuario className="h-4 w-4" />
       Entrar
     </Link>
