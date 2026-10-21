@@ -175,3 +175,30 @@ export function IconeNivel(props: IconeProps) {
     </svg>
   )
 }
+
+export function IconeOlho(props: IconeProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  )
+}
+
+export function IconeOlhoFechado(props: IconeProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M4 4l16 16M10.6 6.1A9.6 9.6 0 0 1 12 6c6 0 9.5 6 9.5 6a17 17 0 0 1-2.9 3.6M6.6 7.7C4 9.4 2.5 12 2.5 12S6 18 12 18a9 9 0 0 0 4-.9" />
+      <path d="M9.9 10a3 3 0 0 0 4.2 4.1" />
+    </svg>
+  )
+}
+
+export function IconeCadeado(props: IconeProps) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="4.5" y="10.5" width="15" height="10" rx="2" />
+      <path d="M8 10.5V7.5a4 4 0 0 1 8 0v3" />
+    </svg>
+  )
+}
