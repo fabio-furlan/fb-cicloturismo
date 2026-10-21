@@ -57,4 +57,5 @@ export const paisagensRoteiro: Record<PaisagemRoteiro, string> = {
   SERRA: paisagens[paisagemDaApi.SERRA],
   VALE: paisagens[paisagemDaApi.VALE],
   FE: paisagens[paisagemDaApi.FE],
+  LITORAL: paisagens[paisagemDaApi.LITORAL],
 }

@@ -23,9 +23,10 @@ export function Rodape() {
     <footer className="group border-t-2 border-vermelho-500 bg-carvao-950 text-sm text-white/70">
       {/* Três blocos distribuídos pela largura: marca à esquerda, navegação no centro e contato à direita */}
       <Container className="grid gap-8 py-10 sm:grid-cols-3 sm:items-start">
-        <div className="space-y-3">
+        {/* No celular, só o logo, colado ao contato logo abaixo; a frase aparece a partir do tablet */}
+        <div className="-mb-5 space-y-3 sm:mb-0">
           <Logo />
-          <p className="max-w-xs leading-relaxed">{empresa.descricao}</p>
+          <p className="hidden max-w-xs leading-relaxed sm:block">{empresa.descricao}</p>
         </div>
 
         {/* No celular a navegação vem primeiro, para a marca ficar logo acima do contato */}

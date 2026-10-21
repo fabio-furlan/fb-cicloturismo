@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { IconeCalendario, IconeLocal, IconeMontanha, IconeRota, IconeSeta } from '@/components/icones'
-import { estiloBotaoPrincipal } from '@/components/ui/estilosBotao'
+import { estiloBotao } from '@/components/ui/estilosBotao'
+import { ROTAS } from '@/constants/rotas'
 import { descreverDuracao, IndicadorNivel, paisagens, type Roteiro, type Saida } from '@/features/roteiros'
+import { useClienteLogado } from '@/hooks/useClienteLogado'
 import { cn } from '@/utils/cn'
 import { formatarData, formatarNumero, formatarPreco } from '@/utils/formatacao'
 
@@ -112,6 +115,7 @@ export function VitrineSaidas({ itens, aoExplorar }: VitrineSaidasProps) {
 }
 
 function CartaoSaida({ roteiro, saida, outrasSaidas, aoExplorar }: ItemVitrine & { aoExplorar: (id: string) => void }) {
+  const clienteLogado = useClienteLogado()
   const ultimasVagas = saida.vagasRestantes <= 4
   const dados = [
     { icone: IconeCalendario, texto: descreverDuracao(roteiro), extra: '' },
@@ -160,24 +164,31 @@ function CartaoSaida({ roteiro, saida, outrasSaidas, aoExplorar }: ItemVitrine &
           ))}
         </ul>
 
-        <div className="mt-auto flex items-end justify-between gap-3 pt-4 baixa:pt-3">
-          <p className="min-w-0">
-            <span className="block truncate text-[0.7rem] text-cinza-600">
-              {outrasSaidas.length > 0
-                ? `Outras datas: ${outrasSaidas.map((s) => formatarData(s.data)).join(', ')}`
-                : 'Por pessoa, tudo incluso'}
-            </span>
-            <span className="block font-display text-2xl leading-none font-black whitespace-nowrap text-carvao-900 tabular-nums">
-              {formatarPreco(saida.precoReais)}
-            </span>
-          </p>
+        {/* Preço e a ação principal (Reservar) na mesma linha; "Ver roteiro" fica como um link discreto embaixo */}
+        <div className="mt-auto pt-4 baixa:pt-3">
+          <div className="flex items-end justify-between gap-3">
+            <p className="min-w-0">
+              <span className="block truncate text-[0.7rem] text-cinza-600">
+                {outrasSaidas.length > 0
+                  ? `Outras datas: ${outrasSaidas.map((s) => formatarData(s.data)).join(', ')}`
+                  : 'Por pessoa, tudo incluso'}
+              </span>
+              <span className="block font-display text-2xl leading-none font-black whitespace-nowrap text-carvao-900 tabular-nums">
+                {formatarPreco(saida.precoReais)}
+              </span>
+            </p>
+            {/* Logado, a reserva segue pelo contato; sem login, passa antes pela página de entrar. */}
+            <Link to={clienteLogado ? ROTAS.contato : ROTAS.minhaConta} className={cn(estiloBotao('principal', 'compacto'), 'shrink-0')}>
+              Reservar
+            </Link>
+          </div>
           <button
             type="button"
             onClick={() => aoExplorar(roteiro.id)}
-            className={cn(estiloBotaoPrincipal('comSeta'), 'shrink-0 whitespace-nowrap')}
+            className="group/link mt-3 flex min-h-10 w-full items-center justify-between border-t border-carvao-900/[0.08] pt-3 text-sm font-semibold text-carvao-900 transition-colors hover:text-vermelho-500 baixa:mt-2 baixa:pt-2"
           >
-            Ver roteiro
-            <IconeSeta className="h-4 w-4" />
+            Ver roteiro completo
+            <IconeSeta className="h-4 w-4 transition-transform group-hover/link:translate-x-1 motion-reduce:transition-none" />
           </button>
         </div>
       </div>

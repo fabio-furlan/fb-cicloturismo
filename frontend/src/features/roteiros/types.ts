@@ -1,6 +1,6 @@
 export type Nivel = 'recreativo' | 'intermediario' | 'avancado'
 
-export type Paisagem = 'serra' | 'vale' | 'fe'
+export type Paisagem = 'serra' | 'vale' | 'fe' | 'litoral'
 
 export interface Saida {
   data: string // data ISO (AAAA-MM-DD)
