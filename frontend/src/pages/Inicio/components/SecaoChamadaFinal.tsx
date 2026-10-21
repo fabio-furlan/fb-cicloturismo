@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { IconeConversa } from '@/components/icones'
 import { Container } from '@/components/ui/Container'
-import { estiloBotaoPrincipal, sombraBotaoPrincipal } from '@/components/ui/estilosBotao'
+import { estiloBotao } from '@/components/ui/estilosBotao'
 import { MarcaFabio } from '@/components/ui/MarcaFabio'
 import { ROTAS } from '@/constants/rotas'
 import { revelar } from '@/hooks/useRevelarAoRolar'
@@ -30,7 +30,7 @@ export function SecaoChamadaFinal() {
           </div>
           <div className="flex items-end lg:justify-end">
             <MarcaFabio className="-mr-1.5 h-14 w-[2.9rem] shrink-0 overflow-visible" />
-            <Link to={ROTAS.contato} className={cn(estiloBotaoPrincipal('grande'), sombraBotaoPrincipal, 'mb-1')}>
+            <Link to={ROTAS.contato} className={cn(estiloBotao('principal', 'grande'), 'mb-1')}>
               <IconeConversa className="h-5 w-5" />
               Fale com a gente
             </Link>

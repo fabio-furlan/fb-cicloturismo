@@ -4,7 +4,7 @@ import type { Foto, Nivel, Paisagem, Roteiro, Saida } from '../types'
 // como número. Só os campos que o site usa estão tipados.
 
 export type NivelApi = 'RECREATIVO' | 'INTERMEDIARIO' | 'AVANCADO'
-export type PaisagemApi = 'SERRA' | 'VALE' | 'FE'
+export type PaisagemApi = 'SERRA' | 'VALE' | 'FE' | 'LITORAL'
 type StatusSaidaApi = 'ABERTA' | 'ESGOTADA' | 'INSCRICOES_ENCERRADAS'
 
 interface SaidaApi {
@@ -43,7 +43,7 @@ export interface RoteiroApi {
 /** Os enums da API (maiúsculas) no formato das telas. Também usados pelo painel do ADM para os rótulos. */
 export const nivelDaApi: Record<NivelApi, Nivel> = { RECREATIVO: 'recreativo', INTERMEDIARIO: 'intermediario', AVANCADO: 'avancado' }
 
-export const paisagemDaApi: Record<PaisagemApi, Paisagem> = { SERRA: 'serra', VALE: 'vale', FE: 'fe' }
+export const paisagemDaApi: Record<PaisagemApi, Paisagem> = { SERRA: 'serra', VALE: 'vale', FE: 'fe', LITORAL: 'litoral' }
 
 // Sem imagem cadastrada, o cartão usa a foto de capa do site em vez de ficar vazio.
 const fotoPadrao: Foto = { src: '/images/hero-bikepacking.jpg', descricao: '' }

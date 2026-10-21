@@ -1,5 +1,5 @@
 import { Container } from '@/components/ui/Container'
-import { estiloBotaoPrincipal } from '@/components/ui/estilosBotao'
+import { estiloBotao } from '@/components/ui/estilosBotao'
 import { cn } from '@/utils/cn'
 
 interface ErroAoCarregarProps {
@@ -20,7 +20,7 @@ export function ErroAoCarregar({
         <h1 className="font-display text-2xl font-black uppercase sm:text-4xl">{titulo}</h1>
         <p className="mt-3 max-w-xl text-cinza-400">{descricao}</p>
         {aoTentarDeNovo && (
-          <button type="button" onClick={aoTentarDeNovo} className={cn(estiloBotaoPrincipal(), 'mt-8')}>
+          <button type="button" onClick={aoTentarDeNovo} className={cn(estiloBotao(), 'mt-8')}>
             Tentar de novo
           </button>
         )}

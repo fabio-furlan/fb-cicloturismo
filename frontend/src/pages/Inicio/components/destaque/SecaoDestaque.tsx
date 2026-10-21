@@ -1,30 +1,14 @@
 import { useEffect, useId, useRef, useState, type ComponentType, type FormEvent, type ReactNode, type SVGProps } from 'react'
-import {
-  IconeCalendario,
-  IconeCama,
-  IconeGrupo,
-  IconeGuia,
-  IconeLupa,
-  IconeMontanha,
-  IconeNivel,
-  IconeSeta,
-  IconeVan,
-} from '@/components/icones'
+import { IconeCalendario, IconeCama, IconeGrupo, IconeGuia, IconeLupa, IconeMontanha, IconeNivel, IconeVan } from '@/components/icones'
 import { Container } from '@/components/ui/Container'
+import { estiloBotao } from '@/components/ui/estilosBotao'
 import { Selo } from '@/components/ui/Selo'
 import { SetaSecao } from '@/components/ui/SetaSecao'
-import {
-  mesesComSaida,
-  niveis,
-  ordemNiveis,
-  paisagens,
-  type FiltrosViagem,
-  type Nivel,
-  type Paisagem,
-  type Roteiro,
-} from '@/features/roteiros'
+import { mesesComSaida, niveis, ordemNiveis, paisagens, type FiltrosViagem, type Paisagem, type Roteiro } from '@/features/roteiros'
 import { revelar } from '@/hooks/useRevelarAoRolar'
+import { cn } from '@/utils/cn'
 import { formatarMesAno } from '@/utils/formatacao'
+import { ListaSuspensa } from './ListaSuspensa'
 
 // Foto: Patrick Hendry / Unsplash (Licença Unsplash: uso gratuito, inclusive comercial)
 // https://unsplash.com/photos/1ow9zrlldJU
@@ -43,23 +27,20 @@ interface CampoProps {
   children: (id: string) => ReactNode
 }
 
-/** Campo da busca numa linha só: ícone, lista de opções e seta. O nome fica só para leitores de tela. */
+/** Campo da busca numa linha só: ícone e lista de opções. O nome fica só para leitores de tela. */
 function Campo({ rotulo, icone: Icone, children }: CampoProps) {
   const id = useId()
   return (
-    <div className="relative flex min-w-0 flex-1 items-center gap-2 rounded-xl bg-white/[0.06] px-3 py-1 lg:rounded-none lg:bg-transparent lg:py-0">
+    // O foco pelo teclado aparece como um contorno claro no campo inteiro, no tom da barra (e não no vermelho padrão).
+    <div className="relative flex min-w-0 flex-1 items-center gap-2 rounded-xl bg-white/[0.06] px-3 py-1 has-[:focus-visible]:ring-1 has-[:focus-visible]:ring-white/40 lg:rounded-lg lg:bg-transparent lg:py-0">
       <label htmlFor={id} className="sr-only">
         {rotulo}
       </label>
       <Icone className="pointer-events-none h-4 w-4 shrink-0 text-sol-500" />
       {children(id)}
-      <IconeSeta className="pointer-events-none absolute top-1/2 right-3 h-3.5 w-3.5 -translate-y-1/2 rotate-90 text-cinza-400" />
     </div>
   )
 }
-
-const classeSelect =
-  'h-9 w-full min-w-0 cursor-pointer appearance-none bg-transparent pr-5 text-[0.8rem] font-semibold sm:text-sm text-creme-100 [&>option]:text-carvao-950'
 
 interface SecaoDestaqueProps {
   roteiros: Roteiro[]
@@ -134,65 +115,47 @@ export function SecaoDestaque({ roteiros, filtros, aoBuscar }: SecaoDestaqueProp
         <form
           {...revelar(650)}
           onSubmit={buscar}
-          className="mt-6 grid w-full max-w-3xl grid-cols-2 gap-1 rounded-2xl border border-white/15 bg-black/45 p-1.5 text-left shadow-[0_18px_50px_-24px_rgb(0_0_0/0.8)] backdrop-blur-md sm:mt-9 lg:flex lg:items-center lg:gap-0 lg:divide-x lg:divide-white/10 lg:rounded-xl lg:pl-2 baixa:mt-5"
+          className="relative z-10 mt-6 grid w-full max-w-3xl grid-cols-2 gap-1 rounded-2xl border border-white/15 bg-black/45 p-1.5 text-left shadow-[0_18px_50px_-24px_rgb(0_0_0/0.8)] backdrop-blur-md sm:mt-9 lg:flex lg:items-center lg:gap-0 lg:divide-x lg:divide-white/10 lg:rounded-xl lg:pl-2 baixa:mt-5"
           aria-label="Buscar viagens"
         >
           <Campo rotulo="Paisagem" icone={IconeMontanha}>
             {(id) => (
-              <select
+              <ListaSuspensa
                 id={id}
-                value={rascunho.paisagem}
-                onChange={(e) => setRascunho({ ...rascunho, paisagem: e.target.value as Paisagem | '' })}
-                className={classeSelect}
-              >
-                <option value="">Todas as paisagens</option>
-                {(Object.keys(paisagens) as Paisagem[]).map((p) => (
-                  <option key={p} value={p}>
-                    {paisagens[p]}
-                  </option>
-                ))}
-              </select>
+                valor={rascunho.paisagem}
+                opcoes={[
+                  { valor: '', rotulo: 'Todas as viagens' },
+                  ...(Object.keys(paisagens) as Paisagem[]).map((p) => ({ valor: p, rotulo: paisagens[p] })),
+                ]}
+                aoMudar={(paisagem) => setRascunho({ ...rascunho, paisagem })}
+              />
             )}
           </Campo>
           <Campo rotulo="Quando" icone={IconeCalendario}>
             {(id) => (
-              <select
+              <ListaSuspensa
                 id={id}
-                value={rascunho.mes}
-                onChange={(e) => setRascunho({ ...rascunho, mes: e.target.value })}
-                className={classeSelect}
-              >
-                <option value="">Qualquer mês</option>
-                {mesesComSaida(roteiros).map((m) => (
-                  <option key={m} value={m}>
-                    {formatarMesAno(m)}
-                  </option>
-                ))}
-              </select>
+                valor={rascunho.mes}
+                opcoes={[
+                  { valor: '', rotulo: 'Qualquer mês' },
+                  ...mesesComSaida(roteiros).map((m) => ({ valor: m, rotulo: formatarMesAno(m) })),
+                ]}
+                aoMudar={(mes) => setRascunho({ ...rascunho, mes })}
+              />
             )}
           </Campo>
           <Campo rotulo="Nível" icone={IconeNivel}>
             {(id) => (
-              <select
+              <ListaSuspensa
                 id={id}
-                value={rascunho.nivel}
-                onChange={(e) => setRascunho({ ...rascunho, nivel: e.target.value as Nivel | '' })}
-                className={classeSelect}
-              >
-                <option value="">Qualquer nível</option>
-                {ordemNiveis.map((n) => (
-                  <option key={n} value={n}>
-                    {niveis[n].nome}
-                  </option>
-                ))}
-              </select>
+                valor={rascunho.nivel}
+                opcoes={[{ valor: '', rotulo: 'Qualquer nível' }, ...ordemNiveis.map((n) => ({ valor: n, rotulo: niveis[n].nome }))]}
+                aoMudar={(nivel) => setRascunho({ ...rascunho, nivel })}
+              />
             )}
           </Campo>
           <div className="lg:pl-1">
-            <button
-              type="submit"
-              className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-vermelho-500 px-6 font-display text-[0.8rem] font-bold tracking-[0.08em] text-white uppercase shadow-[0_6px_18px_-6px_rgb(200_16_46/0.8)] transition-colors hover:bg-vermelho-600 lg:w-auto"
-            >
+            <button type="submit" className={cn(estiloBotao('principal', 'compacto'), 'w-full lg:w-auto')}>
               <IconeLupa className="h-4 w-4" />
               Buscar
             </button>
