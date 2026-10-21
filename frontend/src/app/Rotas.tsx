@@ -13,6 +13,7 @@ const Sobre = lazy(() => import('@/pages/Sobre'))
 const Contato = lazy(() => import('@/pages/Contato'))
 const MinhaConta = lazy(() => import('@/pages/MinhaConta'))
 const Cadastro = lazy(() => import('@/pages/Cadastro'))
+const RecuperarSenha = lazy(() => import('@/pages/RecuperarSenha'))
 const NaoEncontrada = lazy(() => import('@/pages/NaoEncontrada'))
 const AreaAdm = lazy(() => import('@/pages/Adm'))
 
@@ -35,6 +36,7 @@ export function Rotas() {
             <Route path={ROTAS.contato} element={<Contato />} />
             <Route path={ROTAS.minhaConta} element={<MinhaConta />} />
             <Route path={ROTAS.cadastro} element={<Cadastro />} />
+            <Route path={ROTAS.recuperarSenha} element={<RecuperarSenha />} />
             <Route path="*" element={<NaoEncontrada />} />
           </Route>
         </Routes>

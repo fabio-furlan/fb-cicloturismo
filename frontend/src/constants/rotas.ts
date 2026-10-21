@@ -6,6 +6,7 @@ export const ROTAS = {
   contato: '/contato',
   minhaConta: '/minha-conta',
   cadastro: '/cadastro',
+  recuperarSenha: '/recuperar-senha',
   admEntrar: '/adm/entrar',
   admRetornoDoLogin: '/adm/entrar/retorno',
   admPainel: '/adm',

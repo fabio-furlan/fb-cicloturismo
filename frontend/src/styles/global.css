@@ -114,6 +114,17 @@
     @apply outline-2 outline-offset-2 outline-vermelho-500;
   }
 
+  /* O preenchimento automático do navegador pinta o campo de branco ou amarelo: nos campos escuros (telas de conta),
+     o fundo continua escuro e o texto claro. */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--color-creme-100);
+    caret-color: var(--color-creme-100);
+    -webkit-box-shadow: 0 0 0 1000px var(--color-carvao-800) inset;
+    transition: background-color 9999s ease-out 0s;
+  }
+
   input[type='range'] {
     accent-color: var(--color-vermelho-500);
   }
