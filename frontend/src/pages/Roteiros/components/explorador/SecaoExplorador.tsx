@@ -5,6 +5,7 @@ import { estiloBotao } from '@/components/ui/estilosBotao'
 import { TituloSecao } from '@/components/ui/TituloSecao'
 import { ROTAS } from '@/constants/rotas'
 import { corDaFaixa, descreverDuracao, detalharRota, faixasInclinacao, type Roteiro } from '@/features/roteiros'
+import { revelar } from '@/hooks/useRevelarAoRolar'
 import { formatarNumero, formatarPreco } from '@/utils/formatacao'
 import { Ciclocomputador } from './Ciclocomputador'
 import { GraficoPerfil } from './GraficoPerfil'
@@ -71,23 +72,26 @@ export function SecaoExplorador({ roteiros, roteiroId, aoSelecionarRoteiro }: Se
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-carvao-950/85 via-carvao-950/55 to-carvao-950/90" />
 
       <Container>
-        <TituloSecao
-          id="titulo-explorar"
-          nivel="h1"
-          selo="Explore o percurso"
-          titulo="Nossos"
-          destaque="roteiros"
-          descricao="Escolha um roteiro, percorra o perfil de altimetria e veja o dia a dia da viagem."
-          tom="escuro"
-          alinhamento="esquerda"
-        />
+        {/* Como nas outras páginas, cada bloco surge ao entrar na tela, um depois do outro */}
+        <div {...revelar(0)}>
+          <TituloSecao
+            id="titulo-explorar"
+            nivel="h1"
+            selo="Explore o percurso"
+            titulo="Nossos"
+            destaque="roteiros"
+            descricao="Escolha um roteiro, percorra o perfil de altimetria e veja o dia a dia da viagem."
+            tom="escuro"
+            alinhamento="esquerda"
+          />
+        </div>
 
-        <div className="mt-6 sm:mt-10">
+        <div {...revelar(150)} className="mt-6 sm:mt-10">
           <SeletorRoteiro roteiros={roteiros} selecionadoId={roteiro.id} aoSelecionar={aoSelecionarRoteiro} />
         </div>
 
         {/* Sobre o roteiro e o dia a dia; a etapa em que a bike está fica destacada */}
-        <div className="mt-6 grid gap-8 rounded-2xl p-5 painel sm:p-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
+        <div {...revelar(300)} className="mt-6 grid gap-8 rounded-2xl p-5 painel sm:p-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
           <div>
             <h3 className="font-display text-xl font-extrabold uppercase sm:text-2xl">{roteiro.nome}</h3>
             <p className="mt-3 text-sm leading-relaxed text-white/80 sm:text-base">{roteiro.descricao}</p>
@@ -123,7 +127,7 @@ export function SecaoExplorador({ roteiros, roteiroId, aoSelecionarRoteiro }: Se
           </ol>
         </div>
 
-        <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_21rem] lg:grid-rows-[auto_1fr]">
+        <div {...revelar(450)} className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_21rem] lg:grid-rows-[auto_1fr]">
           <div className="order-2 rounded-2xl p-4 painel sm:p-6 lg:col-start-1 lg:row-span-2 lg:row-start-1">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <ul className="flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-cinza-400" aria-label="Legenda de inclinação">

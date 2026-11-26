@@ -58,7 +58,8 @@ class ArquiteturaTest {
 	static final ArchRule compartilhadoNaoConheceModulos = noClasses()
 			.that().resideInAPackage("br.com.fbcicloturismo.compartilhado..")
 			.should().dependOnClassesThat()
-			.resideInAnyPackage("br.com.fbcicloturismo.expedicao..", "br.com.fbcicloturismo.autenticacao..");
+			.resideInAnyPackage("br.com.fbcicloturismo.expedicao..", "br.com.fbcicloturismo.autenticacao..",
+					"br.com.fbcicloturismo.institucional..");
 
 	@ArchTest
 	static final ArchRule controllersNaApi = classes().that().areAnnotatedWith(RestController.class)

@@ -9,6 +9,7 @@ import { EditarRoteiro } from './Roteiro/EditarRoteiro'
 import { NovoRoteiro } from './Roteiro/NovoRoteiro'
 import { Roteiros } from './Roteiros/Roteiros'
 import { DetalheSaida } from './Saida/DetalheSaida'
+import { EditarSobre } from './Sobre/EditarSobre'
 
 /**
  * Tudo sob /adm. É carregado sob demanda, num pacote separado: quem só visita o site não baixa o código do painel.
@@ -26,6 +27,7 @@ export function AreaAdm() {
           <Route path="roteiros" element={<Roteiros />} />
           <Route path="roteiros/novo" element={<NovoRoteiro />} />
           <Route path="roteiros/:id" element={<EditarRoteiro />} />
+          <Route path="sobre" element={<EditarSobre />} />
           <Route path="*" element={<PaginaNaoEncontrada />} />
         </Route>
       </Routes>
