@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { Carregando } from '@/components/feedback/Carregando'
 import { ROTAS } from '@/constants/rotas'
 import { ErroNoCatalogo, filtrosVazios, useRoteiros, type FiltrosViagem } from '@/features/roteiros'
-import { useRevelarAoRolar } from '@/hooks/useRevelarAoRolar'
 import { SecaoDestaque } from './components/destaque/SecaoDestaque'
 import { SecaoSaidas } from './components/saidas/SecaoSaidas'
 import { SecaoCalculadoraNivel } from './components/SecaoCalculadoraNivel'
@@ -17,9 +16,6 @@ export function Inicio() {
   const { estado, recarregar } = useRoteiros()
   const [filtros, setFiltros] = useState<FiltrosViagem>(filtrosVazios)
   const navegar = useNavigate()
-
-  // O conteúdo de cada divisão surge ao entrar na tela (só depois que os roteiros carregam).
-  useRevelarAoRolar(estado.situacao === 'pronto')
 
   if (estado.situacao === 'carregando') return <Carregando />
   if (estado.situacao === 'erro') return <ErroNoCatalogo aoTentarDeNovo={recarregar} />

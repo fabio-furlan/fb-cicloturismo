@@ -12,6 +12,7 @@ export const ROTAS = {
   admPainel: '/adm',
   admRoteiros: '/adm/roteiros',
   admNovoRoteiro: '/adm/roteiros/novo',
+  admSobre: '/adm/sobre',
 } as const
 
 /** Página de uma saída no painel do ADM. */

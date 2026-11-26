@@ -37,7 +37,7 @@ describe('rotas do site', () => {
   it.each([
     ['/', /Viagens de bicicleta/i],
     ['/roteiros', /roteiros?/i],
-    ['/sobre', /Sobre nós/i],
+    ['/sobre', /Olá, eu sou o Fábio/i],
     ['/contato', /Contato/i],
     ['/minha-conta', /Bem-vindo de volta/i],
     ['/cadastro', /Crie sua conta/i],

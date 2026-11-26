@@ -21,6 +21,7 @@ export { ErroNoPainel } from './components/ui/ErroNoPainel'
 export { SeloStatus } from './components/ui/SeloStatus'
 
 export { FormularioRoteiro } from './components/roteiros/FormularioRoteiro'
+export { FormularioSobre } from './components/sobre/FormularioSobre'
 export { FormularioSaida } from './components/saidas/FormularioSaida'
 export { Opcionais } from './components/saidas/Opcionais'
 export { TabelaSaidas } from './components/saidas/TabelaSaidas'
