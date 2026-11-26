@@ -11,6 +11,7 @@ import { cn } from '@/utils/cn'
 const links = [
   { rota: ROTAS.admPainel, rotulo: 'Saídas', fim: true },
   { rota: ROTAS.admRoteiros, rotulo: 'Roteiros', fim: false },
+  { rota: ROTAS.admSobre, rotulo: 'Sobre nós', fim: false },
 ]
 
 /** Estrutura das telas protegidas: barra do painel no topo e redirecionamento para o login sem sessão. */

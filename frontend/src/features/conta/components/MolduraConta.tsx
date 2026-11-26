@@ -5,6 +5,7 @@ import { Container } from '@/components/ui/Container'
 import { Selo } from '@/components/ui/Selo'
 import { empresa } from '@/config/empresa'
 import { ROTAS } from '@/constants/rotas'
+import { revelar } from '@/hooks/useRevelarAoRolar'
 import { useTituloDaPagina } from '@/hooks/useTituloDaPagina'
 import { cn } from '@/utils/cn'
 
@@ -33,7 +34,10 @@ export function MolduraConta({ titulo, nomeDaPagina, descricao, abas = true, chi
   return (
     <Container className="py-5 sm:py-10">
       {/* No celular o formulário usa a largura toda, sem o cartão em volta; a partir do tablet, vira cartão */}
-      <div className="mx-auto grid max-w-5xl overflow-hidden sm:rounded-3xl sm:border sm:border-white/10 sm:bg-carvao-800 sm:shadow-[0_30px_60px_-30px_rgb(0_0_0/0.8)] lg:grid-cols-[1fr_1.1fr]">
+      <div
+        {...revelar(0)}
+        className="mx-auto grid max-w-5xl overflow-hidden sm:rounded-3xl sm:border sm:border-white/10 sm:bg-carvao-800 sm:shadow-[0_30px_60px_-30px_rgb(0_0_0/0.8)] lg:grid-cols-[1fr_1.1fr]"
+      >
         <aside className="relative isolate hidden flex-col justify-end p-10 lg:flex">
           <img src={foto} alt="" className="absolute inset-0 -z-20 h-full w-full object-cover object-[68%_center]" />
           <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />

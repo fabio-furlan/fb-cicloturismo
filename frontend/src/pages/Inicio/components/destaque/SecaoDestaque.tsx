@@ -1,10 +1,11 @@
-import { useEffect, useId, useRef, useState, type ComponentType, type FormEvent, type ReactNode, type SVGProps } from 'react'
+import { useId, useState, type ComponentType, type FormEvent, type ReactNode, type SVGProps } from 'react'
 import { IconeCalendario, IconeCama, IconeGrupo, IconeGuia, IconeLupa, IconeMontanha, IconeNivel, IconeVan } from '@/components/icones'
 import { Container } from '@/components/ui/Container'
 import { estiloBotao } from '@/components/ui/estilosBotao'
 import { Selo } from '@/components/ui/Selo'
 import { SetaSecao } from '@/components/ui/SetaSecao'
 import { mesesComSaida, niveis, ordemNiveis, paisagens, type FiltrosViagem, type Paisagem, type Roteiro } from '@/features/roteiros'
+import { useParallaxDoTopo } from '@/hooks/useParallaxDoTopo'
 import { revelar } from '@/hooks/useRevelarAoRolar'
 import { cn } from '@/utils/cn'
 import { formatarMesAno } from '@/utils/formatacao'
@@ -52,27 +53,8 @@ interface SecaoDestaqueProps {
 export function SecaoDestaque({ roteiros, filtros, aoBuscar }: SecaoDestaqueProps) {
   const [rascunho, setRascunho] = useState(filtros)
 
-  // Parallax: --progresso vai de 0 (topo inteiro à vista) a 1 (topo fora da tela) e move foto e texto em ritmos diferentes.
-  const secaoRef = useRef<HTMLElement>(null)
-  useEffect(() => {
-    const secao = secaoRef.current
-    if (!secao) return
-    let quadro = 0
-    const atualizar = () => {
-      const progresso = Math.min(Math.max(window.scrollY / secao.offsetHeight, 0), 1)
-      secao.style.setProperty('--progresso', progresso.toFixed(3))
-    }
-    const aoRolar = () => {
-      cancelAnimationFrame(quadro)
-      quadro = requestAnimationFrame(atualizar)
-    }
-    atualizar()
-    window.addEventListener('scroll', aoRolar, { passive: true })
-    return () => {
-      cancelAnimationFrame(quadro)
-      window.removeEventListener('scroll', aoRolar)
-    }
-  }, [])
+  // Parallax: a foto anda mais devagar que o texto ao rolar (veja useParallaxDoTopo).
+  const secaoRef = useParallaxDoTopo<HTMLElement>()
 
   const buscar = (evento: FormEvent) => {
     evento.preventDefault()

@@ -1,3 +1,4 @@
+import type { PaginaSobre } from '@/features/institucional'
 import { ErroApi, requisitar } from '@/lib/api'
 import type { DadosRoteiro, DadosSaida, NovoOpcional, PeriodoSaida, ResumoSaida, RoteiroAdm, SaidaAdm, TokenEmitido } from '../types'
 
@@ -39,6 +40,9 @@ export function criarApiAdm(obterToken: () => string, aoPerderAcesso: () => void
     saidasDoRoteiro: (roteiroId: number, sinal?: AbortSignal) => chamar<ResumoSaida[]>(`/api/adm/roteiros/${roteiroId}/saidas`, { sinal }),
     criarSaida: (roteiroId: number, dados: DadosSaida) =>
       chamar<SaidaAdm>(`/api/adm/roteiros/${roteiroId}/saidas`, { metodo: 'POST', corpo: dados }),
+    /** A página "Sobre nós" salva; `undefined` (204) enquanto ninguém a salvou. */
+    sobre: (sinal?: AbortSignal) => chamar<PaginaSobre | undefined>('/api/adm/sobre', { sinal }),
+    salvarSobre: (pagina: PaginaSobre) => chamar<PaginaSobre>('/api/adm/sobre', { metodo: 'PUT', corpo: pagina }),
   }
 }
 
